@@ -1,5 +1,5 @@
 # Keep files
-!data/raw/dados_ibovespa.csv
+!data/raw/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
