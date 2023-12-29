@@ -5,16 +5,16 @@ import src.get_data as get_data
 
 st.write("""
     # Tech Challenge #02 - Grupo 27 
-    ## Modelo Preditivo / IBOVESPA
+    ## Modelo Preditivo / Petróleo Brent
     by. Eduardo Gomes, Igor Brito e Gabriel Pehls
 """)
          
 st.info("""
-    Com objetivo de predizer a tendência de fechamento do IBOVESPA, mostramos nesse trabalho
-    todo o processo para criação do nosso modelo.
+    Com objetivo de predizer o valor do Petróleo Brent, mostramos nesse trabalho
+    todo o processo para criação do nosso modelo, e algumas análises do histórico do mesmo.
     
-    Os dados aqui utilizados foram baixados do site [investing](https://br.investing.com/indices/bovespa-historical-data) 
-    e contemplam o período de 01-01-2020 até 31-07-2023.
+    Os dados aqui utilizados foram baixados do site [IPEA](http://www.ipeadata.gov.br/ExibeSerie.aspx?module=m&serid=1650971490&oper=view) 
+    e contemplam o período de 20-05-1987 até 18-12-2023.
 """)
         
 

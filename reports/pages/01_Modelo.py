@@ -10,7 +10,7 @@ from sklearn.metrics import (mean_absolute_error,
 st.title('Modelo')
 
 
-tab_modelagem_inicial, tab_resultados_iniciais, tab_conceitos, tab_hiperparametrizacao, tab_hiperparametrizacao_resultados = st.tabs(['Modelagem inicial', "Resultados Iniciais", 'Conceitos', 'Hiperparametrização - definição', "Resultados"])
+tab_modelagem_inicial, tab_resultados_iniciais, tab_conceitos, tab_variaveis_externas, tab_deploy_producao = st.tabs(['Modelagem inicial', "Resultados Iniciais", 'Conceitos', 'Variáveis Externas', "Plano - Deploy em Produção"])
 
 df = get_data._get_modelling_data(indicators=False)
 
@@ -98,7 +98,7 @@ with tab_conceitos:
         focando nas combinações mais promissoras e equilibrando a exploração do que não conhece com o aproveitamento do que já foi aprendido.        
     """)
 
-with tab_hiperparametrizacao:
+with tab_variaveis_externas:
     st.markdown("""
         Após tais definições conceituais, definimos nossa função objetivo como:
     """)
@@ -174,7 +174,7 @@ with tab_hiperparametrizacao:
                 , 4)
     sec_melhoria_mape = abs(round(second_mape - baseline_mape, 2))
 
-with tab_hiperparametrizacao_resultados:
+with tab_deploy_producao:
     st.plotly_chart(
         plot_plotly(_model, forecast_.dropna()),
         use_container_width=True,
