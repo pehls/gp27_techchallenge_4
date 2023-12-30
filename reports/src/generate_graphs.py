@@ -167,7 +167,7 @@ def _plot_conflitos_tipo(df):
     .groupby(['Date','event_type'])\
     .agg({
           'fatalities':'sum'
-        , 'event_id_cnty':'nunique'
+        , 'event_id_cnty':'sum'
     }).reset_index()
     
     fig = px.line(

@@ -52,7 +52,7 @@ def _trials():
 @st.cache_data
 def _events_per_country():
     df_conflitos = pd.read_csv('./data/raw/df_conflitos_porpais.csv')
-    df_conflitos['Date'] = [datetime.fromtimestamp(x).date() for x in df_conflitos.timestamp]
+    df_conflitos['Date'] = pd.to_datetime(df_conflitos['Date'])
     return df_conflitos\
         .groupby(['Date','event_type','country'])\
         .agg({
@@ -64,7 +64,7 @@ def _events_per_country():
 @st.cache_data
 def _events_globally():
     df_conflitos = pd.read_csv('./data/raw/df_conflitos_mundiais.csv')
-    df_conflitos['Date'] = [datetime.fromtimestamp(x).date() for x in df_conflitos.timestamp]
+    df_conflitos['Date'] = pd.to_datetime(df_conflitos['Date'])
     return df_conflitos\
         .groupby(['Date','event_type'])\
         .agg({
