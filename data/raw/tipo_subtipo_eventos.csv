@@ -1,0 +1,12 @@
+,event_type,sub_event_type
+0,Battles,Armed clash
+1,Violence against civilians,Attack
+10,Explosions/Remote violence,Remote explosive/landmine/IED
+11,Explosions/Remote violence,Air/drone strike
+13,Explosions/Remote violence,Shelling/artillery/missile attack
+280,Violence against civilians,Abduction/forced disappearance
+306,Battles,Non-state actor overtakes territory
+376,Violence against civilians,Sexual violence
+453,Explosions/Remote violence,Grenade
+464,Battles,Government regains territory
+2234,Explosions/Remote violence,Suicide bomb

@@ -7,12 +7,13 @@ from sklearn.metrics import (mean_absolute_error,
                              mean_absolute_percentage_error,
                              r2_score)
 
-st.title('Modelo')
+st.title('Análise Histórica')
 
+df_petroleo = get_data._df_petroleo()
+df_conflitos_porpais = get_data._events_per_country()
+df_conflitos_mundiais = get_data._events_globally()
+tab_volatilidade, tab_crises_do_petroleo, tab_conflitos_armados, tab_energia_consumo, tab_exportacao = st.tabs(['A Volatilidade do Petróleo', 'Crises do Petróleo', "Conflitos Armados", 'Uso de Energia e Consumo de Comb. Fósseis', 'Exportação de Combustíveis'])
 
-tab_volatilidade, tab_conflitos_armados, tab_crises_do_petroleo = st.tabs(['A Volatilidade do Petróleo', "Conflitos Armados", 'Crises do Petróleo', 'Uso de Energia e Consumo de Comb. Fósseis', 'Exportação de Combustíveis'])
-
-df = get_data._get_modelling_data(indicators=False)
 # https://www.linkedin.com/pulse/petr%C3%B3leo-uma-an%C3%A1lise-sobre-volatilidade-yu64c/?originalSubdomain=pt
 # https://pt.wikipedia.org/wiki/Crises_do_petr%C3%B3leo
 # https://acleddata.com/data-export-tool/
@@ -33,14 +34,33 @@ with tab_volatilidade:
     """)
 
     st.plotly_chart(
-        plot_plotly(_model, forecast_.dropna()),
+        generate_graphs._grafico_historico(df_petroleo),
         use_container_width=True,
     )
 
 with tab_conflitos_armados:
     st.markdown("""
+    Os dados foram obtidos no portal [Armed Conflict Location & Event Data Project](https://acleddata.com/data-export-tool/), um portal que coleta, analista e mapeia crises globais, salvando informacoes diversas sobre tais conflitos em diferentes locais.
     """)
 
+    st.plotly_chart(
+        generate_graphs._plot_conflitos_paises(df_conflitos_porpais),
+        use_container_width=True,
+    )
+
+    st.plotly_chart(
+        generate_graphs._plot_conflitos_tipo(df_conflitos_porpais),
+        use_container_width=True,
+    )
+
 with tab_crises_do_petroleo:
+    st.markdown("""
+    """)
+
+with tab_energia_consumo:
+    st.markdown("""
+    """)
+
+with tab_exportacao:
     st.markdown("""
     """)

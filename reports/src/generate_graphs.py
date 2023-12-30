@@ -5,43 +5,78 @@ from statsforecast import StatsForecast
 from statsforecast.models import AutoARIMA, SeasonalNaive, SeasonalWindowAverage
 from sklearn.metrics import mean_absolute_percentage_error
 import seaborn as sns
-from src.indicators import generate_graph
+import plotly.express as px
+import plotly.graph_objs as go
+import plotly.figure_factory as ff
+from plotly.subplots import make_subplots
+
 import src.get_data as get_data 
 
 
-def _grafico_historico(df, crossovers):
-    return generate_graph(df, crossovers, just_candles=False, just_return=True)
+def _grafico_historico(df):
+    fig = go.Figure()
+
+    fig = px.line(
+        df, 
+        x='Date', y='Preco'
+        #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
+    )
+
+    # hide axes
+    fig.update_xaxes(visible=True, title='')
+    fig.update_yaxes(visible=True,
+                    gridcolor='black',zeroline=True,
+                    showticklabels=True, title=''
+                    )
+    fig.update_layout(
+        hovermode='x unified',
+    )
+
+    # fig.update_traces(
+    #     hovertemplate="""
+    #     <b>Metr.:</b> %{customdata[1]} 
+    #     <b>Med.:</b> %{customdata[2]} 
+    #     <b>Mediana:</b> %{customdata[3]} 
+    #     <b>Max.:</b> %{customdata[4]} 
+    #     """
+    # )
+
+    # strip down the rest of the plot
+    fig.update_layout(
+        showlegend=True,
+        # plot_bgcolor="black",
+        margin=dict(l=10,b=10,r=10)
+    )
+    return fig
 
 def _seasonal_decompose(series, period=5):
     result = seasonal_decompose(series, model='additive', period=period)
     return result.plot()
 
 def _adf(df):
-    df_ts = pd.DataFrame(df['Close'].to_list(), columns=['close'], index=df.index)
-    df_ts.index = pd.to_datetime(df['Date'], dayfirst=True)
-    ma = df_ts.rolling(12).mean()
+    df.index = pd.to_datetime(df['Date'], dayfirst=True)
+    ma = df.Preco.rolling(12).mean()
 
     fig, ax = plt.subplots()
-    df_ts.plot(ax=ax, legend=False)
+    df.plot(ax=ax, legend=False)
     ma.plot(ax=ax, legend=False)
 
-    return fig, df_ts.close.values
+    return fig, df.Preco.values
 
 def _adf_diff(df):
-    df_ts = pd.DataFrame(df['Close'].to_list(), columns=['close'])
-    df_ts.index = pd.to_datetime(df['Date'], dayfirst=True)
+    df.index = pd.to_datetime(df['Date'], dayfirst=True)
 
-    df_ts = df_ts.diff(1)
+    df['Preco_diff'] = df.Preco.astype(float).diff(1)
 
-    ma = df_ts.rolling(12).mean()
-    std = df_ts.rolling(12).std()
+    ma = df.Preco.rolling(12).mean()
+    std = df.Preco.rolling(12).std()
 
     fig, ax = plt.subplots()
-    df_ts.plot(ax=ax, legend=False)
+    df.Preco_diff.plot(ax=ax, legend=False)
     ma.plot(ax=ax, legend=False)
     std.plot(ax=ax, legend=False)
 
-    return fig, df_ts.dropna()['close'].values
+    return fig, df.dropna()['Preco_diff'].values
 
 def _models_ts():
     train, test, h = get_data._get_data_for_models_ts()
@@ -60,7 +95,7 @@ def _models_ts():
     mape_seas_naive = mean_absolute_percentage_error(forecast_all['y'].values, forecast_all['SeasonalNaive'].values)
     mape_seas_wa = mean_absolute_percentage_error(forecast_all['y'].values, forecast_all['SeasWA'].values)
     mape_arima = mean_absolute_percentage_error(forecast_all['y'].values, forecast_all['AutoARIMA'].values)
-    graph = model_all.plot(train, forecast_all, unique_ids=['IBOV'], engine='plotly') 
+    graph = model_all.plot(train, forecast_all, unique_ids=['PETR4'], engine='plotly') 
 
     return graph, mape_seas_naive, mape_seas_wa, mape_arima
 
@@ -93,97 +128,68 @@ def _plot_trials(trials_df, hyperparam_1, hyperparam_2):
     )
     return fig
 
-def _grafico_bb(df):
-    # filtro para contemplar somente o ano de 2022
-    df['Date'] = pd.to_datetime(df['Date'])
-    df_2022 = df[(df['Date'] >= '2022-01-01') & (df['Date'] <= '2022-12-31')]
+def _plot_conflitos_paises(df):
+    df['Date'] = [x.replace(day=1) for x in df.Date]
+    df = df\
+    .groupby(['Date','country'])\
+    .agg({
+          'fatalities':'sum'
+        , 'event_id_cnty':'nunique'
+    }).reset_index()
 
-    # Configurações do Seaborn
-    sns.set(style="whitegrid")
+    fig = px.line(
+        df.loc[df.fatalities > 0], 
+        x='Date', y='fatalities', color='country'
+        #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
+    )
 
-    # Plotando as Bandas de Bollinger para o ano de 2022 usando Seaborn
-    plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df_2022, x='Date', y='Upper_Band', label='Upper Band')
-    sns.lineplot(data=df_2022, x='Date', y='Lower_Band', label='Lower Band')
-    sns.lineplot(data=df_2022, x='Date', y='Close', label='Close Price', linestyle='dashed', color='black')
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-    plt.title('Bollinger Bands for 2022')
-    plt.legend()
-    plt.xticks(rotation=45)
+    # hide axes
+    fig.update_xaxes(visible=True, title='')
+    fig.update_yaxes(visible=True, zeroline=True,
+                    showticklabels=True, title=''
+                    )
+    fig.update_layout(
+        hovermode='x unified',
+    )
+
+    # strip down the rest of the plot
+    fig.update_layout(
+        showlegend=True,
+        # plot_bgcolor="black",
+        margin=dict(l=10,b=10,r=10)
+    )
+
+    return fig
+
+def _plot_conflitos_tipo(df):
+    df['Date'] = [x.replace(day=1) for x in df.Date]
+    df = df\
+    .groupby(['Date','event_type'])\
+    .agg({
+          'fatalities':'sum'
+        , 'event_id_cnty':'nunique'
+    }).reset_index()
     
-    return plt
+    fig = px.line(
+        df, 
+        x='Date', y='event_id_cnty', color='event_type'
+        #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
+    )
 
-def _grafico_rsi(df):
-    # filtro para contemplar somente o ano de 2022
-    df['Date'] = pd.to_datetime(df['Date'])
-    df_2022 = df[(df['Date'] >= '2022-01-01') & (df['Date'] <= '2022-12-31')]
+    # hide axes
+    fig.update_xaxes(visible=True, title='')
+    fig.update_yaxes(visible=True,zeroline=True,
+                    showticklabels=True, title=''
+                    )
+    fig.update_layout(
+        hovermode='x unified',
+    )
 
-    # Configurações do Seaborn
-    sns.set(style="whitegrid")
+    # strip down the rest of the plot
+    fig.update_layout(
+        showlegend=True,
+        # plot_bgcolor="black",
+        margin=dict(l=10,b=10,r=10)
+    )
 
-    # Criando a figura com os dois gráficos
-    fig, ax1 = plt.subplots(figsize=(10, 6))
-
-    # Plotando o gráfico de linha para o fechamento (Close) em 2022
-    sns.lineplot(data=df_2022, x='Date', y='Close', color='blue', label='Close Price')
-
-    # Configurações para o eixo do RSI
-    ax2 = ax1.twinx()
-    sns.lineplot(data=df_2022, x='Date', y='RSI', color='red', linestyle='dashed', ax=ax2)
-    ax2.set_ylabel('RSI', color='red')
-    ax2.tick_params(axis='y', labelcolor='red')
-
-    # Adicionando as linhas horizontais para os níveis de sobrecompra e sobrevenda no eixo do RSI
-    ax2.axhline(y=70, color='gray', linestyle='--', label='Overbought (70)')
-    ax2.axhline(y=30, color='green', linestyle='--', label='Oversold (30)')
-
-    # Configurações gerais
-    ax1.set_xlabel('Date')
-    ax1.set_ylabel('Close Price', color='blue')
-    ax2.legend(loc='upper right')  # Posiciona a legenda no canto superior direito
-    ax1.legend(loc='upper left')
-    ax1.set_title('Close Price and RSI Variation in 2022')
-    ax1.grid(True)
-    plt.xticks(rotation=45)
-
-    return plt
-
-def _grafico_macd(df):
-    # filtro para contemplar somente o ano de 2022
-    df['Date'] = pd.to_datetime(df['Date'])
-    df_2022 = df[(df['Date'] >= '2022-01-01') & (df['Date'] <= '2022-12-31')]
-
-    # Configurações do Seaborn
-    sns.set(style="whitegrid")
-
-    # Criando a figura
-    fig, ax1 = plt.subplots(figsize=(12, 6))
-
-    # Plotando o Close no eixo esquerdo
-    sns.lineplot(data=df_2022, x='Date', y='Close', ax=ax1, label='Close', color='black')
-    ax1.set_ylabel('Close Price', color='black')
-    ax1.tick_params(axis='y', labelcolor='black')
-
-    # Criando um segundo eixo Y para o MACD e Signal Line
-    ax2 = ax1.twinx()
-
-    # Plotando o MACD e a linha de sinal no eixo direito
-    sns.lineplot(data=df_2022, x='Date', y='MACD', ax=ax2, label='MACD', color='blue')
-    sns.lineplot(data=df_2022, x='Date', y='Signal_Line', ax=ax2, label='Signal Line', color='red')
-    ax2.set_ylabel('MACD and Signal Line', color='blue')
-    ax2.tick_params(axis='y', labelcolor='blue')
-
-    # Configurando limite do eixo direito
-    ax2.set_ylim([-3000, 15000])
-
-    # Configurando rótulos e título
-    plt.title('Close Price, MACD, and Signal Line for 2022')
-    plt.xlabel('Date')
-
-    # Adicionando legenda
-    lines, labels = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax2.legend(lines + lines2, labels + labels2, loc='upper left')
-
-    return plt
+    return fig

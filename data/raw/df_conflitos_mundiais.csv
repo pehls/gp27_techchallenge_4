@@ -1,0 +1,908 @@
+,Date,event_type,fatalities,event_id_cnty
+0,2020-12-14,Battles,7,3
+1,2020-12-14,Explosions/Remote violence,1,10
+2,2020-12-14,Violence against civilians,7,11
+3,2020-12-15,Battles,2,1
+4,2020-12-15,Violence against civilians,0,1
+5,2021-01-06,Battles,8,13
+6,2021-01-06,Violence against civilians,18,15
+7,2021-01-11,Battles,187,147
+8,2021-01-11,Explosions/Remote violence,46,67
+9,2021-01-11,Violence against civilians,265,253
+10,2021-01-12,Battles,7,9
+11,2021-01-12,Explosions/Remote violence,3,10
+12,2021-01-12,Violence against civilians,16,27
+13,2021-01-14,Violence against civilians,0,1
+14,2021-01-18,Battles,38,45
+15,2021-01-18,Explosions/Remote violence,9,28
+16,2021-01-18,Violence against civilians,75,77
+17,2021-01-19,Battles,16,68
+18,2021-01-19,Explosions/Remote violence,1,2
+19,2021-01-19,Violence against civilians,5,7
+20,2021-01-25,Battles,22,50
+21,2021-01-25,Explosions/Remote violence,11,23
+22,2021-01-25,Violence against civilians,81,88
+23,2021-01-26,Battles,5,2
+24,2021-01-26,Explosions/Remote violence,0,2
+25,2021-01-26,Violence against civilians,8,8
+26,2021-02-01,Battles,27,58
+27,2021-02-01,Explosions/Remote violence,5,17
+28,2021-02-01,Violence against civilians,55,64
+29,2021-02-02,Battles,2,4
+30,2021-02-02,Explosions/Remote violence,2,2
+31,2021-02-02,Violence against civilians,10,11
+32,2021-02-05,Battles,131,94
+33,2021-02-05,Explosions/Remote violence,1,2
+34,2021-02-05,Violence against civilians,602,448
+35,2021-02-08,Battles,68,70
+36,2021-02-08,Explosions/Remote violence,23,21
+37,2021-02-08,Violence against civilians,203,169
+38,2021-02-09,Battles,3,3
+39,2021-02-09,Explosions/Remote violence,1,2
+40,2021-02-09,Violence against civilians,4,4
+41,2021-02-10,Battles,1,7
+42,2021-02-10,Explosions/Remote violence,0,2
+43,2021-02-10,Violence against civilians,1,2
+44,2021-02-15,Battles,62,87
+45,2021-02-15,Explosions/Remote violence,6,23
+46,2021-02-15,Violence against civilians,172,149
+47,2021-02-16,Battles,3,7
+48,2021-02-16,Explosions/Remote violence,1,3
+49,2021-02-16,Violence against civilians,8,9
+50,2021-02-17,Violence against civilians,0,1
+51,2021-02-22,Battles,49,66
+52,2021-02-22,Explosions/Remote violence,6,21
+53,2021-02-22,Violence against civilians,200,169
+54,2021-02-23,Battles,6,4
+55,2021-02-23,Explosions/Remote violence,1,2
+56,2021-02-23,Violence against civilians,3,6
+57,2021-03-01,Battles,37,77
+58,2021-03-01,Explosions/Remote violence,1,30
+59,2021-03-01,Violence against civilians,208,179
+60,2021-03-02,Battles,6,6
+61,2021-03-02,Explosions/Remote violence,2,7
+62,2021-03-02,Violence against civilians,5,10
+63,2021-03-08,Battles,91,81
+64,2021-03-08,Explosions/Remote violence,8,18
+65,2021-03-08,Violence against civilians,211,172
+66,2021-03-09,Battles,5,4
+67,2021-03-09,Explosions/Remote violence,4,5
+68,2021-03-09,Violence against civilians,8,13
+69,2021-03-11,Violence against civilians,1,1
+70,2021-03-15,Battles,104,71
+71,2021-03-15,Explosions/Remote violence,2,33
+72,2021-03-15,Violence against civilians,225,156
+73,2021-03-16,Battles,3,4
+74,2021-03-16,Explosions/Remote violence,0,2
+75,2021-03-16,Violence against civilians,4,5
+76,2021-03-17,Battles,3,2
+77,2021-03-17,Explosions/Remote violence,0,1
+78,2021-03-17,Violence against civilians,1,4
+79,2021-03-22,Battles,83,90
+80,2021-03-22,Explosions/Remote violence,10,25
+81,2021-03-22,Violence against civilians,134,138
+82,2021-03-23,Battles,23,13
+83,2021-03-23,Explosions/Remote violence,0,3
+84,2021-03-23,Violence against civilians,9,15
+85,2021-03-29,Battles,61,64
+86,2021-03-29,Explosions/Remote violence,26,31
+87,2021-03-29,Violence against civilians,201,172
+88,2021-03-30,Battles,7,9
+89,2021-03-30,Explosions/Remote violence,5,4
+90,2021-03-30,Violence against civilians,44,21
+91,2021-04-05,Battles,56,67
+92,2021-04-05,Explosions/Remote violence,7,27
+93,2021-04-05,Violence against civilians,173,163
+94,2021-04-06,Battles,21,13
+95,2021-04-06,Explosions/Remote violence,6,16
+96,2021-04-06,Violence against civilians,16,23
+97,2021-04-12,Battles,61,71
+98,2021-04-12,Explosions/Remote violence,3,29
+99,2021-04-12,Violence against civilians,197,159
+100,2021-04-13,Battles,16,9
+101,2021-04-13,Explosions/Remote violence,8,6
+102,2021-04-13,Violence against civilians,15,19
+103,2021-04-14,Battles,13,15
+104,2021-04-14,Explosions/Remote violence,1,13
+105,2021-04-14,Violence against civilians,10,24
+106,2021-04-15,Battles,502,513
+107,2021-04-15,Explosions/Remote violence,291,902
+108,2021-04-15,Violence against civilians,1569,885
+109,2021-04-16,Battles,81,25
+110,2021-04-16,Explosions/Remote violence,10,18
+111,2021-04-16,Violence against civilians,37,47
+112,2021-04-19,Battles,145,95
+113,2021-04-19,Explosions/Remote violence,18,36
+114,2021-04-19,Violence against civilians,265,207
+115,2021-04-20,Battles,161,148
+116,2021-04-20,Explosions/Remote violence,35,71
+117,2021-04-20,Violence against civilians,101,134
+118,2021-04-23,Explosions/Remote violence,1,1
+119,2021-04-23,Violence against civilians,9,12
+120,2021-04-26,Battles,587,124
+121,2021-04-26,Explosions/Remote violence,22,31
+122,2021-04-26,Violence against civilians,306,244
+123,2021-04-27,Battles,25,58
+124,2021-04-27,Explosions/Remote violence,10,82
+125,2021-04-27,Violence against civilians,61,53
+126,2021-05-03,Battles,259,115
+127,2021-05-03,Explosions/Remote violence,16,73
+128,2021-05-03,Violence against civilians,259,240
+129,2021-05-04,Battles,38,57
+130,2021-05-04,Explosions/Remote violence,11,111
+131,2021-05-04,Violence against civilians,31,52
+132,2021-05-10,Battles,77,96
+133,2021-05-10,Explosions/Remote violence,8,51
+134,2021-05-10,Violence against civilians,223,202
+135,2021-05-11,Battles,22,55
+136,2021-05-11,Explosions/Remote violence,25,164
+137,2021-05-11,Violence against civilians,35,62
+138,2021-05-24,Battles,210,188
+139,2021-05-24,Explosions/Remote violence,21,152
+140,2021-05-24,Violence against civilians,469,442
+141,2021-05-25,Battles,91,116
+142,2021-05-25,Explosions/Remote violence,35,254
+143,2021-05-25,Violence against civilians,61,83
+144,2021-05-26,Battles,928,492
+145,2021-05-26,Explosions/Remote violence,143,83
+146,2021-05-26,Violence against civilians,847,761
+147,2021-05-31,Battles,149,119
+148,2021-05-31,Explosions/Remote violence,13,66
+149,2021-05-31,Violence against civilians,547,317
+150,2021-06-01,Battles,126,102
+151,2021-06-01,Explosions/Remote violence,23,159
+152,2021-06-01,Violence against civilians,51,62
+153,2021-06-07,Battles,122,123
+154,2021-06-07,Explosions/Remote violence,27,89
+155,2021-06-07,Violence against civilians,286,239
+156,2021-06-08,Battles,72,54
+157,2021-06-08,Explosions/Remote violence,28,112
+158,2021-06-08,Violence against civilians,47,72
+159,2021-06-09,Battles,2,3
+160,2021-06-09,Violence against civilians,3,7
+161,2021-06-14,Battles,132,129
+162,2021-06-14,Explosions/Remote violence,14,72
+163,2021-06-14,Violence against civilians,343,234
+164,2021-06-15,Battles,48,42
+165,2021-06-15,Explosions/Remote violence,20,77
+166,2021-06-15,Violence against civilians,31,38
+167,2021-06-21,Battles,153,148
+168,2021-06-21,Explosions/Remote violence,51,123
+169,2021-06-21,Violence against civilians,333,376
+170,2021-06-22,Battles,38,36
+171,2021-06-22,Explosions/Remote violence,43,93
+172,2021-06-22,Violence against civilians,72,65
+173,2021-06-28,Battles,1134,951
+174,2021-06-28,Explosions/Remote violence,716,2137
+175,2021-06-28,Violence against civilians,674,906
+176,2021-06-29,Battles,42,41
+177,2021-06-29,Explosions/Remote violence,28,87
+178,2021-06-29,Violence against civilians,40,51
+179,2021-07-05,Battles,147,112
+180,2021-07-05,Explosions/Remote violence,28,75
+181,2021-07-05,Violence against civilians,353,296
+182,2021-07-06,Battles,55,39
+183,2021-07-06,Explosions/Remote violence,34,75
+184,2021-07-06,Violence against civilians,25,50
+185,2021-07-12,Battles,307,204
+186,2021-07-12,Explosions/Remote violence,189,240
+187,2021-07-12,Violence against civilians,317,305
+188,2021-07-13,Battles,77,44
+189,2021-07-13,Explosions/Remote violence,14,85
+190,2021-07-13,Violence against civilians,40,28
+191,2021-07-19,Battles,235,172
+192,2021-07-19,Explosions/Remote violence,32,156
+193,2021-07-19,Violence against civilians,310,290
+194,2021-07-20,Battles,69,67
+195,2021-07-20,Explosions/Remote violence,17,97
+196,2021-07-20,Violence against civilians,42,40
+197,2021-07-26,Battles,164,142
+198,2021-07-26,Explosions/Remote violence,52,134
+199,2021-07-26,Violence against civilians,379,278
+200,2021-07-27,Battles,69,43
+201,2021-07-27,Explosions/Remote violence,55,68
+202,2021-07-27,Violence against civilians,132,34
+203,2021-08-02,Battles,334,185
+204,2021-08-02,Explosions/Remote violence,34,202
+205,2021-08-02,Violence against civilians,596,276
+206,2021-08-03,Battles,135,65
+207,2021-08-03,Explosions/Remote violence,56,122
+208,2021-08-03,Violence against civilians,54,64
+209,2021-08-16,Battles,7,5
+210,2021-08-16,Explosions/Remote violence,0,10
+211,2021-08-16,Violence against civilians,12,12
+212,2021-09-06,Battles,452,228
+213,2021-09-06,Explosions/Remote violence,79,201
+214,2021-09-06,Violence against civilians,722,518
+215,2021-09-07,Battles,16166,3343
+216,2021-09-07,Explosions/Remote violence,4206,1102
+217,2021-09-07,Violence against civilians,249,324
+218,2021-09-13,Battles,15,11
+219,2021-09-13,Explosions/Remote violence,0,8
+220,2021-09-13,Violence against civilians,20,16
+221,2021-09-14,Battles,11,2
+222,2021-09-14,Explosions/Remote violence,1,2
+223,2021-09-14,Violence against civilians,5,5
+224,2021-09-17,Battles,0,2
+225,2021-09-17,Violence against civilians,0,4
+226,2021-09-20,Battles,67,27
+227,2021-09-20,Explosions/Remote violence,0,1
+228,2021-09-20,Violence against civilians,107,98
+229,2021-09-21,Battles,109,4
+230,2021-09-21,Explosions/Remote violence,0,6
+231,2021-09-21,Violence against civilians,31,19
+232,2021-09-27,Battles,83,45
+233,2021-09-27,Explosions/Remote violence,14,3
+234,2021-09-27,Violence against civilians,74,73
+235,2021-09-28,Battles,1556,171
+236,2021-09-28,Explosions/Remote violence,472,77
+237,2021-09-28,Violence against civilians,35,33
+238,2021-09-29,Explosions/Remote violence,24,3
+239,2021-10-04,Battles,118,36
+240,2021-10-04,Explosions/Remote violence,4,1
+241,2021-10-04,Violence against civilians,102,70
+242,2021-10-05,Battles,1201,196
+243,2021-10-05,Explosions/Remote violence,43,26
+244,2021-10-05,Violence against civilians,123,74
+245,2021-10-11,Battles,149,82
+246,2021-10-11,Explosions/Remote violence,2,2
+247,2021-10-11,Violence against civilians,46,50
+248,2021-10-12,Battles,1673,254
+249,2021-10-12,Explosions/Remote violence,552,94
+250,2021-10-12,Violence against civilians,8,24
+251,2021-10-18,Battles,42,25
+252,2021-10-18,Explosions/Remote violence,10,65
+253,2021-10-18,Violence against civilians,5,15
+254,2021-10-19,Explosions/Remote violence,1,16
+255,2021-10-19,Violence against civilians,6,8
+256,2021-10-25,Battles,4,5
+257,2021-10-25,Violence against civilians,16,13
+258,2021-10-26,Battles,3,4
+259,2021-10-26,Explosions/Remote violence,1,2
+260,2021-10-26,Violence against civilians,6,7
+261,2021-11-01,Battles,0,1
+262,2021-11-01,Explosions/Remote violence,0,1
+263,2021-11-01,Violence against civilians,4,7
+264,2021-11-02,Battles,28,13
+265,2021-11-02,Explosions/Remote violence,0,2
+266,2021-11-02,Violence against civilians,0,3
+267,2021-11-08,Battles,72,79
+268,2021-11-08,Explosions/Remote violence,46,65
+269,2021-11-08,Violence against civilians,261,201
+270,2021-11-09,Battles,166,88
+271,2021-11-09,Explosions/Remote violence,49,86
+272,2021-11-09,Violence against civilians,58,67
+273,2021-11-15,Battles,207,137
+274,2021-11-15,Explosions/Remote violence,36,85
+275,2021-11-15,Violence against civilians,338,267
+276,2021-11-16,Battles,497,139
+277,2021-11-16,Explosions/Remote violence,96,173
+278,2021-11-16,Violence against civilians,60,81
+279,2021-11-19,Battles,9,2
+280,2021-11-19,Violence against civilians,0,1
+281,2021-11-22,Battles,190,128
+282,2021-11-22,Explosions/Remote violence,39,111
+283,2021-11-22,Violence against civilians,354,285
+284,2021-11-23,Battles,144,132
+285,2021-11-23,Explosions/Remote violence,47,214
+286,2021-11-23,Violence against civilians,46,55
+287,2021-11-29,Battles,581,302
+288,2021-11-29,Explosions/Remote violence,25,109
+289,2021-11-29,Violence against civilians,384,332
+290,2021-11-30,Battles,605,193
+291,2021-11-30,Explosions/Remote violence,125,208
+292,2021-11-30,Violence against civilians,56,59
+293,2021-12-02,Violence against civilians,32,51
+294,2021-12-06,Battles,355,230
+295,2021-12-06,Explosions/Remote violence,33,118
+296,2021-12-06,Violence against civilians,315,265
+297,2021-12-07,Battles,423,154
+298,2021-12-07,Explosions/Remote violence,86,129
+299,2021-12-07,Violence against civilians,54,60
+300,2021-12-08,Violence against civilians,121,256
+301,2021-12-13,Battles,256,152
+302,2021-12-13,Explosions/Remote violence,61,140
+303,2021-12-13,Violence against civilians,333,309
+304,2021-12-14,Battles,760,498
+305,2021-12-14,Explosions/Remote violence,112,141
+306,2021-12-14,Violence against civilians,99,92
+307,2021-12-15,Battles,367,57
+308,2021-12-15,Explosions/Remote violence,25,11
+309,2021-12-15,Violence against civilians,371,54
+310,2022-01-10,Battles,1317,750
+311,2022-01-10,Explosions/Remote violence,464,778
+312,2022-01-10,Violence against civilians,1346,1237
+313,2022-01-11,Battles,4991,877
+314,2022-01-11,Explosions/Remote violence,2382,773
+315,2022-01-11,Violence against civilians,218,272
+316,2022-01-14,Battles,599,273
+317,2022-01-14,Explosions/Remote violence,198,261
+318,2022-01-14,Violence against civilians,373,419
+319,2022-01-17,Battles,189,174
+320,2022-01-17,Explosions/Remote violence,136,227
+321,2022-01-17,Violence against civilians,460,373
+322,2022-01-18,Battles,182,129
+323,2022-01-18,Explosions/Remote violence,100,147
+324,2022-01-18,Violence against civilians,76,100
+325,2022-01-19,Battles,12,6
+326,2022-01-19,Explosions/Remote violence,3,11
+327,2022-01-19,Violence against civilians,6,4
+328,2022-01-24,Battles,173,148
+329,2022-01-24,Explosions/Remote violence,90,168
+330,2022-01-24,Violence against civilians,567,315
+331,2022-01-25,Battles,423,149
+332,2022-01-25,Explosions/Remote violence,131,147
+333,2022-01-25,Violence against civilians,79,88
+334,2022-01-28,Battles,15,13
+335,2022-01-28,Explosions/Remote violence,26,183
+336,2022-01-28,Violence against civilians,4,5
+337,2022-01-31,Battles,311,257
+338,2022-01-31,Explosions/Remote violence,77,199
+339,2022-01-31,Violence against civilians,592,577
+340,2022-02-01,Battles,318,175
+341,2022-02-01,Explosions/Remote violence,168,163
+342,2022-02-01,Violence against civilians,99,116
+343,2022-02-02,Battles,7,9
+344,2022-02-02,Violence against civilians,18,21
+345,2022-02-07,Battles,210,157
+346,2022-02-07,Explosions/Remote violence,64,152
+347,2022-02-07,Violence against civilians,424,337
+348,2022-02-08,Battles,196,147
+349,2022-02-08,Explosions/Remote violence,46,141
+350,2022-02-08,Violence against civilians,46,67
+351,2022-02-14,Battles,359,208
+352,2022-02-14,Explosions/Remote violence,82,171
+353,2022-02-14,Violence against civilians,464,352
+354,2022-02-15,Battles,130,88
+355,2022-02-15,Explosions/Remote violence,113,123
+356,2022-02-15,Violence against civilians,76,101
+357,2022-02-16,Battles,69,59
+358,2022-02-16,Explosions/Remote violence,13,16
+359,2022-02-16,Violence against civilians,65,65
+360,2022-02-21,Battles,109,96
+361,2022-02-21,Explosions/Remote violence,54,147
+362,2022-02-21,Violence against civilians,420,308
+363,2022-02-22,Battles,113,74
+364,2022-02-22,Explosions/Remote violence,21,177
+365,2022-02-22,Violence against civilians,27,74
+366,2022-02-23,Battles,14,14
+367,2022-02-23,Violence against civilians,8,7
+368,2022-02-28,Battles,234,156
+369,2022-02-28,Explosions/Remote violence,101,130
+370,2022-02-28,Violence against civilians,401,341
+371,2022-03-01,Battles,136,129
+372,2022-03-01,Explosions/Remote violence,47,320
+373,2022-03-01,Violence against civilians,49,82
+374,2022-03-03,Battles,1,1
+375,2022-03-04,Battles,308,10
+376,2022-03-04,Explosions/Remote violence,3,1
+377,2022-03-04,Violence against civilians,34,31
+378,2022-03-07,Battles,169,132
+379,2022-03-07,Explosions/Remote violence,39,135
+380,2022-03-07,Violence against civilians,387,332
+381,2022-03-08,Battles,482,214
+382,2022-03-08,Explosions/Remote violence,262,210
+383,2022-03-08,Violence against civilians,91,90
+384,2022-03-10,Violence against civilians,0,4
+385,2022-03-14,Battles,267,137
+386,2022-03-14,Explosions/Remote violence,31,98
+387,2022-03-14,Violence against civilians,383,314
+388,2022-03-15,Battles,743,291
+389,2022-03-15,Explosions/Remote violence,360,363
+390,2022-03-15,Violence against civilians,110,100
+391,2022-03-21,Battles,204,134
+392,2022-03-21,Explosions/Remote violence,33,77
+393,2022-03-21,Violence against civilians,434,297
+394,2022-03-22,Battles,544,151
+395,2022-03-22,Explosions/Remote violence,303,333
+396,2022-03-22,Violence against civilians,84,108
+397,2022-03-23,Explosions/Remote violence,2,1
+398,2022-03-24,Explosions/Remote violence,0,1
+399,2022-03-24,Violence against civilians,0,5
+400,2022-03-28,Battles,265,141
+401,2022-03-28,Explosions/Remote violence,238,118
+402,2022-03-28,Violence against civilians,404,327
+403,2022-03-29,Battles,974,210
+404,2022-03-29,Explosions/Remote violence,424,300
+405,2022-03-29,Violence against civilians,50,75
+406,2022-04-04,Battles,541,203
+407,2022-04-04,Explosions/Remote violence,77,123
+408,2022-04-04,Violence against civilians,694,569
+409,2022-04-05,Battles,437,194
+410,2022-04-05,Explosions/Remote violence,536,271
+411,2022-04-05,Violence against civilians,70,76
+412,2022-04-11,Battles,217,138
+413,2022-04-11,Explosions/Remote violence,53,104
+414,2022-04-11,Violence against civilians,496,338
+415,2022-04-12,Battles,381,170
+416,2022-04-12,Explosions/Remote violence,244,286
+417,2022-04-12,Violence against civilians,209,106
+418,2022-04-18,Battles,697,223
+419,2022-04-18,Explosions/Remote violence,67,107
+420,2022-04-18,Violence against civilians,847,409
+421,2022-04-19,Battles,1150,566
+422,2022-04-19,Explosions/Remote violence,393,424
+423,2022-04-19,Violence against civilians,157,150
+424,2022-04-25,Battles,374,197
+425,2022-04-25,Explosions/Remote violence,100,190
+426,2022-04-25,Violence against civilians,399,322
+427,2022-04-26,Battles,577,211
+428,2022-04-26,Explosions/Remote violence,254,269
+429,2022-04-26,Violence against civilians,52,77
+430,2022-04-28,Battles,374,280
+431,2022-04-28,Explosions/Remote violence,279,481
+432,2022-04-28,Violence against civilians,160,196
+433,2022-05-09,Battles,679,399
+434,2022-05-09,Explosions/Remote violence,179,305
+435,2022-05-09,Violence against civilians,877,819
+436,2022-05-10,Battles,850,357
+437,2022-05-10,Explosions/Remote violence,615,652
+438,2022-05-10,Violence against civilians,157,187
+439,2022-05-16,Battles,310,200
+440,2022-05-16,Explosions/Remote violence,134,251
+441,2022-05-16,Violence against civilians,457,460
+442,2022-05-17,Battles,340,139
+443,2022-05-17,Explosions/Remote violence,611,262
+444,2022-05-17,Violence against civilians,99,98
+445,2022-05-23,Battles,1787,1047
+446,2022-05-23,Explosions/Remote violence,293,333
+447,2022-05-23,Violence against civilians,478,448
+448,2022-05-24,Battles,876,196
+449,2022-05-24,Explosions/Remote violence,206,369
+450,2022-05-24,Violence against civilians,105,88
+451,2022-05-30,Battles,315,223
+452,2022-05-30,Explosions/Remote violence,53,240
+453,2022-05-30,Violence against civilians,544,385
+454,2022-05-31,Battles,1201,492
+455,2022-05-31,Explosions/Remote violence,584,561
+456,2022-05-31,Violence against civilians,291,94
+457,2022-06-06,Battles,380,207
+458,2022-06-06,Explosions/Remote violence,95,184
+459,2022-06-06,Violence against civilians,637,378
+460,2022-06-07,Battles,546,166
+461,2022-06-07,Explosions/Remote violence,156,425
+462,2022-06-07,Violence against civilians,112,94
+463,2022-06-13,Battles,298,179
+464,2022-06-13,Explosions/Remote violence,35,152
+465,2022-06-13,Violence against civilians,374,322
+466,2022-06-14,Battles,532,152
+467,2022-06-14,Explosions/Remote violence,155,430
+468,2022-06-14,Violence against civilians,74,79
+469,2022-06-21,Battles,821,423
+470,2022-06-21,Explosions/Remote violence,206,587
+471,2022-06-21,Violence against civilians,587,475
+472,2022-06-27,Battles,302,266
+473,2022-06-27,Explosions/Remote violence,65,163
+474,2022-06-27,Violence against civilians,450,427
+475,2022-06-28,Battles,367,178
+476,2022-06-28,Explosions/Remote violence,139,574
+477,2022-06-28,Violence against civilians,62,69
+478,2022-07-05,Battles,1141,840
+479,2022-07-05,Explosions/Remote violence,273,804
+480,2022-07-05,Violence against civilians,1186,873
+481,2022-07-11,Battles,434,209
+482,2022-07-11,Explosions/Remote violence,43,196
+483,2022-07-11,Violence against civilians,923,376
+484,2022-07-12,Battles,236,160
+485,2022-07-12,Explosions/Remote violence,115,522
+486,2022-07-12,Violence against civilians,115,94
+487,2022-07-18,Battles,325,259
+488,2022-07-18,Explosions/Remote violence,57,163
+489,2022-07-18,Violence against civilians,479,484
+490,2022-07-19,Battles,636,266
+491,2022-07-19,Explosions/Remote violence,377,800
+492,2022-07-19,Violence against civilians,65,97
+493,2022-07-20,Battles,1,1
+494,2022-07-20,Explosions/Remote violence,0,1
+495,2022-07-20,Violence against civilians,3,1
+496,2022-07-25,Battles,334,196
+497,2022-07-25,Explosions/Remote violence,82,193
+498,2022-07-25,Violence against civilians,431,413
+499,2022-07-26,Battles,752,231
+500,2022-07-26,Explosions/Remote violence,323,753
+501,2022-07-26,Violence against civilians,234,127
+502,2022-07-27,Battles,1,1
+503,2022-07-27,Explosions/Remote violence,2,2
+504,2022-07-27,Violence against civilians,7,4
+505,2022-08-01,Battles,302,192
+506,2022-08-01,Explosions/Remote violence,45,242
+507,2022-08-01,Violence against civilians,450,398
+508,2022-08-02,Battles,414,167
+509,2022-08-02,Explosions/Remote violence,283,720
+510,2022-08-02,Violence against civilians,50,77
+511,2022-08-08,Battles,476,216
+512,2022-08-08,Explosions/Remote violence,131,206
+513,2022-08-08,Violence against civilians,387,400
+514,2022-08-09,Battles,515,202
+515,2022-08-09,Explosions/Remote violence,239,787
+516,2022-08-09,Violence against civilians,77,96
+517,2022-08-15,Battles,561,493
+518,2022-08-15,Explosions/Remote violence,99,369
+519,2022-08-15,Violence against civilians,566,535
+520,2022-08-16,Battles,368,191
+521,2022-08-16,Explosions/Remote violence,374,854
+522,2022-08-16,Violence against civilians,70,91
+523,2022-09-12,Battles,1338,757
+524,2022-09-12,Explosions/Remote violence,200,854
+525,2022-09-12,Violence against civilians,1638,1456
+526,2022-09-13,Battles,2072,801
+527,2022-09-13,Explosions/Remote violence,1414,3348
+528,2022-09-13,Violence against civilians,317,341
+529,2022-09-14,Battles,5,5
+530,2022-09-14,Explosions/Remote violence,0,1
+531,2022-09-19,Battles,421,207
+532,2022-09-19,Explosions/Remote violence,111,207
+533,2022-09-19,Violence against civilians,480,373
+534,2022-09-20,Battles,580,230
+535,2022-09-20,Explosions/Remote violence,166,728
+536,2022-09-20,Violence against civilians,65,88
+537,2022-09-21,Battles,27,9
+538,2022-09-21,Violence against civilians,0,25
+539,2022-09-26,Battles,347,197
+540,2022-09-26,Explosions/Remote violence,122,214
+541,2022-09-26,Violence against civilians,413,386
+542,2022-09-27,Battles,503,296
+543,2022-09-27,Explosions/Remote violence,562,973
+544,2022-09-27,Violence against civilians,136,150
+545,2022-10-03,Battles,181,165
+546,2022-10-03,Explosions/Remote violence,49,211
+547,2022-10-03,Violence against civilians,667,331
+548,2022-10-04,Battles,304,225
+549,2022-10-04,Explosions/Remote violence,561,815
+550,2022-10-04,Violence against civilians,118,137
+551,2022-10-11,Battles,731,490
+552,2022-10-11,Explosions/Remote violence,759,1361
+553,2022-10-11,Violence against civilians,386,419
+554,2022-10-12,Battles,2,2
+555,2022-10-17,Battles,364,254
+556,2022-10-17,Explosions/Remote violence,66,204
+557,2022-10-17,Violence against civilians,958,690
+558,2022-10-18,Battles,242,105
+559,2022-10-18,Explosions/Remote violence,91,91
+560,2022-10-18,Violence against civilians,75,95
+561,2022-10-19,Battles,215,127
+562,2022-10-19,Explosions/Remote violence,248,632
+563,2022-10-19,Violence against civilians,31,22
+564,2022-10-24,Battles,249,206
+565,2022-10-24,Explosions/Remote violence,91,287
+566,2022-10-24,Violence against civilians,443,393
+567,2022-10-25,Battles,386,302
+568,2022-10-25,Explosions/Remote violence,316,551
+569,2022-10-25,Violence against civilians,108,109
+570,2022-10-27,Battles,3,6
+571,2022-10-27,Explosions/Remote violence,0,4
+572,2022-10-27,Violence against civilians,22,8
+573,2022-10-31,Battles,1570,1117
+574,2022-10-31,Explosions/Remote violence,866,781
+575,2022-10-31,Violence against civilians,498,438
+576,2022-11-01,Battles,318,222
+577,2022-11-01,Explosions/Remote violence,403,660
+578,2022-11-01,Violence against civilians,179,180
+579,2022-11-07,Battles,506,227
+580,2022-11-07,Explosions/Remote violence,55,207
+581,2022-11-07,Violence against civilians,476,566
+582,2022-11-08,Battles,375,207
+583,2022-11-08,Explosions/Remote violence,422,702
+584,2022-11-08,Violence against civilians,181,266
+585,2022-11-14,Battles,279,200
+586,2022-11-14,Explosions/Remote violence,86,248
+587,2022-11-14,Violence against civilians,458,412
+588,2022-11-15,Battles,943,259
+589,2022-11-15,Explosions/Remote violence,1335,720
+590,2022-11-15,Violence against civilians,95,110
+591,2022-11-21,Battles,365,401
+592,2022-11-21,Explosions/Remote violence,104,180
+593,2022-11-21,Violence against civilians,573,573
+594,2022-11-22,Battles,399,263
+595,2022-11-22,Explosions/Remote violence,823,659
+596,2022-11-22,Violence against civilians,47,62
+597,2022-11-23,Battles,2,4
+598,2022-11-23,Violence against civilians,16,7
+599,2022-11-28,Battles,365,215
+600,2022-11-28,Explosions/Remote violence,125,340
+601,2022-11-28,Violence against civilians,574,469
+602,2022-11-29,Battles,347,234
+603,2022-11-29,Explosions/Remote violence,251,677
+604,2022-11-29,Violence against civilians,36,79
+605,2022-12-05,Battles,332,359
+606,2022-12-05,Explosions/Remote violence,102,333
+607,2022-12-05,Violence against civilians,407,356
+608,2022-12-06,Battles,288,215
+609,2022-12-06,Explosions/Remote violence,208,725
+610,2022-12-06,Violence against civilians,55,87
+611,2022-12-09,Battles,4,2
+612,2022-12-09,Explosions/Remote violence,28,4
+613,2022-12-09,Violence against civilians,1,1
+614,2022-12-12,Battles,285,226
+615,2022-12-12,Explosions/Remote violence,63,216
+616,2022-12-12,Violence against civilians,470,407
+617,2022-12-13,Battles,483,297
+618,2022-12-13,Explosions/Remote violence,764,735
+619,2022-12-13,Violence against civilians,81,102
+620,2022-12-15,Battles,57,11
+621,2022-12-15,Explosions/Remote violence,4,5
+622,2022-12-15,Violence against civilians,6,8
+623,2023-01-06,Violence against civilians,0,1
+624,2023-01-09,Battles,5246,4353
+625,2023-01-09,Explosions/Remote violence,384,762
+626,2023-01-09,Violence against civilians,2340,2698
+627,2023-01-10,Battles,952,620
+628,2023-01-10,Explosions/Remote violence,1347,2491
+629,2023-01-10,Violence against civilians,177,256
+630,2023-01-16,Battles,411,292
+631,2023-01-16,Explosions/Remote violence,98,179
+632,2023-01-16,Violence against civilians,526,437
+633,2023-01-17,Battles,140,224
+634,2023-01-17,Explosions/Remote violence,525,667
+635,2023-01-17,Violence against civilians,51,118
+636,2023-01-23,Battles,1380,418
+637,2023-01-23,Explosions/Remote violence,54,325
+638,2023-01-23,Violence against civilians,638,536
+639,2023-01-24,Battles,330,207
+640,2023-01-24,Explosions/Remote violence,184,811
+641,2023-01-24,Violence against civilians,82,97
+642,2023-01-30,Battles,1246,2082
+643,2023-01-30,Explosions/Remote violence,118,143
+644,2023-01-30,Violence against civilians,824,907
+645,2023-01-31,Battles,108,215
+646,2023-01-31,Explosions/Remote violence,186,845
+647,2023-01-31,Violence against civilians,95,93
+648,2023-02-01,Battles,0,1
+649,2023-02-06,Battles,931,375
+650,2023-02-06,Explosions/Remote violence,202,378
+651,2023-02-06,Violence against civilians,743,662
+652,2023-02-07,Battles,3212,784
+653,2023-02-07,Explosions/Remote violence,164,790
+654,2023-02-07,Violence against civilians,100,114
+655,2023-02-13,Battles,488,288
+656,2023-02-13,Explosions/Remote violence,38,69
+657,2023-02-13,Violence against civilians,822,512
+658,2023-02-14,Battles,590,263
+659,2023-02-14,Explosions/Remote violence,218,883
+660,2023-02-14,Violence against civilians,35,83
+661,2023-02-20,Battles,399,229
+662,2023-02-20,Explosions/Remote violence,48,79
+663,2023-02-20,Violence against civilians,444,393
+664,2023-02-21,Battles,165,179
+665,2023-02-21,Explosions/Remote violence,85,799
+666,2023-02-21,Violence against civilians,34,69
+667,2023-02-27,Battles,501,282
+668,2023-02-27,Explosions/Remote violence,71,143
+669,2023-02-27,Violence against civilians,396,399
+670,2023-02-28,Battles,611,207
+671,2023-02-28,Explosions/Remote violence,75,798
+672,2023-02-28,Violence against civilians,48,79
+673,2023-03-01,Battles,44,36
+674,2023-03-01,Explosions/Remote violence,2,7
+675,2023-03-01,Violence against civilians,14,11
+676,2023-03-06,Battles,356,343
+677,2023-03-06,Explosions/Remote violence,124,159
+678,2023-03-06,Violence against civilians,520,408
+679,2023-03-07,Battles,361,278
+680,2023-03-07,Explosions/Remote violence,163,824
+681,2023-03-07,Violence against civilians,479,92
+682,2023-03-13,Battles,558,387
+683,2023-03-13,Explosions/Remote violence,110,473
+684,2023-03-13,Violence against civilians,536,436
+685,2023-03-14,Battles,194,335
+686,2023-03-14,Explosions/Remote violence,242,822
+687,2023-03-14,Violence against civilians,108,124
+688,2023-03-20,Battles,620,457
+689,2023-03-20,Explosions/Remote violence,98,228
+690,2023-03-20,Violence against civilians,476,414
+691,2023-03-21,Battles,490,262
+692,2023-03-21,Explosions/Remote violence,101,742
+693,2023-03-21,Violence against civilians,192,277
+694,2023-03-22,Battles,114,18
+695,2023-03-22,Explosions/Remote violence,22,6
+696,2023-03-22,Violence against civilians,44,6
+697,2023-03-27,Battles,437,297
+698,2023-03-27,Explosions/Remote violence,73,117
+699,2023-03-27,Violence against civilians,456,418
+700,2023-03-28,Battles,498,289
+701,2023-03-28,Explosions/Remote violence,149,745
+702,2023-03-28,Violence against civilians,38,91
+703,2023-04-03,Battles,4900,1529
+704,2023-04-03,Explosions/Remote violence,1819,1657
+705,2023-04-03,Violence against civilians,1369,732
+706,2023-04-04,Battles,722,845
+707,2023-04-04,Explosions/Remote violence,939,4837
+708,2023-04-04,Violence against civilians,160,275
+709,2023-04-11,Battles,798,522
+710,2023-04-11,Explosions/Remote violence,556,839
+711,2023-04-11,Violence against civilians,611,542
+712,2023-04-12,Battles,413,178
+713,2023-04-12,Explosions/Remote violence,511,727
+714,2023-04-12,Violence against civilians,51,82
+715,2023-04-17,Battles,382,242
+716,2023-04-17,Explosions/Remote violence,127,142
+717,2023-04-17,Violence against civilians,442,377
+718,2023-04-18,Battles,562,226
+719,2023-04-18,Explosions/Remote violence,318,870
+720,2023-04-18,Violence against civilians,34,76
+721,2023-04-25,Battles,1341,627
+722,2023-04-25,Explosions/Remote violence,206,858
+723,2023-04-25,Violence against civilians,658,645
+724,2023-05-01,Battles,10,14
+725,2023-05-01,Explosions/Remote violence,21,95
+726,2023-05-01,Violence against civilians,9,2
+727,2023-05-02,Battles,835,557
+728,2023-05-02,Explosions/Remote violence,567,942
+729,2023-05-02,Violence against civilians,721,575
+730,2023-05-22,Battles,745,690
+731,2023-05-22,Explosions/Remote violence,253,577
+732,2023-05-22,Violence against civilians,1088,900
+733,2023-05-23,Battles,2047,578
+734,2023-05-23,Explosions/Remote violence,667,2641
+735,2023-05-23,Violence against civilians,640,432
+736,2023-05-29,Battles,829,459
+737,2023-05-29,Explosions/Remote violence,82,378
+738,2023-05-29,Violence against civilians,523,473
+739,2023-05-30,Battles,259,115
+740,2023-05-30,Explosions/Remote violence,75,850
+741,2023-05-30,Violence against civilians,65,83
+742,2023-06-05,Battles,994,530
+743,2023-06-05,Explosions/Remote violence,103,134
+744,2023-06-05,Violence against civilians,491,454
+745,2023-06-06,Battles,5945,1591
+746,2023-06-06,Explosions/Remote violence,2090,1280
+747,2023-06-06,Violence against civilians,391,323
+748,2023-06-07,Battles,254,3
+749,2023-06-12,Battles,853,865
+750,2023-06-12,Explosions/Remote violence,207,327
+751,2023-06-12,Violence against civilians,558,404
+752,2023-06-13,Battles,237,228
+753,2023-06-13,Explosions/Remote violence,743,973
+754,2023-06-13,Violence against civilians,74,122
+755,2023-06-19,Battles,1294,406
+756,2023-06-19,Explosions/Remote violence,297,236
+757,2023-06-19,Violence against civilians,662,437
+758,2023-06-20,Battles,228,277
+759,2023-06-20,Explosions/Remote violence,412,873
+760,2023-06-20,Violence against civilians,47,85
+761,2023-06-26,Battles,526,897
+762,2023-06-26,Explosions/Remote violence,169,335
+763,2023-06-26,Violence against civilians,420,438
+764,2023-06-27,Battles,917,412
+765,2023-06-27,Explosions/Remote violence,473,1505
+766,2023-06-27,Violence against civilians,1717,2143
+767,2023-07-03,Battles,436,365
+768,2023-07-03,Explosions/Remote violence,95,201
+769,2023-07-03,Violence against civilians,626,493
+770,2023-07-04,Battles,544,309
+771,2023-07-04,Explosions/Remote violence,173,874
+772,2023-07-04,Violence against civilians,68,118
+773,2023-07-05,Violence against civilians,0,2
+774,2023-07-10,Battles,1459,509
+775,2023-07-10,Explosions/Remote violence,86,246
+776,2023-07-10,Violence against civilians,1178,502
+777,2023-07-11,Battles,143,255
+778,2023-07-11,Explosions/Remote violence,61,678
+779,2023-07-11,Violence against civilians,61,101
+780,2023-07-17,Battles,1140,477
+781,2023-07-17,Explosions/Remote violence,121,218
+782,2023-07-17,Violence against civilians,586,477
+783,2023-07-18,Battles,277,293
+784,2023-07-18,Explosions/Remote violence,350,748
+785,2023-07-18,Violence against civilians,57,105
+786,2023-07-24,Battles,924,464
+787,2023-07-24,Explosions/Remote violence,138,216
+788,2023-07-24,Violence against civilians,587,568
+789,2023-07-25,Battles,509,327
+790,2023-07-25,Explosions/Remote violence,207,805
+791,2023-07-25,Violence against civilians,99,132
+792,2023-07-31,Battles,12690,2925
+793,2023-07-31,Explosions/Remote violence,4391,1941
+794,2023-07-31,Violence against civilians,1340,1053
+795,2023-08-01,Battles,1400,748
+796,2023-08-01,Explosions/Remote violence,147,1478
+797,2023-08-01,Violence against civilians,85,141
+798,2023-08-07,Battles,725,357
+799,2023-08-07,Explosions/Remote violence,114,213
+800,2023-08-07,Violence against civilians,448,404
+801,2023-08-08,Battles,317,974
+802,2023-08-08,Explosions/Remote violence,435,1953
+803,2023-08-08,Violence against civilians,45,79
+804,2023-08-11,Explosions/Remote violence,0,1
+805,2023-08-11,Violence against civilians,18,21
+806,2023-08-30,Battles,31,41
+807,2023-08-30,Explosions/Remote violence,0,5
+808,2023-08-30,Violence against civilians,41,71
+809,2023-09-04,Battles,4295,1756
+810,2023-09-04,Explosions/Remote violence,618,738
+811,2023-09-04,Violence against civilians,2364,2039
+812,2023-09-05,Battles,5147,1912
+813,2023-09-05,Explosions/Remote violence,3327,4683
+814,2023-09-05,Violence against civilians,234,397
+815,2023-09-06,Battles,3588,1049
+816,2023-09-06,Explosions/Remote violence,4840,3648
+817,2023-09-06,Violence against civilians,0,2
+818,2023-09-11,Battles,2494,1734
+819,2023-09-11,Explosions/Remote violence,330,669
+820,2023-09-11,Violence against civilians,2776,2516
+821,2023-09-12,Battles,383,240
+822,2023-09-12,Explosions/Remote violence,168,843
+823,2023-09-12,Violence against civilians,60,123
+824,2023-09-18,Battles,892,793
+825,2023-09-18,Explosions/Remote violence,316,363
+826,2023-09-18,Violence against civilians,475,528
+827,2023-09-19,Battles,806,332
+828,2023-09-19,Explosions/Remote violence,264,877
+829,2023-09-19,Violence against civilians,60,87
+830,2023-09-25,Battles,1931,599
+831,2023-09-25,Explosions/Remote violence,1301,2095
+832,2023-09-25,Violence against civilians,620,611
+833,2023-09-26,Battles,423,290
+834,2023-09-26,Explosions/Remote violence,336,1037
+835,2023-09-26,Violence against civilians,114,165
+836,2023-10-02,Battles,875,603
+837,2023-10-02,Explosions/Remote violence,205,253
+838,2023-10-02,Violence against civilians,557,522
+839,2023-10-03,Battles,620,236
+840,2023-10-03,Explosions/Remote violence,346,872
+841,2023-10-03,Violence against civilians,66,96
+842,2023-10-09,Battles,2674,1036
+843,2023-10-09,Explosions/Remote violence,196,635
+844,2023-10-09,Violence against civilians,1009,727
+845,2023-10-10,Battles,288,239
+846,2023-10-10,Explosions/Remote violence,197,794
+847,2023-10-10,Violence against civilians,59,89
+848,2023-10-16,Battles,961,568
+849,2023-10-16,Explosions/Remote violence,666,510
+850,2023-10-16,Violence against civilians,489,505
+851,2023-10-17,Battles,1389,551
+852,2023-10-17,Explosions/Remote violence,424,982
+853,2023-10-17,Violence against civilians,90,190
+854,2023-10-23,Battles,1196,665
+855,2023-10-23,Explosions/Remote violence,882,1023
+856,2023-10-23,Violence against civilians,467,532
+857,2023-10-24,Battles,1216,304
+858,2023-10-24,Explosions/Remote violence,279,777
+859,2023-10-24,Violence against civilians,69,100
+860,2023-10-30,Battles,1343,602
+861,2023-10-30,Explosions/Remote violence,1239,923
+862,2023-10-30,Violence against civilians,1478,634
+863,2023-10-31,Battles,856,505
+864,2023-10-31,Explosions/Remote violence,267,801
+865,2023-10-31,Violence against civilians,188,246
+866,2023-11-06,Battles,458,448
+867,2023-11-06,Explosions/Remote violence,1988,716
+868,2023-11-06,Violence against civilians,312,381
+869,2023-11-07,Battles,1026,518
+870,2023-11-07,Explosions/Remote violence,488,890
+871,2023-11-07,Violence against civilians,423,348
+872,2023-11-13,Battles,901,541
+873,2023-11-13,Explosions/Remote violence,1506,603
+874,2023-11-13,Violence against civilians,536,487
+875,2023-11-14,Battles,643,305
+876,2023-11-14,Explosions/Remote violence,215,661
+877,2023-11-14,Violence against civilians,65,93
+878,2023-11-20,Battles,2759,730
+879,2023-11-20,Explosions/Remote violence,1979,1730
+880,2023-11-20,Violence against civilians,1139,446
+881,2023-11-21,Battles,1093,397
+882,2023-11-21,Explosions/Remote violence,306,904
+883,2023-11-21,Violence against civilians,66,91
+884,2023-11-23,Battles,50,87
+885,2023-11-23,Explosions/Remote violence,36,192
+886,2023-11-23,Violence against civilians,6,46
+887,2023-11-27,Battles,1483,704
+888,2023-11-27,Explosions/Remote violence,1447,1889
+889,2023-11-27,Violence against civilians,673,683
+890,2023-11-28,Battles,364,321
+891,2023-11-28,Explosions/Remote violence,223,827
+892,2023-11-28,Violence against civilians,86,96
+893,2023-12-04,Battles,2656,1183
+894,2023-12-04,Explosions/Remote violence,9842,1486
+895,2023-12-04,Violence against civilians,984,802
+896,2023-12-05,Battles,637,420
+897,2023-12-05,Explosions/Remote violence,345,905
+898,2023-12-05,Violence against civilians,130,158
+899,2023-12-11,Battles,34621,10498
+900,2023-12-11,Explosions/Remote violence,10964,5306
+901,2023-12-11,Violence against civilians,12354,8885
+902,2023-12-12,Battles,1046,455
+903,2023-12-12,Explosions/Remote violence,298,816
+904,2023-12-12,Violence against civilians,158,197
+905,2023-12-15,Battles,25,2
+906,2023-12-15,Explosions/Remote violence,1402,161

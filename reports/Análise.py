@@ -3,29 +3,27 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 import src.generate_graphs as generate_graphs
 import src.get_data as get_data
 
+df_petroleo = get_data._df_petroleo()
 st.write("""
     # Tech Challenge #02 - Grupo 27 
     ## Modelo Preditivo / Petróleo Brent
     by. Eduardo Gomes, Igor Brito e Gabriel Pehls
 """)
          
-st.info("""
+st.info(f"""
     Com objetivo de predizer o valor do Petróleo Brent, mostramos nesse trabalho
     todo o processo para criação do nosso modelo, e algumas análises do histórico do mesmo.
     
     Os dados aqui utilizados foram baixados do site [IPEA](http://www.ipeadata.gov.br/ExibeSerie.aspx?module=m&serid=1650971490&oper=view) 
-    e contemplam o período de 20-05-1987 até 18-12-2023.
+    e contemplam o período de {min(df_petroleo.Date).date()} até {max(df_petroleo.Date).date()}.
 """)
         
 
-tab_grafico_historico, tab_seasonal, tab_adf, tab_acf, tab_models = st.tabs(['Gráfico Histórico', 'Decompondo sazonalidade', 'Teste ADFuller', 'Autocorrelação - ACF/PACF', 'Modelos - Teste'])
-
-df_ibovespa = get_data._df_ibovespa()
+tab_grafico_historico, tab_seasonal, tab_adf, tab_acf = st.tabs(['Gráfico Histórico', 'Decompondo sazonalidade', 'Teste ADFuller', 'Autocorrelação - ACF/PACF'])
 
 with tab_grafico_historico:
-    df, crossover, _, _, _, _, _, _, _, _ = get_data._get_all_indicators_data()
     st.plotly_chart(
-        generate_graphs._grafico_historico(df, crossover),
+        generate_graphs._grafico_historico(df_petroleo),
         use_container_width=True,
     )
 
@@ -40,7 +38,15 @@ with tab_seasonal:
     )
 
     st.markdown("""
-        Ao tratarmos o periodo como 365, porém, notamos um comportamento sazonal mais evidente:
+        Ao tratarmos o periodo como 180, porém, notamos um comportamento sazonal mais evidente:
+    """)
+    st.plotly_chart(
+        generate_graphs._seasonal_decompose(get_data._series_for_seasonal(), 180),
+        use_container_width=True,
+    )
+
+    st.markdown("""
+        Ainda, ao tratarmos o periodo como 365, porém, notamos um comportamento sazonal mais evidente:
     """)
     st.plotly_chart(
         generate_graphs._seasonal_decompose(get_data._series_for_seasonal(), 365),
@@ -52,7 +58,7 @@ with tab_seasonal:
                 Nota-se que o gráfico de tendência está muito mais constante e conciso, com uma alta evidente até out/2022!
     """)
 with tab_adf:
-    grafico_adf, series_adf = generate_graphs._adf(df_ibovespa)
+    grafico_adf, series_adf = generate_graphs._adf(df_petroleo)
     res_adf = get_data._adfuller(series_adf)
     st.plotly_chart(
         grafico_adf,
@@ -70,7 +76,7 @@ with tab_adf:
 
     st.divider()
 
-    grafico_adf_diff, series_adf_diff = generate_graphs._adf_diff(df_ibovespa)
+    grafico_adf_diff, series_adf_diff = generate_graphs._adf_diff(df_petroleo)
     res_adf_diff = get_data._adfuller(series_adf_diff)
     st.plotly_chart(
         grafico_adf_diff,
@@ -88,39 +94,19 @@ with tab_adf:
 
 with tab_acf:
     st.pyplot(
-        plot_acf(df_ibovespa['Close'].values),
+        plot_acf(df_petroleo['Preco'].values, lags=1460),
         use_container_width=True,
     )
+    st.markdown("""
+    Para a autocorrelação, vemos um comportamento significativo até aproximadamente 2 anos, ficando cada vez menos significativo a partir desse ponto... 
+    Será que tinhamos um comportamento diferente após esse tempo? 
+    O que disparou essa diferença no comportamento, a ponto de não ser estatisticamente significante a relação entre os valores atuais e de 2 anos anteriores?
+    """)
 
     st.divider()
 
     st.pyplot(
-        plot_pacf(df_ibovespa['Close'].values),
+        plot_pacf(df_petroleo['Preco'].values, lags=30),
         use_container_width=True,
     )
 
-with tab_models:
-    st.markdown("""
-        Antes de partirmos para o algoritmo selecionado para gerar o modelo, realizamos alguns testes com algoritmos
-        para séries temporais
-        
-        Os algoritmos da lib `statsforecast` são:
-        - SeasonalNaive
-        - SeasonalWindowAverage
-        - AutoARIMA
-    """)
-
-    graph, mape_seas_naive, mape_seas_wa, mape_arima = generate_graphs._models_ts()
-    st.plotly_chart(
-        graph,
-        use_container_width=True,
-    )
-
-    st.markdown(f"""
-        Para avaliação utilizamos `sklearn.metrics.mean_average_percentage_error` e os resultados são listados abaixo:
-        - MAPE SeasonalNaive: {mape_seas_naive}
-        - MAPE SeasonalWindowAverage: {mape_seas_wa}
-        - MAPE AutoARIMA: {mape_arima}
-
-        Na página [Modelo](Modelo) aprofundamos mais a análise do algoritmo `prophet`.
-    """)
