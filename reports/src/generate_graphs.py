@@ -128,36 +128,46 @@ def _plot_trials(trials_df, hyperparam_1, hyperparam_2):
     )
     return fig
 
-def _plot_conflitos_paises(df):
+def _plot_conflitos_paises(df, order={}):
     df['Date'] = [x.replace(day=1) for x in df.Date]
+    df['Year'] = [x.year for x in df.Date]
     df = df\
-    .groupby(['Date','country'])\
+    .groupby(['country'])\
     .agg({
           'fatalities':'sum'
         , 'event_id_cnty':'nunique'
-    }).reset_index()
-
-    fig = px.line(
-        df.loc[df.fatalities > 0], 
-        x='Date', y='fatalities', color='country'
-        #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
+        })\
+        .sort_values('fatalities', ascending=False)\
+        .reset_index()\
+        .head(10)
+    fig = px.bar(
+        df,
+        x='country', y='fatalities',
+        color='country',
+        title="Fatalidades por País (2020-2023)",
+        color_discrete_map={
+              'Ignorado':'purple'
+            , 'Não' : 'red'
+            , "Não sabe" : 'goldenrod'
+            , 'Sim':'blue'
+            }, text_auto=True,
+        category_orders=order,
+        hover_data=['event_id_cnty']
     )
-
-    # hide axes
-    fig.update_xaxes(visible=True, title='')
-    fig.update_yaxes(visible=True, zeroline=True,
-                    showticklabels=True, title=''
-                    )
     fig.update_layout(
-        hovermode='x unified',
+        yaxis=dict(
+            showgrid=False,
+            showline=False,
+            showticklabels=False
+        ),
+        xaxis=dict(
+            title='País',
+            showgrid=False,
+            showline=False,
+            showticklabels=True
+        )
     )
-
-    # strip down the rest of the plot
-    fig.update_layout(
-        showlegend=True,
-        # plot_bgcolor="black",
-        margin=dict(l=10,b=10,r=10)
-    )
+    fig.for_each_trace(lambda t: t.update(texttemplate = t.texttemplate + ''))
 
     return fig
 
@@ -192,4 +202,22 @@ def _plot_conflitos_tipo(df):
         margin=dict(l=10,b=10,r=10)
     )
 
+    return fig
+
+def _plot_conflitos_tipo_e_petroleo(df_conflitos_mundiais):
+    cols_to_plot = ['Fatalities in Battles','Fatalities in Explosions/Remote Violence','Fatalities in Violence against civillians', 'Preco']
+    fig = go.Figure()
+
+    for col in cols_to_plot:
+        fig.add_trace(go.Scatter(
+            x=df_conflitos_mundiais['Date'], y=df_conflitos_mundiais[col],
+            mode='lines', yaxis='y', name=col.replace('log_','')
+            #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
+            )
+        )
+
+    # hide axes
+    fig.update_layout(
+        hovermode='x unified',
+    )
     return fig

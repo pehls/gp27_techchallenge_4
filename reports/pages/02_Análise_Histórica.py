@@ -39,19 +39,59 @@ with tab_volatilidade:
     )
 
 with tab_conflitos_armados:
-    st.markdown("""
-    Os dados foram obtidos no portal [Armed Conflict Location & Event Data Project](https://acleddata.com/data-export-tool/), um portal que coleta, analista e mapeia crises globais, salvando informacoes diversas sobre tais conflitos em diferentes locais.
-    """)
+    subtab_conflitos_paises, subtab_tipo_evento_petroleo, subtab_correlacao_causalidade = st.tabs(['Países em Conflitos', 'Tipos de evento e Petróleo', 'Correlação e Causalidade'])
 
-    st.plotly_chart(
-        generate_graphs._plot_conflitos_paises(df_conflitos_porpais),
-        use_container_width=True,
-    )
+    with subtab_conflitos_paises:
+        st.markdown("""
+        Os dados foram obtidos no portal [Armed Conflict Location & Event Data Project](https://acleddata.com/data-export-tool/), um portal que coleta, analista e mapeia crises globais, 
+        salvando informacoes diversas sobre tais conflitos em diferentes locais.
+                    
+        Para começar, analisemos os países com mais fatalidades nos anos analisados:
+        """)
 
-    st.plotly_chart(
-        generate_graphs._plot_conflitos_tipo(df_conflitos_porpais),
-        use_container_width=True,
-    )
+        st.plotly_chart(
+            generate_graphs._plot_conflitos_paises(df_conflitos_porpais),
+            use_container_width=True,
+        )
+        st.markdown("""
+        Será que são os mesmos países com maior exportação de petróleo no períiodo? Será que existe alguma correlação entre as fatalidades e o preço do Petróleo?
+                    
+        Para respoder tais perguntas, precisamos entender os tipos de eventos que a plataforma entrega:
+                    - Batalhas: Basicamente, são confrontos armados, com atores estatais ou não, sejam governos ou grupos armados apenas;
+                    - Violência contra civis: são ataques, desaparecimentos forçados e sequestros e violências sexuais;
+                    - Explosões / Violência Remoda: aqui estão incluídos ataques aéreos, com mísseis e artilharias, explosões remotas, ataques com drones ou por via aérea (aviões, por exemplo), granadas e bombas suicidas.
+        
+        Notamos, por essas descrições, que são eventos precisamente violentos, muitos derivados de confrontos geopolíticos, e até mesmo derivados de protestos com maior incidência de violência, como o que vemos atualmente na Ucrânia. 
+                    Por tal evento ter um cunho territorial específico entre a Ucrânia e Rússia, com o anexo da Criméia, uma região que produz petróleo e gás, por exemplo, ela entra na categoria de Batalhas, e poderia ter uma forte relação com o aumento do petróleo na região e no mundo, a depender da força da produção do mesmo; Sabemos que existem outros motivos que poderiam determinar tal confronto, mas vamos focar nos impactos no preço do petróleo e sua produção mundial;
+        """)
+
+    with subtab_tipo_evento_petroleo:
+        df_conflitos_preco_normalizados = get_data._events_normalized_globally()
+        st.plotly_chart(
+            generate_graphs._plot_conflitos_tipo(df_conflitos_porpais),
+            use_container_width=True,
+        )
+
+        st.plotly_chart(
+            generate_graphs._plot_conflitos_tipo_e_petroleo(df_conflitos_preco_normalizados), use_container_width=True
+        )
+    with subtab_correlacao_causalidade:
+        st.markdown("""
+        Para analisar as relações estatisticamente, vamos usar dois tipos de correlação:
+                    
+        - **Correlação de Pearson**: talbém chamada de correlação produto-momento, mede o grau de correlação entre duas variáveis de escala métrica, no instante x, ou seja, de forma direta no mesmo ponto do tempo. Quão mais próxima de 1, seja negativo ou positivo, mais forte é, de acordo com o seu sentido. Caso muito próxima de 0, nota-se uma correlação fraca.
+                    
+        - **DTW**: O Dynamic Time Warping é um algoritmo utilizado para comparar e alinhar duas séries temporais, utilizando um alinhamento não-sincronizado da série, ou seja, as séries poderiam ter uma relação não exatamente no mesmo ponto do tempo. Quanto mais próximo de zero, maior a similaridade das duas séries temporais.
+        
+        E, ainda, um teste de causalidade:
+                    
+        - **Teste de Causalidade de Granger**: É um teste estatístico que visa superar as limitações do uso de simples correlações entre variáveis, analisando o sentido causal entre elas, demonstrando que uma variável X "Granger Causa" Y caso os valores do passado de X ajudam a prever o valor presente de Y. Tipicamente, aplica-se um teste F sobre os erros da predição de Y pelo seu passado, e da predição de Y pelo seu passado e pela variável X, visando testar a hipótese de que Y é predito apenas por seus valores passados (H0) e se o passado de X ajuda a prever Y (H1);
+
+                    
+        """)
+        # ref https://www.questionpro.com/blog/pt-br/correlacao-de-pearson/
+        # ref https://community.revelo.com.br/primeiros-passos-no-dtw/
+        # ref https://www.linkedin.com/pulse/causalidade-de-granger-guilherme-garcia/?originalSubdomain=pt
 
 with tab_crises_do_petroleo:
     st.markdown("""
@@ -64,3 +104,4 @@ with tab_energia_consumo:
 with tab_exportacao:
     st.markdown("""
     """)
+    

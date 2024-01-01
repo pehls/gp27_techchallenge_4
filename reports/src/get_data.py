@@ -4,6 +4,7 @@ import config
 import streamlit as st
 from statsmodels.tsa.stattools import adfuller
 from datetime import datetime
+from sklearn.preprocessing import MinMaxScaler
 
 @st.cache_data
 def _df_petroleo():
@@ -76,3 +77,34 @@ def _events_globally():
 def _type_subtype():
     df_conflitos = pd.read_csv('../data/raw/tipo_subtipo_eventos.csv')
     return df_conflitos[['event_type', 'sub_event_type']].drop_duplicates()
+
+@st.cache_data
+def _events_normalized_globally():
+    # ajustando dados de eventos
+    df_conflitos_mundiais = _events_globally()
+    df_conflitos_mundiais['Date'] = pd.to_datetime(df_conflitos_mundiais['Date'])
+    df_conflitos_mundiais = df_conflitos_mundiais\
+    .groupby(['Date','event_type'])\
+    .agg({
+            'fatalities':'sum'
+        # , 'event_id_cnty':'sum'
+    }).reset_index()
+    df_conflitos_mundiais = df_conflitos_mundiais.pivot(index='Date', columns='event_type').reset_index().replace(0, None)
+    df_conflitos_mundiais.columns = ['Date','Fatalities in Battles','Fatalities in Explosions/Remote Violence','Fatalities in Violence against civillians']
+
+    # ajustando dados de petroleo
+    df = _df_petroleo()
+    df = df.loc[df.Date.isin(df_conflitos_mundiais.Date.to_list())]
+
+    # normalizando dados para plotar em conjunto
+    df_conflitos_mundiais = df_conflitos_mundiais.merge(df, how='inner', on=['Date'])
+
+    for col in df_conflitos_mundiais.columns:
+        if (col != 'Date'):
+            df_conflitos_mundiais[col] = df_conflitos_mundiais[col].astype(float)
+            df_conflitos_mundiais[f'log_{col}'] = np.log(df_conflitos_mundiais[col])
+
+    cols_to_reescale = ['Fatalities in Battles','Fatalities in Explosions/Remote Violence','Fatalities in Violence against civillians', 'Preco']
+    scaler = MinMaxScaler()
+    df_conflitos_mundiais[cols_to_reescale] = scaler.fit_transform(df_conflitos_mundiais[cols_to_reescale])
+    return df_conflitos_mundiais
