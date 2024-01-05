@@ -110,6 +110,10 @@ with tab_conflitos_armados:
         # ref https://www.linkedin.com/pulse/causalidade-de-granger-guilherme-garcia/?originalSubdomain=pt
 
 with tab_crises_do_petroleo:
+    st.image(config.PETR4_HISTORIC,
+                caption="Crises do Petróleo",
+                width=600,
+        )
     st.markdown("""
     """)
 
