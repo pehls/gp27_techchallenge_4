@@ -225,3 +225,27 @@ def _plot_conflitos_tipo_e_petroleo(df_conflitos_mundiais):
 def _plot_correlation_matrix(df_correlacoes):
     fig = px.imshow(df_correlacoes, text_auto=True)
     return fig
+
+def _plot_energy_use(df_uso_energia):
+    cols_to_plot = list(set(df_uso_energia.columns)-set(['Country Name']))
+    fig = go.Figure()
+
+    
+    # fig.add_trace(go.Scatter(
+    #     x=df_uso_energia['Year'], y=df_uso_energia['Country Name'],
+    #     mode='lines', yaxis='y'#, name=col
+    #     #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
+    #     )
+    # )
+    fig = px.line(
+        df_uso_energia, 
+        x='Year', y='value', color='Country Name'
+        #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
+    )
+
+    # hide axes
+    fig.update_layout(
+        hovermode='x unified',
+    )
+    return fig
+

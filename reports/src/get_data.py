@@ -120,3 +120,35 @@ def _events_correlations(df_conflitos_preco_normalizados):
     df_correlacoes.index = [x.replace('minmax_','') for x in df_correlacoes.index]
     df_correlacoes.columns = [x.replace('minmax_','') for x in df_correlacoes.columns]
     return df_correlacoes
+
+@st.cache_data
+def _df_energy_use():
+    cols = [str(x) for x in ['Country Name'] + list(range(1960, 2023))]
+    df_uso_energia = pd.read_csv('data/raw/energy_use/API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv')
+
+    # ajustar df de petroleo
+    df_petroleo = _df_petroleo()
+    df_petroleo['year'] = [x.year for x in df_petroleo['Date']]
+    df_petroleo['Preco'] = df_petroleo['Preco'].astype(float) 
+    df_petroleo_year = df_petroleo.groupby('year').agg({'Preco':'mean'}).reset_index()
+    df_petroleo_year['Country Name'] = 'Price'
+    df_petroleo_year = df_petroleo_year.pivot(index='Country Name', columns='year',values='Preco').reset_index()
+    df_petroleo_year.columns = [str(x) for x in df_petroleo_year.columns]
+
+    # colunas em comum
+    cols = list(set(df_uso_energia.columns).intersection(df_petroleo_year.columns))
+    df_uso_energia = pd.concat([df_uso_energia[cols],df_petroleo_year[cols]])
+    df_uso_energia = df_uso_energia.melt(id_vars='Country Name').rename(columns={'variable':'Year'})
+    return df_uso_energia
+
+@st.cache_data
+def _df_fossil_fuel_cons():
+    df = pd.read_csv('data/raw/fossil_fuel_consumption/API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')
+    df_preco = _df_petroleo()
+    return df
+
+@st.cache_data
+def _df_fuel_exports():
+    df = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
+    df_preco = _df_petroleo()
+    return df

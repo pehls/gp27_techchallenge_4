@@ -20,16 +20,7 @@ tab_volatilidade, tab_crises_do_petroleo, tab_conflitos_armados, tab_energia_con
 # https://data.worldbank.org/topic/energy-and-mining - uso de energia, consumo de combustiveis fosseis, exportacao
 with tab_volatilidade:
     st.markdown("""
-        Iniciando a etapa de modelagem, optamos por experimentar o modelo Prophet, criado pela Meta/Facebook em 2017, 
-        sendo um algoritmo de previsão de séries temporais que lida de forma eficiente com séries onde temos uma presença 
-        forte e destacada de Sazonalidades, Feriados previamente conhecidoss e uma tendência de crescimento destacada.
-        O mesmo define a série temporal tendo três componentes principais, tendência (g), sazonalidade (s) e feriados (h), 
-        combinados na seguinte equação:
-
-        `y(t)=g(t)+s(t)+h(t)+εt`, onde εt é o termo de erro, basicamente.
-        
-        Iniciaremos com um modelo simples, para verificar seu desempenho, e partiremos para conceitos mais elaborados, 
-        chegando a um modelo hiperparametrizado, e com um desempenho superior para a aplicação.
+        A idéia aqui é calcular a volatilidade do Preço do Petróleo, e a partir dos picos e vales sugerir como resposta os próximos itens nas abas
                 
     """)
 
@@ -82,6 +73,7 @@ with tab_conflitos_armados:
                     
         Outro ponto interessante é o número de explosões aparentar estar altamente relacionado com o Preço, mas será que o mesmo se repete quando analisado de forma estatística? Ou o comportamento visual apenas? Vamos analisar:
         """)
+    
     with subtab_correlacao_causalidade:
         st.markdown("""
         Para analisar as relações estatisticamente, vamos usar dois tipos de correlação:
@@ -119,9 +111,45 @@ with tab_crises_do_petroleo:
 
 with tab_energia_consumo:
     st.markdown("""
+    Aqui, os dados estao em raw/energy_use e raw/fossil_fuel_consumption
     """)
+    subtab_uso_energia, subtab_consumo_comb_fosseis, subtab_correlacao_causalidade = st.tabs(['Uso de Energia', 'Consumo de Comb. Fósseis', 'Correlação e Causalidade'])
+    
+    with subtab_uso_energia:
+        df_uso_energia = get_data._df_energy_use()
+        st.markdown("""
+        Energy use (kg of oil equivalent per capita);
+        
+        Energy use refers to use of primary energy before transformation to other end-use fuels, which is equal to indigenous production plus imports and stock changes, minus exports and fuels supplied to ships and aircraft engaged in international transport.
+        """)
+        st.plotly_chart(
+            generate_graphs._plot_energy_use(df_uso_energia),
+            use_container_width=True
+        )
+
+
+
+
+    with subtab_consumo_comb_fosseis:
+        st.markdown("""
+        Fossil fuel energy consumption (% of total);
+        
+        Fossil fuel comprises coal, oil, petroleum, and natural gas products.
+        """)
+
+    with subtab_correlacao_causalidade:
+        st.markdown("""
+
+        """)
 
 with tab_exportacao:
     st.markdown("""
+    Aqui, os dados estao em raw/fuel_exports
+                
+    Fuel exports (% of merchandise exports);
+                
+    Fuels comprise the commodities in SITC section 3 (mineral fuels, lubricants and related materials);
+                
+    World Bank staff estimates through the WITS platform from the Comtrade database maintained by the United Nations Statistics Division.
     """)
     
