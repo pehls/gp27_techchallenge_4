@@ -205,13 +205,13 @@ def _plot_conflitos_tipo(df):
     return fig
 
 def _plot_conflitos_tipo_e_petroleo(df_conflitos_mundiais):
-    cols_to_plot = ['Fatalities in Battles','Fatalities in Explosions/Remote Violence','Fatalities in Violence against civillians', 'Preco']
+    cols_to_plot = ['Fatalities in Battles','Fatalities in Explosions/Remote Violence','Fatalities in Violence against civillians', 'Qtt Battles','Qtt Explosions/Remote violence','Qtt Violence against civilians', 'Preco','Total Qtt','Total Fatalities']
     fig = go.Figure()
 
     for col in cols_to_plot:
         fig.add_trace(go.Scatter(
-            x=df_conflitos_mundiais['Date'], y=df_conflitos_mundiais[col],
-            mode='lines', yaxis='y', name=col.replace('log_','')
+            x=df_conflitos_mundiais['Date'], y=df_conflitos_mundiais["minmax_"+col],
+            mode='lines', yaxis='y', name=col.replace('minmax_','')
             #, custom_data=['year', config.DICT_Y[stat][0], 'country_code']
             )
         )
@@ -220,4 +220,8 @@ def _plot_conflitos_tipo_e_petroleo(df_conflitos_mundiais):
     fig.update_layout(
         hovermode='x unified',
     )
+    return fig
+
+def _plot_correlation_matrix(df_correlacoes):
+    fig = px.imshow(df_correlacoes, text_auto=True)
     return fig

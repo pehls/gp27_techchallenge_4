@@ -71,10 +71,17 @@ with tab_conflitos_armados:
             generate_graphs._plot_conflitos_tipo(df_conflitos_porpais),
             use_container_width=True,
         )
-
+        st.markdown("""
+        De forma geral, notamos que a quantidade de fatalidades costuma ser maior com explosões e eventos relacionados, seguido por batalhas. Em poucos meses, e em menor quantidade de fatalidades, temos os casos de violência contra civis. Vamos analisar a quantidade de eventos e fatalidades vs Preço do Petróleo Brunt:
+        """)
         st.plotly_chart(
             generate_graphs._plot_conflitos_tipo_e_petroleo(df_conflitos_preco_normalizados), use_container_width=True
         )
+        st.markdown("""
+        Visualmente, ao compararmos apenas o Preço vs quantidade total de eventos e de fatalidades, vemos poucos pontos relacionados, mas uma coerência bem forte entre os números no período de 2021 (começo do ano) e de 2022 (começo do ano), fato que não se repete em 2023 (notamos aqui, um aumento no número de eventos e fatalidades, mas o preço do petróleo não tem picos e vales tão bem estabelecidos). No decorrer do ano de 23, os meses de Março, Abril e Maio tem caracteristicas muito semelhantes nos três indicadores, com o preço em uma crescente no restante do ano, até o fim dos dados.
+                    
+        Outro ponto interessante é o número de explosões aparentar estar altamente relacionado com o Preço, mas será que o mesmo se repete quando analisado de forma estatística? Ou o comportamento visual apenas? Vamos analisar:
+        """)
     with subtab_correlacao_causalidade:
         st.markdown("""
         Para analisar as relações estatisticamente, vamos usar dois tipos de correlação:
@@ -88,6 +95,15 @@ with tab_conflitos_armados:
         - **Teste de Causalidade de Granger**: É um teste estatístico que visa superar as limitações do uso de simples correlações entre variáveis, analisando o sentido causal entre elas, demonstrando que uma variável X "Granger Causa" Y caso os valores do passado de X ajudam a prever o valor presente de Y. Tipicamente, aplica-se um teste F sobre os erros da predição de Y pelo seu passado, e da predição de Y pelo seu passado e pela variável X, visando testar a hipótese de que Y é predito apenas por seus valores passados (H0) e se o passado de X ajuda a prever Y (H1);
 
                     
+        """)
+        
+        st.plotly_chart(
+            generate_graphs._plot_correlation_matrix(
+                get_data._events_correlations(df_conflitos_preco_normalizados)
+                ), use_container_width=True
+        )
+        st.markdown("""
+        # **PRECISO AUMENTAR ESSE GRAFICO**
         """)
         # ref https://www.questionpro.com/blog/pt-br/correlacao-de-pearson/
         # ref https://community.revelo.com.br/primeiros-passos-no-dtw/

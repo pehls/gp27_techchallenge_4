@@ -12,7 +12,7 @@ st.title('Modelo')
 
 tab_modelagem_inicial, tab_resultados_iniciais, tab_conceitos, tab_variaveis_externas, tab_deploy_producao = st.tabs(['Modelagem inicial', "Resultados Iniciais", 'Conceitos', 'Variáveis Externas', "Plano - Deploy em Produção"])
 
-df = get_data._get_modelling_data(indicators=False)
+df_petroleo = get_data._get_modelling_data()
 
 with tab_modelagem_inicial:
     st.markdown("""
@@ -29,7 +29,7 @@ with tab_modelagem_inicial:
                 
     """)
 
-    _model, X_test, pred, X_train, forecast_ = train_model._train_simple_prophet(df)
+    _model, X_test, pred, X_train, forecast_ = train_model._train_simple_prophet(df_petroleo)
     baseline_mape = round(mean_absolute_percentage_error(X_test['y'].values, pred['yhat'].values)*100, 3)
     baseline_r2 = round(r2_score(X_train['y'].values, forecast_['yhat'].values), 4)
 
@@ -167,7 +167,7 @@ with tab_variaveis_externas:
         generate_graphs._plot_trials(trials_df, hyperparam_1, hyperparam_2)
     )
 
-    _model, X_test, pred, X_train, forecast_ = train_model._train_cv_prophet(df)
+    _model, X_test, pred, X_train, forecast_ = train_model._train_cv_prophet(df_petroleo)
     second_mape = round(mean_absolute_percentage_error(X_test['y'].values, pred['yhat'].values)*100, 3)
     second_r2 = round(r2_score(X_train['y'].values, 
                           forecast_.loc[forecast_.ds.isin(X_train.ds.to_list())]['yhat'].values)
