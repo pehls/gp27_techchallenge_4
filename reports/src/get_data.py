@@ -121,7 +121,6 @@ def _events_correlations(df_conflitos_preco_normalizados):
     df_correlacoes.columns = [x.replace('minmax_','') for x in df_correlacoes.columns]
     return df_correlacoes
 
-
 @st.cache_data
 def _df_energy_use_top10():
     df_uso_energia_or = pd.read_csv('data/raw/energy_use/API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv').drop(columns={'Indicator Name','Indicator Code'})
