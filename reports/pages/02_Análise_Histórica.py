@@ -12,7 +12,7 @@ st.title('Análise Histórica')
 df_petroleo = get_data._df_petroleo()
 df_conflitos_porpais = get_data._events_per_country()
 df_conflitos_mundiais = get_data._events_globally()
-tab_volatilidade, tab_crises_do_petroleo, tab_conflitos_armados, tab_energia_consumo, tab_exportacao = st.tabs(['A Volatilidade do Petróleo', 'Crises do Petróleo', "Conflitos Armados", 'Uso de Energia e Consumo de Comb. Fósseis', 'Exportação de Combustíveis'])
+tab_volatilidade, tab_crises_do_petroleo, tab_conflitos_armados, tab_energia_consumo, tab_exportacao = st.tabs(['Volatilidade', 'Crises do Petróleo', "Conflitos", 'Uso de Energia e Consumo de Comb. Fósseis', 'Exportação de Comb.'])
 
 # https://www.linkedin.com/pulse/petr%C3%B3leo-uma-an%C3%A1lise-sobre-volatilidade-yu64c/?originalSubdomain=pt
 # https://pt.wikipedia.org/wiki/Crises_do_petr%C3%B3leo
