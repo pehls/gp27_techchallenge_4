@@ -249,3 +249,22 @@ def _plot_energy_use(df_uso_energia):
     )
     return fig
 
+def _plot_top10_recent_energy_use(df_uso_energia_top10):
+    fig = px.bar(
+        df_uso_energia_top10
+        , x='Total En. Use 11-15', y='Country Name', orientation='h'
+        , text='Total En. Use 11-15', title='Uso de Energia Primária (em kg de óleo equivalente per capita)'
+    )
+    fig.update_layout(
+        yaxis=dict(
+            showgrid=False,
+            showline=False,
+            showticklabels=True
+        ),
+        xaxis=dict(
+            showgrid=False,
+            showline=False,
+            showticklabels=True
+        )
+    )
+    return fig

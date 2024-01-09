@@ -110,32 +110,60 @@ with tab_crises_do_petroleo:
     """)
 
 with tab_energia_consumo:
-    st.markdown("""
-    Aqui, os dados estao em raw/energy_use e raw/fossil_fuel_consumption
-    """)
     subtab_uso_energia, subtab_consumo_comb_fosseis, subtab_correlacao_causalidade = st.tabs(['Uso de Energia', 'Consumo de Comb. Fósseis', 'Correlação e Causalidade'])
     
     with subtab_uso_energia:
-        df_uso_energia = get_data._df_energy_use()
-        st.markdown("""
-        Energy use (kg of oil equivalent per capita);
+        df_uso_energia_top10 = get_data._df_energy_use_top10()
+        df_uso_energia, lista_2015_nulo = get_data._df_energy_use(list(df_uso_energia_top10['Country Name'].values))
+        st.markdown(f"""
+        Além da incidência de conflitos em relação ao Preço do Petróleo, vamos analisar a relação do uso de energia primária (combustível fóssil), antes da transformação para outros combustíveis de utilização final.
+        O indicador aqui apresentado refere-se a produção interna mais importações e variações de estoque, menos as exportações e combustíveis fornecidos a navios e aeronaves utilizados no transporte internacional.
+        O dado pode ser obtido em [Energy use (kg of oil equivalent per capita)](https://data.worldbank.org/indicator/EG.USE.PCAP.KG.OE);
+                    
+        Primeiramente, vamos analisar quais são os países com maior uso, nos 5 anos mais recentes de dados (entre 2011 e 2015):
+        """)
+        st.plotly_chart(
+            generate_graphs._plot_top10_recent_energy_use(df_uso_energia_top10),
+            use_container_width=True
+        )
+        st.markdown(f"""
+        Por intuição, pontuaríamos os Estados Unidos como um dos 5 maiores, mas podemos perceber que ele pontua apenas em 10º lugar. Interessante ainda, ver Trinidade e Tobago e Curacao como membros do top5.
         
-        Energy use refers to use of primary energy before transformation to other end-use fuels, which is equal to indigenous production plus imports and stock changes, minus exports and fuels supplied to ships and aircraft engaged in international transport.
+        Continuando, vamos verificar como esses Top 10 se relacionam com o Preço do Petróleo, observando um período anterior a 2015. Para tal, preenchemos o valor do indicador no ano de 2015, onde o mesmo era nulo, para os países:               
+        """)
+        
+        for x in lista_2015_nulo:
+            st.markdown(x)
+
+        st.markdown(f"""
+        Ainda, para facilitar a visualização de variáveis em diferentes unidades, os valores foram normalizados pela máxima e mínima, pontuando como 0 quando no mínimo, e 1 no máximo, considerando em separado o preço do Petróleo e os dados de uso de energia nos países;
         """)
         st.plotly_chart(
             generate_graphs._plot_energy_use(df_uso_energia),
             use_container_width=True
         )
-
-
-
+        st.markdown(f"""
+        Aqui, podemos destacar a proximidade dos preços do petróleo, e os valores do indicador nos países de Trinidad and Tobago e Brunei Darussalam entre os anos 1987-1997;
+        entre os anos 1998/1999, o valor do preço do Petróleo aparenta ser inversamente proporcional ao uso de Curacao, por exemplo, que se amplifica fortemente;
+        A partir de 1999, até 2008, vemos uma crescente bem forte do preço, praticamente em linha reta; da mesma forma, o indicador da Islândia (Iceland) se torna extremamente alto, se aproximando do valor máximo, que é admitido pelo Qatar em 2004; 
+        A utilização de combustíveis fósseis tem um vale bem forte, juntamente com o seu preço, [no ano de 2009](https://www.politize.com.br/crise-financeira-de-2008/), período de uma crise mundial em decorrência da falência do banco de investimento norte-americano Lehman Brothers, que provocou uma [recessão econômica global](https://repositorio.ipea.gov.br/bitstream/11058/6248/1/RTM_v3_n1_Cinco.pdf), levando uma cadeia de falências de outras grandes financeiras.
+        Em uma rápida recuperação, temos um novo pico, e o recorde para o período para o preço do petróleo em 2011, seguido por um aumento considerável da utilização do mesmo para países como Qatar, Curacao, Brunei Darussalam e os demais, seguidos por uma regularização do preço do petróleo em 2015, mas sem impactos significativos na utilização do mesmo para os países. 
+        Neste ano de 2015, tendo iniciado em 2014 e findado em 2017, acontece uma nova crise econômica, com alguns fatores como o [fim do "superciclo das commodities"](https://brasil.elpais.com/brasil/2015/10/18/internacional/1445174932_674334.html), bem como uma desaceleração da economia chinesa, que vinha auxiliando a recuperação global desde 2008, e ainda uma ressaca econômica derivada do endividamento de muitos países europeus, [e até mesmo no Brasil](https://agenciabrasil.ebc.com.br/economia/noticia/2017-09/editada-embargo-10h-queda-de-2015-interrompeu-ascensao-do-setor-de-servicos).   
+        """)
 
     with subtab_consumo_comb_fosseis:
-        st.markdown("""
-        Fossil fuel energy consumption (% of total);
+        df_fuel_cons = get_data._df_fossil_fuel_cons()
         
-        Fossil fuel comprises coal, oil, petroleum, and natural gas products.
+        st.markdown(f"""
+        Após dissertarmos sobre o uso de Energia Primária, vamos analisar o Consumo de Combustíveis Fósseis dos países, buscando identificar uma relação entre o uso per capita e o quanto os combustíveis fósseis representam, em percentual, da utilização derivada da matriz energética de cada país; 
+        O dado pode ser obtido em [Fossil fuel energy consumption](https://data.worldbank.org/indicator/EG.USE.COMM.FO.ZS);
         """)
+        st.write(df_fuel_cons)
+
+        st.markdown("""
+        Notamos aqui, que a maioria dos países está na região do meio-oeste e norte da África, países produtores de Petróleo; as exceções, Gibraltar e Brunei Darussalam, produzem e exportam Petróleo, em regiões diferentes.
+        """)
+
 
     with subtab_correlacao_causalidade:
         st.markdown("""

@@ -121,31 +121,103 @@ def _events_correlations(df_conflitos_preco_normalizados):
     df_correlacoes.columns = [x.replace('minmax_','') for x in df_correlacoes.columns]
     return df_correlacoes
 
+
 @st.cache_data
-def _df_energy_use():
+def _df_energy_use_top10():
+    df_uso_energia_or = pd.read_csv('data/raw/energy_use/API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv').drop(columns={'Indicator Name','Indicator Code'})
+    df_country_region = pd.read_csv('data/raw/energy_use/Metadata_Country_API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv')[['Country Code','Region']].dropna()
+    df_uso_energia_or = df_uso_energia_or.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code','Region'})
+    cols_to_plot = [x for x in list(set(df_uso_energia_or.columns)-set(['Country Name']))]
+    cols_to_plot.sort(reverse=True)
+    df_uso_energia_or = df_uso_energia_or.dropna(axis=1, thresh=0.95)
+
+    cols_to_plot = [x for x in list(set(df_uso_energia_or.columns)-set(['Country Name']))]
+    cols_to_plot.sort(reverse=True)
+    cols_to_plot = cols_to_plot[:5]
+    df_uso_energia_or = df_uso_energia_or[['Country Name'] + cols_to_plot]
+    df_uso_energia_or['Total En. Use 11-15'] = [round(x, 2) for x in df_uso_energia_or[cols_to_plot].sum(axis=1)]
+    df_uso_energia_or['mean'] = [round(x, 2) for x in df_uso_energia_or[cols_to_plot].mean(axis=1)]
+    df_uso_energia_or = df_uso_energia_or\
+        .sort_values('Total En. Use 11-15', ascending=False)\
+        .head(10)
+    df_uso_energia_or['2015'] = np.where(np.isnan(df_uso_energia_or['2015']), df_uso_energia_or['mean'], df_uso_energia_or['2015'])
+    return df_uso_energia_or.sort_values('Total En. Use 11-15')
+
+@st.cache_data
+def _df_energy_use(lista_paises):
+    # selecionar colunas numericas e nome
     cols = [str(x) for x in ['Country Name'] + list(range(1960, 2023))]
     df_uso_energia = pd.read_csv('data/raw/energy_use/API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv')
+    df_uso_energia = df_uso_energia.loc[df_uso_energia['Country Name'].isin(lista_paises)]
+    df_uso_energia = df_uso_energia.dropna(axis=1, thresh=0.9)
 
     # ajustar df de petroleo
     df_petroleo = _df_petroleo()
-    df_petroleo['year'] = [x.year for x in df_petroleo['Date']]
+    df_petroleo['Year'] = [str(x.year) for x in df_petroleo['Date']]
     df_petroleo['Preco'] = df_petroleo['Preco'].astype(float) 
-    df_petroleo_year = df_petroleo.groupby('year').agg({'Preco':'mean'}).reset_index()
+    df_petroleo_year = df_petroleo.groupby('Year').agg({'Preco':'mean'}).reset_index()
     df_petroleo_year['Country Name'] = 'Price'
-    df_petroleo_year = df_petroleo_year.pivot(index='Country Name', columns='year',values='Preco').reset_index()
+
+    # colunas em comum
+    cols = list(set(df_uso_energia.columns).intersection(df_petroleo_year.Year.values) - set(['Country Name']))
+    df_petroleo_year = df_petroleo_year.loc[df_petroleo_year.Year.isin(cols)]
+
+    # normalizar apenas o preço que estará no comparativo
+    scaler_py = MinMaxScaler()
+    df_petroleo_year[["value"]] = scaler_py.fit_transform(df_petroleo_year[['Preco']])
+    # pivotar para unir com df_uso_energia
+    df_petroleo_year = df_petroleo_year[['Country Name','Year','value']]
     df_petroleo_year.columns = [str(x) for x in df_petroleo_year.columns]
 
     # colunas em comum
-    cols = list(set(df_uso_energia.columns).intersection(df_petroleo_year.columns))
-    df_uso_energia = pd.concat([df_uso_energia[cols],df_petroleo_year[cols]])
+    df_uso_energia = df_uso_energia[['Country Name'] + cols]
+    
+    # vamos preencher o na de 2015 de alguns paises com a media dos anos de 11-15
+    df_uso_energia['mean'] = [round(x, 2) for x in df_uso_energia[['2011','2012','2013','2014','2015']].mean(axis=1)]
+    df_uso_energia['2015_nulo'] = np.where(np.isnan(df_uso_energia['2015']), 1, 0)
+    df_uso_energia['2015']  = np.where(np.isnan(df_uso_energia['2015']), df_uso_energia['mean'], df_uso_energia['2015'])
+    lista_2015_nulo = [f'-{x}' for x in df_uso_energia.loc[df_uso_energia['2015_nulo']==1]['Country Name'].values]
+    df_uso_energia = df_uso_energia.drop(columns={'2015_nulo','mean'})
+
+    # melt para termos valor e ano, igual ao df de petroleo
     df_uso_energia = df_uso_energia.melt(id_vars='Country Name').rename(columns={'variable':'Year'})
-    return df_uso_energia
+    df_uso_energia = df_uso_energia.groupby(['Country Name', 'Year']).agg({'value':'sum'}).reset_index()
+    # reescalar pra comparação
+    scaler_en = MinMaxScaler()
+    df_uso_energia[["minmax_value"]] = scaler_en.fit_transform(df_uso_energia[['value']])
+    
+    # pegar apenas colunas de interesse
+    cols = ['Country Name','Year','minmax_value']
+    df_uso_energia = df_uso_energia[cols]
+    cols = [x.replace('minmax_','') for x in cols]
+    df_uso_energia.columns = cols
+    df_uso_energia = pd.concat([df_uso_energia[cols],df_petroleo_year[cols]])
+    return df_uso_energia, lista_2015_nulo
 
 @st.cache_data
 def _df_fossil_fuel_cons():
-    df = pd.read_csv('data/raw/fossil_fuel_consumption/API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')
-    df_preco = _df_petroleo()
-    return df
+    #  selecionar colunas numericas e nome
+    cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
+    df_fuel_cons = pd.read_csv('data/raw/fossil_fuel_consumption/API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')
+    df_country_region = pd.read_csv('data/raw/fossil_fuel_consumption\Metadata_Country_API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')[['Country Code','Region']].dropna()
+    df_fuel_cons = df_fuel_cons.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code'})[cols]
+
+    # dropar na
+    df_fuel_cons = df_fuel_cons.dropna(axis=1, thresh=0.95)
+    cols_to_plot = [x for x in list(set(df_fuel_cons.columns)-set(['Country Name','Region']))]
+    cols_to_plot.sort(reverse=True)
+    cols_to_plot = cols_to_plot[:5]
+    df_fuel_cons = df_fuel_cons[['Country Name','Region'] + cols_to_plot[:5]]
+
+    # top10
+    df_fuel_cons['Mean Fuel Cons. 11-15'] = [round(x, 2) for x in df_fuel_cons[cols_to_plot].mean(axis=1)]
+    df_fuel_cons['Total Fuel Cons. 11-15'] = [round(x, 2) for x in df_fuel_cons[cols_to_plot].sum(axis=1)]
+    df_fuel_cons = df_fuel_cons\
+        .sort_values('Mean Fuel Cons. 11-15', ascending=False)\
+        .head(10)
+    df_fuel_cons.index = range(1,11)
+
+    return df_fuel_cons[['Country Name','Region','Mean Fuel Cons. 11-15']]
 
 @st.cache_data
 def _df_fuel_exports():
