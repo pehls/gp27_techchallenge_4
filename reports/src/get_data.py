@@ -198,7 +198,7 @@ def _df_fossil_fuel_cons():
     #  selecionar colunas numericas e nome
     cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
     df_fuel_cons = pd.read_csv('data/raw/fossil_fuel_consumption/API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')
-    df_country_region = pd.read_csv('data/raw/fossil_fuel_consumption\Metadata_Country_API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')[['Country Code','Region']].dropna()
+    df_country_region = pd.read_csv('data/raw/fossil_fuel_consumption/Metadata_Country_API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')[['Country Code','Region']].dropna()
     df_fuel_cons = df_fuel_cons.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code'})[cols]
 
     # dropar na
