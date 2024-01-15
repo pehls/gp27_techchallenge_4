@@ -102,6 +102,7 @@ pandas==2.0.3
 pandocfilters==1.5.0
 parso==0.8.3
 patsy==0.5.3
+pexpect==4.9.0
 pickleshare==0.7.5
 Pillow==9.5.0
 platformdirs==3.9.1
@@ -112,6 +113,7 @@ prompt-toolkit==3.0.39
 prophet==1.1.4
 protobuf==4.24.2
 psutil==5.9.5
+ptyprocess==0.7.0
 pure-eval==0.2.2
 py4j==0.10.9.7
 pyarrow==13.0.0
