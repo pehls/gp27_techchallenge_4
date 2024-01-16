@@ -223,7 +223,7 @@ def _plot_conflitos_tipo_e_petroleo(df_conflitos_mundiais):
     return fig
 
 def _plot_correlation_matrix(df_correlacoes):
-    fig = px.imshow(df_correlacoes, text_auto=True)
+    fig = px.imshow(df_correlacoes, text_auto=True, aspect='auto',)
     return fig
 
 def _plot_energy_use(df_uso_energia):
