@@ -194,7 +194,7 @@ def _df_energy_use(lista_paises):
     return df_uso_energia, lista_2015_nulo
 
 @st.cache_data
-def _df_fossil_fuel_cons():
+def _df_fossil_fuel_cons(full=False):
     #  selecionar colunas numericas e nome
     cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
     df_fuel_cons = pd.read_csv('data/raw/fossil_fuel_consumption/API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')
@@ -203,6 +203,8 @@ def _df_fossil_fuel_cons():
 
     # dropar na
     df_fuel_cons = df_fuel_cons.dropna(axis=1, thresh=0.95)
+    if (full):
+        return df_fuel_cons
     cols_to_plot = [x for x in list(set(df_fuel_cons.columns)-set(['Country Name','Region']))]
     cols_to_plot.sort(reverse=True)
     cols_to_plot = cols_to_plot[:5]
@@ -222,4 +224,24 @@ def _df_fossil_fuel_cons():
 def _df_fuel_exports():
     df = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
     df_preco = _df_petroleo()
-    return df
+    #  selecionar colunas numericas e nome
+    cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
+    df_fuel_exp = pd.read_csv('D:/Cursos/FIAP_pós/gp27_techchallenge_4/data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
+    df_country_region = pd.read_csv('D:/Cursos/FIAP_pós/gp27_techchallenge_4/data/raw/fuel_exports/Metadata_Country_API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')[['Country Code','Region']].dropna()
+    df_fuel_exp = df_fuel_exp.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code'})[cols]
+
+    # dropar na
+    df_fuel_exp = df_fuel_exp.dropna(axis=1, thresh=0.95)
+    cols_to_plot = [x for x in list(set(df_fuel_exp.columns)-set(['Country Name','Region']))]
+    cols_to_plot.sort(reverse=True)
+    cols_to_plot = cols_to_plot[:5]
+    df_fuel_exp = df_fuel_exp[['Country Name','Region'] + cols_to_plot[:5]]
+
+    # top10
+    df_fuel_exp['Mean Fuel Exp. 11-15'] = [round(x, 2) for x in df_fuel_exp[cols_to_plot].mean(axis=1)]
+    df_fuel_exp['Total Fuel Exp. 11-15'] = [round(x, 2) for x in df_fuel_exp[cols_to_plot].sum(axis=1)]
+    df_fuel_exp = df_fuel_exp\
+        .sort_values('Mean Fuel Exp. 11-15', ascending=False)\
+        .head(10)\
+        .reset_index()
+    return df_fuel_exp[['Country Name','Region','Mean Fuel Exp. 11-15']]

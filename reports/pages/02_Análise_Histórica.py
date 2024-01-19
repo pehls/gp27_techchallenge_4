@@ -166,18 +166,29 @@ with tab_energia_consumo:
 
 
     with subtab_correlacao_causalidade:
+        df_fuel_corr_causa = get_data._df_fossil_fuel_cons(full=True)
         st.markdown("""
 
         """)
+    st.write(df_fuel_corr_causa)
+    st.plotly_chart(
+        generate_graphs._plot_correlation_matrix(
+            get_data._events_correlations(df_conflitos_preco_normalizados)
+            ), use_container_width=True
+    )
 
 with tab_exportacao:
+    df_fuel_exp = get_data._df_fuel_exports()
     st.markdown("""
-    Aqui, os dados estao em raw/fuel_exports
+    Assim como o Consumo de Combustíveis fósseis, o dado da porcentagem da exportação de combustíveis, incluindo combustíveis minerais, lubrificantes e materiais relacionados, 
+    está disponívei no world bank, através do [Fuel Exports (% of merchandise exports)](https://data.worldbank.org/indicator/TX.VAL.FUEL.ZS.UN?end=2022&start=2022&type=shaded&view=map&year=2022).
                 
-    Fuel exports (% of merchandise exports);
-                
-    Fuels comprise the commodities in SITC section 3 (mineral fuels, lubricants and related materials);
-                
-    World Bank staff estimates through the WITS platform from the Comtrade database maintained by the United Nations Statistics Division.
+    As estimativas são feitas através da plataforma WITS da base de dados Comtrade mantida pela Divisão de Estatística das Nações Unidas.
+    """)
+    st.write(df_fuel_exp)
+
+    st.markdown("""
+    Assim como na utilização, temos 4 países do meio-oeste/norte da África (Libia, Kuwait, Qatar, Emirados Árabes Unidos), e mais 3 países da África SubSaariana (Angola, Nigeria, Rep. do Congo). Fechando o top 10, temos ainda Brunei Darussalam, Azerbaijão e Timor-Leste. 
+    Tais países possuem mais de 67% de sua economia vinculada a combustíveis fósseis. sendo que o top 5 está muito próximo ou acima de 90% de sua economia vinculada ao Petróleo.
     """)
     
