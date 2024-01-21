@@ -166,14 +166,14 @@ with tab_energia_consumo:
 
 
     with subtab_correlacao_causalidade:
-        df_fuel_corr_causa = get_data._df_fossil_fuel_cons(full=True)
+        df_fuel_corr_causa = get_data._get_fossil_fuel_cons_corr()
         st.markdown("""
 
         """)
     st.write(df_fuel_corr_causa)
     st.plotly_chart(
         generate_graphs._plot_correlation_matrix(
-            get_data._events_correlations(df_conflitos_preco_normalizados)
+            get_data._events_correlations(df_fuel_corr_causa, cols_to_plot=['Fuel Consumption','Preco'])
             ), use_container_width=True
     )
 

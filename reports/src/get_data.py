@@ -112,10 +112,11 @@ def _events_normalized_globally():
     return df_grouped_conf_mund.rename(columns={'dt_year_month':'Date'})
 
 @st.cache_data
-def _events_correlations(df_conflitos_preco_normalizados):
+def _events_correlations(df_conflitos_preco_normalizados, cols_to_plot=None):
     # ajustando dados de eventos
     df_correlacoes = df_conflitos_preco_normalizados.corr()
-    cols_to_plot = [x for x in df_correlacoes.columns if x.startswith('minmax_')]
+    if not(cols_to_plot):
+        cols_to_plot = [x for x in df_correlacoes.columns if x.startswith('minmax_')]
     df_correlacoes = df_correlacoes.loc[cols_to_plot][cols_to_plot]
     df_correlacoes.index = [x.replace('minmax_','') for x in df_correlacoes.index]
     df_correlacoes.columns = [x.replace('minmax_','') for x in df_correlacoes.columns]
@@ -220,6 +221,22 @@ def _df_fossil_fuel_cons(full=False):
 
     return df_fuel_cons[['Country Name','Region','Mean Fuel Cons. 11-15']]
 
+@st.cache_data
+def _get_fossil_fuel_cons_corr():
+    # ajustar df de petroleo
+    df_petroleo = _df_petroleo()
+    df_petroleo['Year'] = [str(x.year) for x in df_petroleo['Date']]
+    df_petroleo['Preco'] = df_petroleo['Preco'].astype(float) 
+    df_petroleo_year = df_petroleo.groupby('Year').agg({'Preco':'mean'}).reset_index()
+    df_petroleo_year['Country Name'] = 'Price'
+
+    #fossil
+    df_fuel_cons = _df_fossil_fuel_cons(full=True)
+    return df_fuel_cons\
+        .melt(id_vars=['Country Name','Region'])\
+        .rename(columns={'variable':'Year', 'value':'Fuel Consumption'})\
+        .merge(df_petroleo_year[['Year','Preco']], on='Year', how='inner')\
+        .dropna(axis=0)
 @st.cache_data
 def _df_fuel_exports():
     df = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
