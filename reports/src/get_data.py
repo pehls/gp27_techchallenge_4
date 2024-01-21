@@ -226,8 +226,8 @@ def _df_fuel_exports():
     df_preco = _df_petroleo()
     #  selecionar colunas numericas e nome
     cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
-    df_fuel_exp = pd.read_csv('D:/Cursos/FIAP_pós/gp27_techchallenge_4/data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
-    df_country_region = pd.read_csv('D:/Cursos/FIAP_pós/gp27_techchallenge_4/data/raw/fuel_exports/Metadata_Country_API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')[['Country Code','Region']].dropna()
+    df_fuel_exp = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
+    df_country_region = pd.read_csv('data/raw/fuel_exports/Metadata_Country_API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')[['Country Code','Region']].dropna()
     df_fuel_exp = df_fuel_exp.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code'})[cols]
 
     # dropar na
