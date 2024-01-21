@@ -173,7 +173,9 @@ with tab_energia_consumo:
     st.write(df_fuel_corr_causa)
     st.plotly_chart(
         generate_graphs._plot_correlation_matrix(
-            get_data._events_correlations(df_fuel_corr_causa, cols_to_plot=['Fuel Consumption','Preco'])
+            get_data._events_correlations(df_fuel_corr_causa, cols_to_plot=['avg_fuel_consumption', 'median_fuel_consumption',
+                                                                            'min_fuel_consumption', 'max_fuel_consumption',
+                                                                            'std_dev_fuel_consumption', 'Preco'])
             ), use_container_width=True
     )
 
