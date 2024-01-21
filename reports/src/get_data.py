@@ -235,6 +235,14 @@ def _get_fossil_fuel_cons_corr():
     return df_fuel_cons\
         .melt(id_vars=['Country Name','Region'])\
         .rename(columns={'variable':'Year', 'value':'Fuel Consumption'})\
+        .groupby('Year')\
+        .agg(
+            avg_fuel_consumption=('Fuel Consumption','mean')
+            , median_fuel_consumption=('Fuel Consumption','median')
+            , min_fuel_consumption=('Fuel Consumption','min')
+            , max_fuel_consumption=('Fuel Consumption','max')
+            , std_dev_fuel_consumption=('Fuel Consumption','std')
+        )\
         .merge(df_petroleo_year[['Year','Preco']], on='Year', how='inner')\
         .dropna(axis=0)
 @st.cache_data
