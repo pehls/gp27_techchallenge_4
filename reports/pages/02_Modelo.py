@@ -106,7 +106,7 @@ with tab_variaveis:
     Para a análise de quais features mais importam, treinaremos um segundo modelo - chamado XGBoost, conforme explicado nos conceitos.
     Abaixo, vemos os passos do pipeline de previsão:
     """)
-    with open("D:/Cursos/FIAP_pós/gp27_techchallenge_4/models/pipeline.html", "r", encoding='utf-8') as f:
+    with open("models/pipeline.html", "r", encoding='utf-8') as f:
         html_pipe = f.read()
     st.write(
         html_pipe, unsafe_allow_html=True
