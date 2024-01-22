@@ -173,7 +173,7 @@ with tab_energia_consumo:
         Para analisarmos a correlação entre os dois indicadores e o preço do petróleo, para cada país, no decorrer dos anos, vamos filtrar linhas (Anos) e colunas (indicadores de consumo e uso de energia/combustíveis fósseis), de forma a termos dados numéricos em ao menos 50% das mesmas;
         Visando simplificar a visualização, vamos selecionar uma faixa dela:
         """)
-        faixa_corr = st.slider('Threshold ', 0.0, 1.0, 0.15)
+        faixa_corr = st.slider('Threshold ', 0.0, 1.0, 0.93)
         df_correlacoes = get_data._events_correlations(df_fuel_corr_causa, cols_to_plot=list(set(df_fuel_corr_causa.columns) - set(['Year'])))
         st.plotly_chart(
             generate_graphs._plot_correlation_matrix(
