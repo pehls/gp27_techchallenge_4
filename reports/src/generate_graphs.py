@@ -224,6 +224,9 @@ def _plot_conflitos_tipo_e_petroleo(df_conflitos_mundiais):
 
 def _plot_correlation_matrix(df_correlacoes):
     fig = px.imshow(df_correlacoes, text_auto=True, aspect='auto',)
+    fig.update_layout(
+        minreducedheight=600
+    )
     return fig
 
 def _plot_energy_use(df_uso_energia):
@@ -254,6 +257,26 @@ def _plot_top10_recent_energy_use(df_uso_energia_top10):
         df_uso_energia_top10
         , x='Total En. Use 11-15', y='Country Name', orientation='h'
         , text='Total En. Use 11-15', title='Uso de Energia Primária (em kg de óleo equivalente per capita)'
+    )
+    fig.update_layout(
+        yaxis=dict(
+            showgrid=False,
+            showline=False,
+            showticklabels=True
+        ),
+        xaxis=dict(
+            showgrid=False,
+            showline=False,
+            showticklabels=True
+        )
+    )
+    return fig
+
+def _plot_df_importances(df_importances):
+    fig = px.bar(
+        df_importances
+        , x='Features', y='Importance'
+        , title='Importância das Variáveis no Modelo'
     )
     fig.update_layout(
         yaxis=dict(

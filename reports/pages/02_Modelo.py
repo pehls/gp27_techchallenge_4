@@ -6,11 +6,11 @@ from sklearn.metrics import (mean_absolute_error,
                              mean_squared_error, 
                              mean_absolute_percentage_error,
                              r2_score)
+from sklearn.utils import estimator_html_repr
 
 st.title('Modelo')
 
-
-tab_modelagem_inicial, tab_resultados_iniciais, tab_conceitos, tab_variaveis_externas, tab_deploy_producao = st.tabs(['Modelagem inicial', "Resultados Iniciais", 'Conceitos', 'Variáveis Externas', "Plano - Deploy em Produção"])
+tab_modelagem_inicial, tab_resultados_iniciais, tab_conceitos, tab_variaveis, tab_deploy_producao = st.tabs(['Modelagem', "Resultados", 'Conceitos', "Importância das Variáveis", "Plano - Deploy em Produção"])
 
 df_petroleo = get_data._get_modelling_data()
 
@@ -98,97 +98,28 @@ with tab_conceitos:
         focando nas combinações mais promissoras e equilibrando a exploração do que não conhece com o aproveitamento do que já foi aprendido.        
     """)
 
-with tab_variaveis_externas:
+with tab_variaveis:
+    df_final = get_data._df_tree_modelling()
+    dict_results = train_model._run_xgboost(df_final)
+    df_importances = train_model._get_tree_importances(dict_results['pipeline'])
     st.markdown("""
-        Após tais definições conceituais, definimos nossa função objetivo como:
+    Para a análise de quais features mais importam, treinaremos um segundo modelo - chamado XGBoost, conforme explicado nos conceitos.
+    Abaixo, vemos os passos do pipeline de previsão:
     """)
-    st.code("""            
-        def objective(params):
-            metrics, cv_mape = _run_cv_prophet(
-                            df_model=X_train.dropna(),
-                            params=params,
-                            n_splits=5, test_size=test_size
-                        )
-            return {
-                          'loss':cv_mape
-                        , 'status': STATUS_OK
-                    }
-    """, language='python')  
-    st.markdown("""          
-        Ou seja, vamos minimizar o mape, definido como uma lista dos mapes dos 5 splits mencionados na função, 
-        mantendo um test_size (ou, tamanho da base de teste) como 30 pontos (aproximadamente um mês);
-
-        O espaço de busca do algoritmo vai ser definido como:
-    """)
-    st.code("""
-        space = {
-            'yearly_seasonality':365
-            , 'daily_seasonality':hp.choice('daily_seasonality', [True, False])
-            , 'weekly_seasonality':hp.choice('weekly_seasonality', [True, False])
-            , 'seasonality_mode' : hp.choice('seasonality_mode', ['multiplicative','additive'])
-            , "seasonality_prior_scale": hp.uniform("seasonality_prior_scale", 7, 10)
-            , "changepoint_prior_scale": hp.uniform("changepoint_prior_scale", 0.4, 0.5)
-            , "changepoint_range": hp.uniform("changepoint_range", 0.4, 0.5)
-            , 'holidays_prior_scale' : hp.uniform('holidays_prior_scale', 7, 10)
-            , "regressors":''
-        }
-    """, language='python')    
-    st.markdown("""        
-        Aqui, fixamos a sazonalidade anual como 365, mantendo a diária e semanal como o padrão do algoritmo,
-        bem como deixamos o algoritmo de hiperparametrização definir qual a melhor configuração para os demais hiperparâmetros do modelo.
-                
-        Com tais configurações, chegamos ao seguinte melhor resultado:
-    """)   
-
-    st.code("best_params = "+str(train_model._get_best_params()).replace(",",",\n\t\t"), language='python')
-
-    st.markdown("""        
-        Para melhor visualizar o resultado da hiperparametrização, podemos verificar no seguinte gráfico, as áreas onde temos espaços mais
-        "pretos", onde estão concentrados os resultados com menor erro percentual; Nota-se que existem vários "vales" de bons resultados, onde
-        nossa hiperparametrização poderia ter retornado bons parâmetros;
-        Para modificar o parâmetro sendo analisado, basta selecionar abaixo:
-    """)   
-    trials_df = get_data._trials()
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        hyperparam_1 = st.selectbox(
-            'Hiperparâmetro 1',
-            list(set(trials_df.columns) - set(['loss']))
-        )
-    with col2:    
-        hyperparam_2 = st.selectbox(
-            'Hiperparâmetro 2',
-            list(set(trials_df.columns) - set(['loss']))
-        )
+    with open("D:/Cursos/FIAP_pós/gp27_techchallenge_4/models/pipeline.html", "r", encoding='utf-8') as f:
+        html_pipe = f.read()
+    st.write(
+        html_pipe, unsafe_allow_html=True
+    )
+    st.write(html_pipe, unsafe_allow_html=True)
+    st.markdown(f"Para esse modelo, o mape ficou em {dict_results['mape']}")
 
     st.plotly_chart(
-        generate_graphs._plot_trials(trials_df, hyperparam_1, hyperparam_2)
+        generate_graphs._plot_df_importances(df_importances),
+        use_container_width=True
     )
-
-    _model, X_test, pred, X_train, forecast_ = train_model._train_cv_prophet(df_petroleo)
-    second_mape = round(mean_absolute_percentage_error(X_test['y'].values, pred['yhat'].values)*100, 3)
-    second_r2 = round(r2_score(X_train['y'].values, 
-                          forecast_.loc[forecast_.ds.isin(X_train.ds.to_list())]['yhat'].values)
-                , 4)
-    sec_melhoria_mape = abs(round(second_mape - baseline_mape, 2))
-
 with tab_deploy_producao:
-    st.plotly_chart(
-        plot_plotly(_model, forecast_.dropna()),
-        use_container_width=True,
-    )
-
     st.markdown(f"""
-        De acordo com o gráfico acima, podemos ver que a previsão do modelo, embora com resultados interessantes,
-        ainda carece de um ajuste melhor. 
-                
-        No período de teste, datado entre {min(pred.ds).date()} e {max(pred.ds).date()}, temos um erro médio absoluto percentual de 
-        **{second_mape}%**,
-        e um R2 (medida de ajuste na etapa de treinamento) de 
-        **{second_r2}**.
-
-        Tais resultados, mostram uma melhoria de {sec_melhoria_mape}% em mape (considerando {baseline_mape}% como o anterior), em porcentagem absoluta!
+  
                 
     """)

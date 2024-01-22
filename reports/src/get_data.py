@@ -61,7 +61,6 @@ def _events_per_country():
             , 'event_id_cnty':'sum'
         }).reset_index()
     
-
 @st.cache_data
 def _events_globally():
     df_conflitos = pd.read_csv('./data/raw/df_conflitos_mundiais.csv')
@@ -144,12 +143,18 @@ def _df_energy_use_top10():
     return df_uso_energia_or.sort_values('Total En. Use 11-15')
 
 @st.cache_data
-def _df_energy_use(lista_paises):
+def _df_energy_use(lista_paises = None, full=False):
     # selecionar colunas numericas e nome
     cols = [str(x) for x in ['Country Name'] + list(range(1960, 2023))]
     df_uso_energia = pd.read_csv('data/raw/energy_use/API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv')
-    df_uso_energia = df_uso_energia.loc[df_uso_energia['Country Name'].isin(lista_paises)]
     df_uso_energia = df_uso_energia.dropna(axis=1, thresh=0.9)
+    if (full):
+        df_country_region = pd.read_csv('data/raw/energy_use/Metadata_Country_API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv')[['Country Code','Region']].dropna()
+        df_uso_energia = df_uso_energia.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code','Region'})
+        df_uso_energia = df_uso_energia.dropna(axis=1, thresh=0.95)
+        return df_uso_energia
+
+    df_uso_energia = df_uso_energia.loc[df_uso_energia['Country Name'].isin(lista_paises)]
 
     # ajustar df de petroleo
     df_petroleo = _df_petroleo()
@@ -222,7 +227,7 @@ def _df_fossil_fuel_cons(full=False):
     return df_fuel_cons[['Country Name','Region','Mean Fuel Cons. 11-15']]
 
 @st.cache_data
-def _get_fossil_fuel_cons_corr():
+def _get_fossil_fuel_cons_energy_use_corr():
     # ajustar df de petroleo
     df_petroleo = _df_petroleo()
     df_petroleo['Year'] = [str(x.year) for x in df_petroleo['Date']]
@@ -232,19 +237,41 @@ def _get_fossil_fuel_cons_corr():
 
     #fossil
     df_fuel_cons = _df_fossil_fuel_cons(full=True)
-    return df_fuel_cons\
+    df_fuel_cons = df_fuel_cons\
         .melt(id_vars=['Country Name','Region'])\
         .rename(columns={'variable':'Year', 'value':'Fuel Consumption'})\
-        .groupby('Year')\
-        .agg(
-            avg_fuel_consumption=('Fuel Consumption','mean')
-            , median_fuel_consumption=('Fuel Consumption','median')
-            , min_fuel_consumption=('Fuel Consumption','min')
-            , max_fuel_consumption=('Fuel Consumption','max')
-            , std_dev_fuel_consumption=('Fuel Consumption','std')
-        )\
+        .drop(columns='Region')\
+        .pivot(index='Year', columns='Country Name')\
+        .reset_index()
+    df_fuel_cons.columns = ['_'.join(col) for col in df_fuel_cons.columns.values]
+    df_fuel_cons = df_fuel_cons.rename(columns={'Year_':'Year'})
+    
+    df_uso_energia_or = _df_energy_use(lista_paises = None, full=True)
+    df_uso_energia_or = df_uso_energia_or\
+        .melt(id_vars=['Country Name'])\
+        .rename(columns={'variable':'Year', 'value':'Energy Use'})\
+        .pivot(index='Year', columns='Country Name')\
+        .reset_index()
+    df_uso_energia_or.columns = ['_'.join(col) for col in df_uso_energia_or.columns.values]
+    df_uso_energia_or = df_uso_energia_or.rename(columns={'Year_':'Year'})
+
+    return df_fuel_cons\
         .merge(df_petroleo_year[['Year','Preco']], on='Year', how='inner')\
-        .dropna(axis=0)
+        .merge(df_uso_energia_or, on='Year', how='inner')\
+        .replace(0.0, np.nan)\
+        .dropna(axis=0, thresh=0.5)\
+        .dropna(axis=1, thresh=0.5)
+
+@st.cache_data
+def _get_faixas_correlation(df_correlacoes):
+    return {
+          ' itens com uma correlação menor que 0.3;':len(df_correlacoes.loc[(abs(df_correlacoes[['Preco']]) < 0.3)['Preco']][['Preco']])
+        , ' com uma correlação fraca (entre 0.3 e 0.5);':len((df_correlacoes.loc[((abs(df_correlacoes[['Preco']]) >= 0.3) & (abs(df_correlacoes[['Preco']]) < 0.5))['Preco']][['Preco']]))
+        , ' com uma correlação moderada (entre 0.5 e 0.7);':len((df_correlacoes.loc[((abs(df_correlacoes[['Preco']]) >= 0.5) & (abs(df_correlacoes[['Preco']]) < 0.7))['Preco']][['Preco']]))
+        , ' com uma correlação forte (entre 0.7 e 0.9);':len((df_correlacoes.loc[((abs(df_correlacoes[['Preco']]) >= 0.7) & (abs(df_correlacoes[['Preco']]) < 0.9))['Preco']][['Preco']]))
+        , ' com uma correlação muito forte (acima de 0.9);':len((df_correlacoes.loc[((abs(df_correlacoes[['Preco']]) >= 0.9))['Preco']][['Preco']]))-1
+    }
+
 @st.cache_data
 def _df_fuel_exports():
     df = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
@@ -270,3 +297,74 @@ def _df_fuel_exports():
         .head(10)\
         .reset_index()
     return df_fuel_exp[['Country Name','Region','Mean Fuel Exp. 11-15']]
+
+@st.cache_data
+def _df_tree_modelling():
+    df = pd.read_html('http://www.ipeadata.gov.br/ExibeSerie.aspx?module=m&serid=1650971490&oper=view', decimal=',', thousands='.', parse_dates=True)[2][1:]
+    df.columns=['Date','Preco']
+    df.Date = pd.to_datetime(df.Date, dayfirst=True)
+    df_petroleo = df.sort_values('Date')
+
+    # ajustar df de petroleo
+    df_petroleo['Year'] = [str(x.year) for x in df_petroleo['Date']]
+    df_petroleo['Preco'] = df_petroleo['Preco'].astype(float) 
+    df_petroleo_year = df_petroleo.groupby('Year').agg({'Preco':'mean'}).reset_index()
+    df_petroleo_year['Country Name'] = 'Price'
+
+    #  consumo de comb
+    cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
+    df_fuel_cons = pd.read_csv('data/raw/fossil_fuel_consumption/API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')
+    df_country_region = pd.read_csv('data/raw/fossil_fuel_consumption/Metadata_Country_API_EG.USE.COMM.FO.ZS_DS2_en_csv_v2_6299038.csv')[['Country Code','Region']].dropna()
+    df_fuel_cons = df_fuel_cons.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code'})[cols]
+
+    # dropar na
+    df_fuel_cons = df_fuel_cons.dropna(axis=1, thresh=0.95)
+
+    df_fuel_cons = df_fuel_cons\
+        .melt(id_vars=['Country Name','Region'])\
+        .rename(columns={'variable':'Year', 'value':'Fuel Consumption'})\
+        .drop(columns='Region')\
+        .pivot(index='Year', columns='Country Name')\
+        .reset_index()
+    df_fuel_cons.columns = ['_'.join(col) for col in df_fuel_cons.columns.values]
+    df_fuel_cons = df_fuel_cons.rename(columns={'Year_':'Year'})
+
+    # uso de energia
+    df_uso_energia_or = pd.read_csv('data/raw/energy_use/API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv').drop(columns={'Indicator Name','Indicator Code'})
+    df_country_region = pd.read_csv('data/raw/energy_use/Metadata_Country_API_EG.USE.PCAP.KG.OE_DS2_en_csv_v2_6301176.csv')[['Country Code','Region']].dropna()
+    df_uso_energia_or = df_uso_energia_or.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code','Region'})
+    df_uso_energia_or = df_uso_energia_or.dropna(axis=1, thresh=0.95)
+    df_uso_energia_or = df_uso_energia_or\
+        .melt(id_vars=['Country Name'])\
+        .rename(columns={'variable':'Year', 'value':'Energy Use'})\
+        .pivot(index='Year', columns='Country Name')\
+        .reset_index()
+    df_uso_energia_or.columns = ['_'.join(col) for col in df_uso_energia_or.columns.values]
+    df_uso_energia_or = df_uso_energia_or.rename(columns={'Year_':'Year'})
+
+    # exportacao de comb
+    cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
+    df_fuel_exp = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
+    df_country_region = pd.read_csv('data/raw/fuel_exports/Metadata_Country_API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')[['Country Code', 'Region']].dropna()
+    df_fuel_exp = df_fuel_exp.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code'})[cols]
+
+    # dropar na
+    df_fuel_exp = df_fuel_exp.dropna(axis=1, thresh=0.95).drop(columns={'Region'})
+    df_fuel_exp = df_fuel_exp\
+        .melt(id_vars=['Country Name'])\
+        .rename(columns={'variable':'Year', 'value':'Fuel Exports'})\
+        .pivot(index='Year', columns='Country Name')\
+        .reset_index()
+    df_fuel_exp.columns = ['_'.join(col) for col in df_fuel_exp.columns.values]
+    df_fuel_exp = df_fuel_exp.rename(columns={'Year_':'Year'})
+    
+    # base para modelo de arvore
+    df_final = df_fuel_cons\
+        .merge(df_uso_energia_or, on='Year', how='inner')\
+        .merge(df_petroleo_year[['Year','Preco']], on='Year', how='inner')\
+        .merge(df_fuel_exp, on='Year', how='inner')\
+        .replace(0.0, np.nan)\
+        .dropna(axis=0, thresh=0.5)\
+        .dropna(axis=1, thresh=0.5)
+    return df_final
+

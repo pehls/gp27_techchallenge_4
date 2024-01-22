@@ -12,7 +12,7 @@ st.title('Análise Histórica')
 df_petroleo = get_data._df_petroleo()
 df_conflitos_porpais = get_data._events_per_country()
 df_conflitos_mundiais = get_data._events_globally()
-tab_volatilidade, tab_crises_do_petroleo, tab_conflitos_armados, tab_energia_consumo, tab_exportacao = st.tabs(['Volatilidade', 'Crises do Petróleo', "Conflitos", 'Combustíveis Fósseis', 'Exportação de Comb.'])
+tab_volatilidade, tab_conflitos_armados, tab_energia_consumo, tab_exportacao = st.tabs(['Volatilidade', "Conflitos", 'Combustíveis Fósseis', 'Exportação de Comb.'])
 
 # https://www.linkedin.com/pulse/petr%C3%B3leo-uma-an%C3%A1lise-sobre-volatilidade-yu64c/?originalSubdomain=pt
 # https://pt.wikipedia.org/wiki/Crises_do_petr%C3%B3leo
@@ -101,16 +101,8 @@ with tab_conflitos_armados:
         # ref https://community.revelo.com.br/primeiros-passos-no-dtw/
         # ref https://www.linkedin.com/pulse/causalidade-de-granger-guilherme-garcia/?originalSubdomain=pt
 
-with tab_crises_do_petroleo:
-    st.image(config.PETR4_HISTORIC,
-                caption="Crises do Petróleo",
-                width=600,
-        )
-    st.markdown("""
-    """)
-
 with tab_energia_consumo:
-    subtab_uso_energia, subtab_consumo_comb_fosseis, subtab_correlacao_causalidade = st.tabs(['Uso de Energia', 'Consumo de Comb. Fósseis', 'Correlação e Causalidade'])
+    subtab_uso_energia, subtab_consumo_comb_fosseis, subtab_crises_consumo, subtab_correlacao, subtab_causalidade = st.tabs(['Uso de Energia', 'Consumo de Comb. Fósseis', 'Crises e Consumo', 'Correlação', 'Causalidade'])
     
     with subtab_uso_energia:
         df_uso_energia_top10 = get_data._df_energy_use_top10()
@@ -128,7 +120,10 @@ with tab_energia_consumo:
         )
         st.markdown(f"""
         Por intuição, pontuaríamos os Estados Unidos como um dos 5 maiores, mas podemos perceber que ele pontua apenas em 10º lugar. Interessante ainda, ver Trinidade e Tobago e Curacao como membros do top5.
-        
+        """)
+    
+    with subtab_crises_consumo:
+        st.markdown("""
         Continuando, vamos verificar como esses Top 10 se relacionam com o Preço do Petróleo, observando um período anterior a 2015. Para tal, preenchemos o valor do indicador no ano de 2015, onde o mesmo era nulo, para os países:               
         """)
         
@@ -150,6 +145,13 @@ with tab_energia_consumo:
         Em uma rápida recuperação, temos um novo pico, e o recorde para o período para o preço do petróleo em 2011, seguido por um aumento considerável da utilização do mesmo para países como Qatar, Curacao, Brunei Darussalam e os demais, seguidos por uma regularização do preço do petróleo em 2015, mas sem impactos significativos na utilização do mesmo para os países. 
         Neste ano de 2015, tendo iniciado em 2014 e findado em 2017, acontece uma nova crise econômica, com alguns fatores como o [fim do "superciclo das commodities"](https://brasil.elpais.com/brasil/2015/10/18/internacional/1445174932_674334.html), bem como uma desaceleração da economia chinesa, que vinha auxiliando a recuperação global desde 2008, e ainda uma ressaca econômica derivada do endividamento de muitos países europeus, [e até mesmo no Brasil](https://agenciabrasil.ebc.com.br/economia/noticia/2017-09/editada-embargo-10h-queda-de-2015-interrompeu-ascensao-do-setor-de-servicos).   
         """)
+        st.image(config.PETR4_HISTORIC,
+                caption="Crises do Petróleo",
+                width=600,
+        )
+        st.markdown("""
+        Conforme algumas fontes, [como esta](https://pt.wikipedia.org/wiki/Crises_do_petr%C3%B3leo), muitas dessas crises do petróleo foram motivadas por processos que geraram déficit de oferta, sejam conflitos, nacionalizações, crises políticas em países exportadores ou com economia altamente dependente do petróleo.
+        """)
 
     with subtab_consumo_comb_fosseis:
         df_fuel_cons = get_data._df_fossil_fuel_cons()
@@ -165,31 +167,45 @@ with tab_energia_consumo:
         """)
 
 
-    with subtab_correlacao_causalidade:
-        df_fuel_corr_causa = get_data._get_fossil_fuel_cons_corr()
+    with subtab_correlacao:
+        df_fuel_corr_causa = get_data._get_fossil_fuel_cons_energy_use_corr()
         st.markdown("""
-
+        Para analisarmos a correlação entre os dois indicadores e o preço do petróleo, para cada país, no decorrer dos anos, vamos filtrar linhas (Anos) e colunas (indicadores de consumo e uso de energia/combustíveis fósseis), de forma a termos dados numéricos em ao menos 50% das mesmas;
+        Visando simplificar a visualização, vamos selecionar uma faixa dela:
         """)
+        faixa_corr = st.slider('Threshold ', 0.0, 1.0, 0.15)
+        df_correlacoes = get_data._events_correlations(df_fuel_corr_causa, cols_to_plot=list(set(df_fuel_corr_causa.columns) - set(['Year'])))
         st.plotly_chart(
             generate_graphs._plot_correlation_matrix(
-                get_data._events_correlations(df_fuel_corr_causa, cols_to_plot=['avg_fuel_consumption', 'median_fuel_consumption',
-                                                                                'min_fuel_consumption', 'max_fuel_consumption',
-                                                                                'std_dev_fuel_consumption', 'Preco'])
+                df_correlacoes.loc[(abs(df_correlacoes[['Preco']]) >= faixa_corr)['Preco']][df_correlacoes.loc[(abs(df_correlacoes[['Preco']]) >= faixa_corr)['Preco']].index]
                 ), use_container_width=True
         )
+        faixas_correlacao = get_data._get_faixas_correlation(df_correlacoes)
+        st.markdown(f"""
+        Como temos muitos paises, resumidamente, temos, comparando a série de Preços:
+        """)
+        for x in faixas_correlacao:
+            st.markdown('- '+str(faixas_correlacao[x]) + x) 
+
+    with subtab_causalidade:
+        st.markdown('')
 
 with tab_exportacao:
-    df_fuel_exp = get_data._df_fuel_exports()
-    st.markdown("""
-    Assim como o Consumo de Combustíveis fósseis, o dado da porcentagem da exportação de combustíveis, incluindo combustíveis minerais, lubrificantes e materiais relacionados, 
-    está disponívei no world bank, através do [Fuel Exports (% of merchandise exports)](https://data.worldbank.org/indicator/TX.VAL.FUEL.ZS.UN?end=2022&start=2022&type=shaded&view=map&year=2022).
-                
-    As estimativas são feitas através da plataforma WITS da base de dados Comtrade mantida pela Divisão de Estatística das Nações Unidas.
-    """)
-    st.write(df_fuel_exp)
 
-    st.markdown("""
-    Assim como na utilização, temos 4 países do meio-oeste/norte da África (Libia, Kuwait, Qatar, Emirados Árabes Unidos), e mais 3 países da África SubSaariana (Angola, Nigeria, Rep. do Congo). Fechando o top 10, temos ainda Brunei Darussalam, Azerbaijão e Timor-Leste. 
-    Tais países possuem mais de 67% de sua economia vinculada a combustíveis fósseis. sendo que o top 5 está muito próximo ou acima de 90% de sua economia vinculada ao Petróleo.
-    """)
+    subtab_exportacao, subtab_correlacao, subtab_causalidade = st.tabs(['Exportação de Combustíveis','Correlação', 'Causalidade'])
+
+    with subtab_exportacao:
+        df_fuel_exp = get_data._df_fuel_exports()
+        st.markdown("""
+        Assim como o Consumo de Combustíveis fósseis, o dado da porcentagem da exportação de combustíveis, incluindo combustíveis minerais, lubrificantes e materiais relacionados, 
+        está disponívei no world bank, através do [Fuel Exports (% of merchandise exports)](https://data.worldbank.org/indicator/TX.VAL.FUEL.ZS.UN?end=2022&start=2022&type=shaded&view=map&year=2022).
+                    
+        As estimativas são feitas através da plataforma WITS da base de dados Comtrade mantida pela Divisão de Estatística das Nações Unidas.
+        """)
+        st.write(df_fuel_exp)
+
+        st.markdown("""
+        Assim como na utilização, temos 4 países do meio-oeste/norte da África (Libia, Kuwait, Qatar, Emirados Árabes Unidos), e mais 3 países da África SubSaariana (Angola, Nigeria, Rep. do Congo). Fechando o top 10, temos ainda Brunei Darussalam, Azerbaijão e Timor-Leste. 
+        Tais países possuem mais de 67% de sua economia vinculada a combustíveis fósseis. sendo que o top 5 está muito próximo ou acima de 90% de sua economia vinculada ao Petróleo.
+        """)
     
