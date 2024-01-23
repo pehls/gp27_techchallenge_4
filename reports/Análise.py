@@ -5,7 +5,7 @@ import src.get_data as get_data
 
 df_petroleo = get_data._df_petroleo()
 st.write("""
-    # Tech Challenge #02 - Grupo 27 
+    # Tech Challenge #04 - Grupo 27 
     ## Modelo Preditivo / Petróleo Brent
     by. Eduardo Gomes, Igor Brito e Gabriel Pehls
 """)

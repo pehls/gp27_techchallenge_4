@@ -65,7 +65,7 @@ with tab_conceitos:
         O algoritmo ainda aplica diversas penalidades de regularização, afim de evitar o overfitting, ou seja, uma adaptação muito forte aos dados de treinamento do modelo;
 
     """)
-    st.image(config.DECISION_TRES,
+    st.image(config.DECISION_TREES,
                 caption="Árvores de Decisão com Extreme Gradient Boosting (XGBoost)",
                 width=700, 
         )
