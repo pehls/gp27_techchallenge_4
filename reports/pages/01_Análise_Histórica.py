@@ -166,7 +166,6 @@ with tab_energia_consumo:
         Notamos aqui, que a maioria dos países está na região do meio-oeste e norte da África, países produtores de Petróleo; as exceções, Gibraltar e Brunei Darussalam, produzem e exportam Petróleo, em regiões diferentes.
         """)
 
-
     with subtab_correlacao:
         df_fuel_corr_causa = get_data._get_fossil_fuel_cons_energy_use_corr()
         st.markdown("""
@@ -188,7 +187,23 @@ with tab_energia_consumo:
             st.markdown('- '+str(faixas_correlacao[x]) + x) 
 
     with subtab_causalidade:
-        st.markdown('')
+        st.markdown("""
+        Para a análise de Causalidade, vamos preencher os nulos com a média, e testar com a Causalidade de Granger, de modo a filtrar apenas as variáveis que tiverem uma significância abaixo do limite escolhido abaixo, com o padrão em 5%:
+        """)
+
+        faixa_causalidade = st.slider('Threshold ', 0.01, 1.00, 0.05)
+        
+        df_causality = train_model.check_causality(
+              df_fuel_corr_causa.dropna(axis=0, thresh=0.7).dropna(axis=1)
+            , list_of_best_features=list(set(df_fuel_corr_causa.dropna(axis=0, thresh=0.7).dropna(axis=1).columns)-set('Preco'))
+            , y_col='Preco'
+            , threshold=faixa_causalidade
+            )
+        
+        st.markdown('Para o nível de significância escolhido, as seguintes variáveis tem um efeito de causalidade de granger no Preço do Petróleo:')
+        
+        for _tuple in df_causality.itertuples():
+            st.markdown(f'- {_tuple.Variable}')
 
 with tab_exportacao:
 
