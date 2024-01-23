@@ -55,47 +55,47 @@ with tab_conceitos:
         A partir dessa modelagem inicial, e da descoberta de uma sazonalidade de 365 dias, iremos utilizar alguns 
         conceitos mais avançados para melhorar o desempenho de nossa previsão:
                 
-        #### Validação Cruzada com Time Series Split
+        #### Variáveis externas
                 
-        Esta é uma técnica usada para avaliar o desempenho de modelos de aprendizado de máquina em dados de séries temporais. 
+        Com a descoberta de variáveis de diferentes fontes que tem uma relação forte com nossa variável alvo, vamos aproveitá-las para obter um modelo potencialmente melhor, mas principalmente mais explicativo;
                 
-        A diferença para dessa técnica para a validação cruzada tradicional, onde os dados são embaralhados aleatoriamente, na validação cruzada com divisão de séries temporais, a ordem temporal dos dados é mantida, pois a dependência temporal é crucial em séries temporais.
-
-        Sobre o processo:
-
-        1. O 1º passo envolve a divisão do conjunto de dados em vários blocos ou dobras, onde cada bloco subsequente contém observações temporais mais recentes;
-        2. Após isso, treinamos o modelo em cada conjunto de treinamento (treino)
-        3. Na sequência avaliamos seu desempenho no conjunto de teste correspondente (teste). A métrica de avaliação é registrada para cada dobra.
+        ### XGBoost
+        
+        Um dos algoritmos de árvore conhecidos, se aproveita do resultado de diversas árvores de decisão, construídas de forma sequencial, onde cada nova árvore corrige o erro da árvore anterior, até que uma condição de parada seja alcançada.
+        O algoritmo ainda aplica diversas penalidades de regularização, afim de evitar o overfitting, ou seja, uma adaptação muito forte aos dados de treinamento do modelo;
 
     """)
-    col1, col2, col3 = st.columns(3)
-    with col2:
-        st.image(config.TIME_SERIES_SPLIT_IMG,
-                caption="Time Series Split",
-                width=300,  
+    st.image(config.DECISION_TRES,
+                caption="Árvores de Decisão com Extreme Gradient Boosting (XGBoost)",
+                width=700, 
         )
 
     st.markdown(f"""     
-        Com isso, teremos várias métricas de desempenho para cada dobra. Isso nos ajudará a entender como o modelo se comporta em diferentes períodos da série temporal 
-        e se ele consegue generalizar bem para dados futuros.
-                
+        #### Feature Importance
 
-        #### Adição de feriados na modelagem do Prophet
-                
-        A adição de feriados na modelagem do Prophet (que já possui um mecanismo embutido para lidar esses eventos sazonais, como, por exemplo, os feriados) é uma técnica usada para melhorar a precisão das previsões em séries temporais ao levar em consideração esses eventos.
+        Ao utilizarmos diversas variáveis para prever o valor do preço do Petróleo, podemos mensurar qual a importância de cada uma delas para a previsão do mesmo.
 
-        Essa implementação permitirá o modelo ajustar seus componentes de sazonalidade e tendência conforme os padrões observados nos dados de feriados passados, resultando em previsões mais precisas em relação a esses eventos especiais.
+        No caso apresentado a seguir, apresentamos a importância através do "gain", ou seja, o erro no treinamento reduzido em cada divisão, em todas as árvores, estando mais relacionado a como as árvores operam individualmente.
+
+        Comumente, podemos definir as variáveis com maior importância como os mais impactantes para a movimentação da variável alvo, tornando a análise útil para identificar onde podemos atuar em uma melhoria possível para a variável alvo, norteando ações que possam causar o maior impacto possível em menos tempo;       
+       
     """)
     
     st.markdown(f"""            
-        #### Hiperparametrização Bayesiana
+        #### Pipelines
                 
-        É uma abordagem para encontrar os melhores hiperparâmetros ( configurações que não são aprendidas diretamente pelo algoritmo durante o treinamento, 
-        mas afetam como o modelo é treinado e como faz previsões) para um modelo de machine learning.
-
-        Ela utiliza modelos probabilísticos e estatísticos para prever como diferentes configurações afetarão o desempenho do modelo.
-        Em vez de tentar todas as combinações possíveis (o que pode ser computacionalmente caro), ela usa um modelo substituto para guiar a busca, 
-        focando nas combinações mais promissoras e equilibrando a exploração do que não conhece com o aproveitamento do que já foi aprendido.        
+        São ferramentas úteis para normalizarmos o nosso processo de previsão, incluindo passos para evitarmos valores nulos, tratar variáveis com um pré-processamento, e até mesmo a própria execução do modelo ou seleção de melhores hiperparâmetros.
+                
+        #### "Serialização" do Pipeline
+                
+        Após elaborado o pipeline, salvamos o mesmo em um arquivo serializado, visando reutilizar o processo para previsão, e salvá-lo posteriormente em um catálogo de modelos.
+                
+        #### Deploy dos modelos
+                
+        Basicamente, colocar em produção o modelo, de forma a inferir o resultado a partir do mesmo, geralmente através de uma API, que recebe dados e aplica o pipeline salvo, conforme o último tópico.
+                
+        Para esses últimos 3 tópicos, comumente utilizamos ferramentas como o MLFlow, que possui formas de monitorar, servir os modelos em produção via API, criar projetos, empacotando códigos em um formato reprodutível em várias plataformas, e registrar/gerenciar modelos em uma espécie de repositório.
+        Outra ferramenta comumente utilizada são Feature Stores, onde armazenamos variáveis em um format reutilizável em outros processos e modelos, compartilhando de forma padronizada e confiável esses dados. Tal ferramenta também está disponível via MLFlow.
     """)
 
 with tab_variaveis:
@@ -106,12 +106,10 @@ with tab_variaveis:
     Para a análise de quais features mais importam, treinaremos um segundo modelo - chamado XGBoost, conforme explicado nos conceitos.
     Abaixo, vemos os passos do pipeline de previsão:
     """)
-    with open("models/pipeline.html", "r", encoding='utf-8') as f:
-        html_pipe = f.read()
-    st.write(
-        html_pipe, unsafe_allow_html=True
-    )
-    st.write(html_pipe, unsafe_allow_html=True)
+    st.image(config.PIPELINE,
+                caption="Pipeline de Previsão usando XGBoost",
+                width=680,
+        )
     st.markdown(f"Para esse modelo, o mape ficou em {dict_results['mape']}")
 
     st.plotly_chart(

@@ -76,12 +76,13 @@ def _run_xgboost(df_final, path='models/xgb_model.pkl'):
         , 'mape':str(round(mean_absolute_percentage_error(y_test, predict_pipeline.predict(X_test))*100,2))+"%"
         , 'r2':round(r2_score(y_train, predict_pipeline.predict(X_train)), 4)
         }
-
-def _get_tree_importances(predict_pipeline):
-    model = predict_pipeline['regressor']
-    df_importances = pd.DataFrame([predict_pipeline[:-1].get_feature_names_out(), model.feature_importances_], index=['Features','Importance']).T
+@st.cache_data
+def _get_tree_importances(_predict_pipeline):
+    model = _predict_pipeline['regressor']
+    df_importances = pd.DataFrame([_predict_pipeline[:-1].get_feature_names_out(), model.feature_importances_], index=['Features','Importance']).T
     df_importances = df_importances.loc[df_importances.Importance > 0.0001].sort_values('Importance', ascending=False)
     return df_importances
 
+@st.cache_resource
 def _get_xgb_model(path='models/xgb_model.pkl'):
     return joblib.load(path)
