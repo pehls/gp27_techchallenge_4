@@ -87,6 +87,7 @@ def _run_xgboost(df_final, path='models/xgb_model.pkl', predict=False):
         , 'mape':str(round(mean_absolute_percentage_error(y_test, predict_pipeline.predict(X_test))*100,2))+"%"
         , 'r2':round(r2_score(y_train, predict_pipeline.predict(X_train)), 4)
         }
+
 @st.cache_data
 def _get_tree_importances(_predict_pipeline):
     model = _predict_pipeline['regressor']
@@ -148,3 +149,15 @@ def check_causality(data : pd.DataFrame, list_of_best_features : list, y_col : s
     g_matrix = g_matrix.sort_values(f'Sign.', ascending=True)
     # g_matrix.index = g_matrix['Variable']
     return g_matrix[['Variable','Sign.']]
+
+@st.cache_data
+def adjust_predict_data(df_final, dict_cols, _model):
+    for col in dict_cols:
+        df_final[col] = df_final[col] * (1+dict_cols[col])
+    res = _model(df_final)
+    df_res = pd.DataFrame([res['predictions'], df_final['Preco']], index=['Predições','Preco Real']).T
+    mpe = round(np.mean((df_final['Preco'] - res['predictions'])/df_final['Preco']) * 100, 2)
+    return {
+          'predictions':df_res
+        , 'mpe': f"{mpe}%"
+    }

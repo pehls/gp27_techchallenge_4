@@ -125,30 +125,32 @@ with tab_simulacao:
             (x.split('__')[1] for x in df_importances.iloc[:5]['Features'])
         )
     with col2:
-        adjust1 = st.slider('Percentual (1)', 0.01, 1.00, 0.05)
+        adjust1 = st.slider('Percentual (1)', -1.00, 1.00, 0.05)
 
     col1, col2 = st.columns(2)
     with col1:
         option2 = st.selectbox(
             "Selecione a Segunda:",
-            (x.split('__')[1] for x in df_importances.iloc[:5]['Features'])
+            (x.split('__')[1] for x in list(set(df_importances.iloc[:5]['Features'])-set([option1])))
         )
     with col2:
-        adjust2 = st.slider('Percentual (2)', 0.01, 1.00, 0.05)
+        adjust2 = st.slider('Percentual (2)', -1.00, 1.00, 0.05)
 
     st.divider()
 
     st.markdown('Para efeitos de simulação, vamos recuperar os valores dos últimos 3 anos de dados, e modificar conforme o solicitado, gerando as previsões a seguir:')
    
     # df_final = pd.DataFrame(imp.fit_transform(df_final), columns=df_final.columns).iloc[-10:]
-    df_final[option1] = df_final[option1] * (1+adjust1)
-    df_final[option2] = df_final[option2] * (1+adjust2)
-
-    res = train_model._run_xgboost(df_final.iloc[-3:])
-    import pandas as pd
-    df_res = pd.DataFrame([res['predictions'], df_final['Preco'].iloc[-3:]], index=['Predições','Preco']).T
-    st.write(df_res)
-    st.markdown(f"A modificação das variáveis conforme selecionado, modificou em {res['mape']} o valor do Petróleo.")
+    res = train_model.adjust_predict_data(
+        df_final, 
+        dict_cols = {
+              option1:adjust1
+            , option2:adjust2
+        },
+        _model=train_model._run_xgboost
+    )
+    st.write(res['predictions'])
+    st.markdown(f"A modificação das variáveis conforme selecionado, modificou em {res['mpe']} o valor do Petróleo, em média")
 
 
 with tab_deploy_producao:
