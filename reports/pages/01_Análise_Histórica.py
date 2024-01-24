@@ -233,18 +233,56 @@ with tab_indices_eua:
 
     subtab_dowjones, subtab_nasdaq = st.tabs(['Dow Jones', 'Nasdaq'])
     df_dowjones, df_nasdaq = get_data._df_brent_dowjones_nasdaq()
-    
+
     with subtab_dowjones:
         # http://www.ipeadata.gov.br/ExibeSerie.aspx?serid=40279&module=M
         st.plotly_chart(
-            generate_graphs._plot_index(df_dowjones, label_index='Dow Jones'),
+            generate_graphs._plot_index(df_dowjones, label_index='Dow Jones', label_period='Histórico'),
             use_container_width=True
         )
 
+        st.markdown("""
+        Observando a evolução histórica do preço de petróleo tipo Brent e comparando com a evolução do índice Dow Jones, não fica clara uma 
+        correlação existente.
+                    
+        Contudo, nota-se que a crise econômica de 2008 e a pandemia da Covid-19 afetaram negativamente ambos os valores.
+        """)
+
+        corr_dowjones = df_dowjones.corr()
         st.plotly_chart(
-            generate_graphs._plot_correlation_matrix(df_dowjones.corr()).update_layout(title='Correlação Brent x Dow Jones'),
+            generate_graphs._plot_correlation_matrix(corr_dowjones).update_layout(title=f'Correlação Brent x Dow Jones'),
             use_container_width=True,
         )
+
+        st.markdown(f"""
+        Calculando a correlação através do método *Pearson* obtemos o valor de $p$ em **{corr_dowjones.loc['Brent', 'Dow Jones']:.4f}** e 
+        pode ser interpretada como uma correlação positiva moderada.
+        
+        Apenas para avaliar o comportamento observado no gráfico histórico (crise e pandemia) e considerando os dados mais 
+        recentes (a partir de 2005-01-01), temos:
+        """)
+
+        st.plotly_chart(
+            generate_graphs._plot_index(df_dowjones.loc[df_dowjones.index >= '2005-01-01'], label_index='Dow Jones', label_period='A partir de 2005-01-01'),
+            use_container_width=True
+        )
+
+        corr_dowjones_partial = df_dowjones.loc[df_dowjones.index >= '2005-01-01'].corr()
+        st.plotly_chart(
+            generate_graphs._plot_correlation_matrix(corr_dowjones_partial).update_layout(title=f'Correlação Brent x Dow Jones'),
+            use_container_width=True,
+        )
+
+        st.markdown(f"""
+        Com um intervalo menor nos dados obtivemos um valor $p$ **{corr_dowjones_partial.loc['Brent', 'Dow Jones']:.4f}** e demonstra 
+        uma correlação (positiva/negativa) praticamente inexistente.
+        """)
+
+        
+
+    
+
+        
 
     
     with subtab_nasdaq:
@@ -255,7 +293,7 @@ with tab_indices_eua:
         )
 
         st.plotly_chart(
-            generate_graphs._plot_correlation_matrix(df_nasdaq.corr()).update_layout(title='Correlação Brent x Nasdaq'),
+            generate_graphs._plot_correlation_matrix(df_nasdaq.corr()).update_layout(title=f'Correlação Brent x Nasdaq'),
             use_container_width=True,
         )
 

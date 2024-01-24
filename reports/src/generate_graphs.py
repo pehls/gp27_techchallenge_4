@@ -292,10 +292,10 @@ def _plot_df_importances(df_importances):
     )
     return fig
 
-def _plot_index(df, label_index = '',):
+def _plot_index(df, label_index = '', label_period = ''):
     fig = px.line(
         df,
-        title=f'Evolução do preço Brent x índice ({label_index})',
+        title=f'Evolução do preço Brent x índice ({label_index}) - {label_period}',
     )
     
     fig.update_xaxes(
