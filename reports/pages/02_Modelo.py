@@ -7,6 +7,7 @@ from sklearn.metrics import (mean_absolute_error,
                              mean_absolute_percentage_error,
                              r2_score)
 from sklearn.utils import estimator_html_repr
+from PIL import Image
 
 st.title('Modelo')
 
@@ -164,6 +165,11 @@ with tab_simulacao:
 
 with tab_deploy_producao:
     st.markdown(f"""
-  
-                
+    Antes de elaborar a arquitetura executamos a análise exploratória para compreender os dados e como automatizar o processo         
     """)
+    image_eda = Image.open('reports/figures/eda.png')
+    st.image(image_eda, caption='Fluxo análise exploratória de dados')
+
+    image_arq = Image.open('reports/figures/arq.png')
+    st.image(image_arq, caption='Arquitetura - modelo conceitual',)
+
