@@ -235,7 +235,6 @@ with tab_indices_eua:
     df_dowjones, df_nasdaq = get_data._df_brent_dowjones_nasdaq()
 
     with subtab_dowjones:
-        # http://www.ipeadata.gov.br/ExibeSerie.aspx?serid=40279&module=M
         st.plotly_chart(
             generate_graphs._plot_index(df_dowjones, label_index='Dow Jones', label_period='Histórico'),
             use_container_width=True
@@ -277,23 +276,25 @@ with tab_indices_eua:
         Com um intervalo menor nos dados obtivemos um valor $p$ **{corr_dowjones_partial.loc['Brent', 'Dow Jones']:.4f}** e demonstra 
         uma correlação (positiva/negativa) praticamente inexistente.
         """)
-
-        
-
-    
-
-        
-
     
     with subtab_nasdaq:
-        # http://www.ipeadata.gov.br/ExibeSerie.aspx?serid=603335808&module=M
         st.plotly_chart(
             generate_graphs._plot_index(df_nasdaq, label_index='Nasdaq'),
             use_container_width=True
         )
 
+        st.markdown("""
+        Assim como na comparação com Dow Jones, o índice Nasdaq também não tem uma correlação clara com relação à evolução do preço do
+        petróleo tipo Brent
+        """)
+
+        corr_nasdaq = df_nasdaq.corr()
         st.plotly_chart(
-            generate_graphs._plot_correlation_matrix(df_nasdaq.corr()).update_layout(title=f'Correlação Brent x Nasdaq'),
+            generate_graphs._plot_correlation_matrix(corr_nasdaq).update_layout(title=f'Correlação Brent x Nasdaq'),
             use_container_width=True,
         )
+        st.markdown(f"""
+        E calculando a correlação entre preço Brent x Nasdaq temos um valor $p$ **{corr_nasdaq.loc['Brent', 'Nasdaq']:.4f}** que é 
+        classificado como uma correlação fraca.
+        """)
 
