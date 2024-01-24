@@ -368,3 +368,13 @@ def _df_tree_modelling():
         .dropna(axis=1, thresh=0.5)
     return df_final
 
+@st.cache_data
+def _df_brent_dowjones_nasdaq():
+    _df = pd.read_csv('data/df_brent_dowjones_nasdaq_norm.csv', index_col='DATE')
+    _df_dowjones = _df[['value_brent', 'value_dow_jones']]
+    _df_dowjones.columns = ['Brent', 'Dow Jones']
+    _df_nasdaq = _df[['value_brent', 'value_nasdaq']]
+    _df_nasdaq.columns = ['Brent', 'Nasdaq']
+
+    return _df_dowjones, _df_nasdaq
+

@@ -291,3 +291,26 @@ def _plot_df_importances(df_importances):
         )
     )
     return fig
+
+def _plot_index(df, label_index = '',):
+    fig = px.line(
+        df,
+        title=f'Evolução do preço Brent x índice ({label_index})',
+    )
+    
+    fig.update_xaxes(
+        tickformat='%Y',
+        title='Data (Ano)',
+    )
+
+    fig.update_yaxes(
+        title='Valor Normalizado',
+    )
+
+    fig.update_layout(
+        legend=dict(
+            title='',
+        ),
+    )
+
+    return fig

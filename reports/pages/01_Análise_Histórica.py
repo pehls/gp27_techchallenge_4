@@ -12,7 +12,7 @@ st.title('Análise Histórica')
 df_petroleo = get_data._df_petroleo()
 df_conflitos_porpais = get_data._events_per_country()
 df_conflitos_mundiais = get_data._events_globally()
-tab_volatilidade, tab_conflitos_armados, tab_energia_consumo, tab_exportacao = st.tabs(['Volatilidade', "Conflitos", 'Combustíveis Fósseis', 'Exportação de Comb.'])
+tab_volatilidade, tab_conflitos_armados, tab_energia_consumo, tab_exportacao, tab_indices_eua = st.tabs(['Volatilidade', "Conflitos", 'Combustíveis Fósseis', 'Exportação de Comb.', 'Índices EUA'])
 
 # https://www.linkedin.com/pulse/petr%C3%B3leo-uma-an%C3%A1lise-sobre-volatilidade-yu64c/?originalSubdomain=pt
 # https://pt.wikipedia.org/wiki/Crises_do_petr%C3%B3leo
@@ -224,3 +224,43 @@ with tab_exportacao:
         Tais países possuem mais de 67% de sua economia vinculada a combustíveis fósseis. sendo que o top 5 está muito próximo ou acima de 90% de sua economia vinculada ao Petróleo.
         """)
     
+
+with tab_indices_eua:
+
+    st.markdown("""
+    A ideia dessa análise é comparar e verificar correlação entre o preço do petróleo com dois dos principais índices financeiros dos EUA.
+
+    Os dados foram recuperados no IpeaData e podem ser acessados através de [Dow Jones](http://www.ipeadata.gov.br/ExibeSerie.aspx?serid=40279&module=M) e
+    [Nasdaq](http://www.ipeadata.gov.br/ExibeSerie.aspx?serid=603335808&module=M).  
+
+    *Para melhor visualização gráfica, os dados foram normalizados.* 
+    """)
+
+    subtab_dowjones, subtab_nasdaq = st.tabs(['Dow Jones', 'Nasdaq'])
+    df_dowjones, df_nasdaq = get_data._df_brent_dowjones_nasdaq()
+    
+    with subtab_dowjones:
+        # http://www.ipeadata.gov.br/ExibeSerie.aspx?serid=40279&module=M
+        st.plotly_chart(
+            generate_graphs._plot_index(df_dowjones, label_index='Dow Jones'),
+            use_container_width=True
+        )
+
+        st.plotly_chart(
+            generate_graphs._plot_correlation_matrix(df_dowjones.corr()).update_layout(title='Correlação Brent x Dow Jones'),
+            use_container_width=True,
+        )
+
+    
+    with subtab_nasdaq:
+        # http://www.ipeadata.gov.br/ExibeSerie.aspx?serid=603335808&module=M
+        st.plotly_chart(
+            generate_graphs._plot_index(df_nasdaq, label_index='Nasdaq'),
+            use_container_width=True
+        )
+
+        st.plotly_chart(
+            generate_graphs._plot_correlation_matrix(df_nasdaq.corr()).update_layout(title='Correlação Brent x Nasdaq'),
+            use_container_width=True,
+        )
+
