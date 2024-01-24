@@ -47,7 +47,7 @@ def _run_xgboost(df_final, path='models/xgb_model.pkl', predict=False):
         , 'predictions':predict_pipeline.predict(df_final)
         }
     
-    if (os.path.isfile(path)) and not(predict):
+    if (os.path.isfile(path)) and (predict):
         predict_pipeline = _get_xgb_model(path)
         return {
           'pipeline':predict_pipeline
@@ -155,7 +155,7 @@ def adjust_predict_data(df_final, dict_cols, _model):
     for col in dict_cols:
         df_final[col] = df_final[col] * (1+dict_cols[col])
     res = _model(df_final)
-    df_res = pd.DataFrame([res['predictions'], df_final['Preco']], index=['Predições','Preco Real']).T
+    df_res = pd.DataFrame([df_final['Year'], res['predictions'], df_final['Preco']], index=['Year','Predições','Preço Real']).T
     mpe = round(np.mean((df_final['Preco'] - res['predictions'])/df_final['Preco']) * 100, 2)
     return {
           'predictions':df_res

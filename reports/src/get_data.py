@@ -358,11 +358,25 @@ def _df_tree_modelling():
     df_fuel_exp.columns = ['_'.join(col) for col in df_fuel_exp.columns.values]
     df_fuel_exp = df_fuel_exp.rename(columns={'Year_':'Year'})
     
+    # dado de dow jones e nasdaq
+    df_dowjones_nasdaq = pd.read_csv('data/df_brent_dowjones_nasdaq_norm.csv')
+    df_dowjones_nasdaq['Year'] = [str(pd.to_datetime(x).year) for x in df_dowjones_nasdaq['DATE']]
+    df_dowjones_nasdaq = df_dowjones_nasdaq\
+        .groupby('Year')\
+        .agg({
+              'value_dow_jones':('mean', 'median', 'std','min','max')
+            , 'value_nasdaq':('mean', 'median', 'std','min','max')
+        })\
+        .reset_index()
+    df_dowjones_nasdaq.columns = ['_'.join(col) for col in df_dowjones_nasdaq.columns.values]
+    df_dowjones_nasdaq = df_dowjones_nasdaq.rename(columns={'Year_':'Year'})
+
     # base para modelo de arvore
     df_final = df_fuel_cons\
         .merge(df_uso_energia_or, on='Year', how='inner')\
         .merge(df_petroleo_year[['Year','Preco']], on='Year', how='inner')\
         .merge(df_fuel_exp, on='Year', how='inner')\
+        .merge(df_dowjones_nasdaq, on='Year', how='inner')\
         .replace(0.0, np.nan)\
         .dropna(axis=0, thresh=0.5)\
         .dropna(axis=1, thresh=0.5)

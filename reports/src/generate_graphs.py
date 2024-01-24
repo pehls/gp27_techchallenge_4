@@ -314,3 +314,19 @@ def _plot_index(df, label_index = '',):
     )
 
     return fig
+
+def _plot_predictions(df_predictions, cols_to_plot=['Predições', 'Preço Real']):
+    fig = go.Figure()
+
+    for col in cols_to_plot:
+        fig.add_trace(go.Scatter(
+            x=df_predictions['Year'], y=df_predictions[col],
+            mode='lines', yaxis='y', name=col,
+            )
+        )
+
+    # hide axes
+    fig.update_layout(
+        hovermode='x unified',
+    )
+    return fig

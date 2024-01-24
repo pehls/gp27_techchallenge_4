@@ -20,17 +20,21 @@ tab_volatilidade, tab_conflitos_armados, tab_energia_consumo, tab_exportacao, ta
 # https://data.worldbank.org/topic/energy-and-mining - uso de energia, consumo de combustiveis fosseis, exportacao
 with tab_volatilidade:
     st.markdown("""
-        A idéia aqui é calcular a volatilidade do Preço do Petróleo, e a partir dos picos e vales sugerir como resposta os próximos itens nas abas
+        Nesta seção, vamos tratar de analisar eventos históricos, e observar através dos dados e de alguns testes estatísticos, se os mesmos realmente possuem alguma relação com o aumento ou a diminuição do preço do petróleo;
+        Para tal, alguns conceitos devem ser apresentados:
+        
+                    
+        - **Correlação de Pearson**: talbém chamada de correlação produto-momento, mede o grau de correlação entre duas variáveis de escala métrica, no instante x, ou seja, de forma direta no mesmo ponto do tempo. Quão mais próxima de 1, seja negativo ou positivo, mais forte é, de acordo com o seu sentido. Caso muito próxima de 0, nota-se uma correlação fraca.
+                    
+        E, ainda, um teste de causalidade:
+                    
+        - **Teste de Causalidade de Granger**: É um teste estatístico que visa superar as limitações do uso de simples correlações entre variáveis, analisando o sentido causal entre elas, demonstrando que uma variável X "Granger Causa" Y caso os valores do passado de X ajudam a prever o valor presente de Y. Tipicamente, aplica-se um teste F sobre os erros da predição de Y pelo seu passado, e da predição de Y pelo seu passado e pela variável X, visando testar a hipótese de que Y é predito apenas por seus valores passados (H0) e se o passado de X ajuda a prever Y (H1);
+
                 
     """)
 
-    st.plotly_chart(
-        generate_graphs._grafico_historico(df_petroleo),
-        use_container_width=True,
-    )
-
 with tab_conflitos_armados:
-    subtab_conflitos_paises, subtab_tipo_evento_petroleo, subtab_correlacao_causalidade = st.tabs(['Países em Conflitos', 'Tipos de evento e Petróleo', 'Correlação e Causalidade'])
+    subtab_conflitos_paises, subtab_tipo_evento_petroleo, subtab_correlacao = st.tabs(['Países em Conflitos', 'Tipos de evento e Petróleo', 'Correlação'])
 
     with subtab_conflitos_paises:
         st.markdown("""
@@ -74,18 +78,9 @@ with tab_conflitos_armados:
         Outro ponto interessante é o número de explosões aparentar estar altamente relacionado com o Preço, mas será que o mesmo se repete quando analisado de forma estatística? Ou o comportamento visual apenas? Vamos analisar:
         """)
     
-    with subtab_correlacao_causalidade:
+    with subtab_correlacao:
         st.markdown("""
-        Para analisar as relações estatisticamente, vamos usar dois tipos de correlação:
-                    
-        - **Correlação de Pearson**: talbém chamada de correlação produto-momento, mede o grau de correlação entre duas variáveis de escala métrica, no instante x, ou seja, de forma direta no mesmo ponto do tempo. Quão mais próxima de 1, seja negativo ou positivo, mais forte é, de acordo com o seu sentido. Caso muito próxima de 0, nota-se uma correlação fraca.
-                    
-        - **DTW**: O Dynamic Time Warping é um algoritmo utilizado para comparar e alinhar duas séries temporais, utilizando um alinhamento não-sincronizado da série, ou seja, as séries poderiam ter uma relação não exatamente no mesmo ponto do tempo. Quanto mais próximo de zero, maior a similaridade das duas séries temporais.
-        
-        E, ainda, um teste de causalidade:
-                    
-        - **Teste de Causalidade de Granger**: É um teste estatístico que visa superar as limitações do uso de simples correlações entre variáveis, analisando o sentido causal entre elas, demonstrando que uma variável X "Granger Causa" Y caso os valores do passado de X ajudam a prever o valor presente de Y. Tipicamente, aplica-se um teste F sobre os erros da predição de Y pelo seu passado, e da predição de Y pelo seu passado e pela variável X, visando testar a hipótese de que Y é predito apenas por seus valores passados (H0) e se o passado de X ajuda a prever Y (H1);
-
+       
                     
         """)
         
@@ -95,7 +90,7 @@ with tab_conflitos_armados:
                 ), use_container_width=True
         )
         st.markdown("""
-        # **PRECISO AUMENTAR ESSE GRAFICO**
+        Analisando a correlação das variáveis com o Preço do Petróleo, vemos que todas elas estão com uma correlação abaixo de 0.4, sendo classificadas como fraca, ou quase inexistente.
         """)
         # ref https://www.questionpro.com/blog/pt-br/correlacao-de-pearson/
         # ref https://community.revelo.com.br/primeiros-passos-no-dtw/

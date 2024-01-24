@@ -52,7 +52,7 @@ with tab_resultados_iniciais:
 
 with tab_conceitos:
     st.markdown(f"""
-        A partir dessa modelagem inicial, e da descoberta de uma sazonalidade de 365 dias, iremos utilizar alguns 
+        A partir dessa modelagem inicial, e da necessidade de analisarmos de forma mais direta o que está influenciando na previsão dos valores de preço de Petróleo, iremos utilizar alguns 
         conceitos mais avançados para melhorar o desempenho de nossa previsão:
                 
         #### Variáveis externas
@@ -110,19 +110,25 @@ with tab_variaveis:
                 caption="Pipeline de Previsão usando XGBoost",
                 width=680,
         )
-    st.markdown(f"Para esse modelo, o mape ficou em {dict_results['mape']}")
+    st.markdown(f"Para esse modelo, o mape ficou em **{dict_results['mape']}**!")
 
     st.plotly_chart(
         generate_graphs._plot_df_importances(df_importances),
         use_container_width=True
     )
+    st.markdown("""
+    Aqui, notamos a presença dominante das informações de exportação de combustíveis, de países diferentes, como Índia, Bolívia, Polônia, Sudão, Georgia, Alemanha, Israel, Dinamarca, Jordânia, Groenlândia, Canadá e Finlândia.
+    <decorrer pq>.
+                
+    O valor médio da Dow jones também aponta como influente, sendo um dos indicadores apresentados anteriormente.
+    """)
 with tab_simulacao:
-    st.markdown("Para efeito de simulação dos futuros preços do petróleo e do deploy de um modelo, vamos modificar duas das cinco primeiras features organizadas pela importância do modelo de árvore (XGBoost):")
+    st.markdown("Para efeito de simulação dos futuros preços do petróleo e do deploy de um modelo, vamos modificar duas das features organizadas pela importância do modelo de árvore (XGBoost), dado que possuam alguma importância no modelo:")
     col1, col2 = st.columns(2)
     with col1:
         option1 = st.selectbox(
             "Selecione a primeira:",
-            (x.split('__')[1] for x in df_importances.iloc[:5]['Features'])
+            (x.split('__')[1] for x in df_importances['Features'])
         )
     with col2:
         adjust1 = st.slider('Percentual (1)', -1.00, 1.00, 0.05)
@@ -131,7 +137,7 @@ with tab_simulacao:
     with col1:
         option2 = st.selectbox(
             "Selecione a Segunda:",
-            (x.split('__')[1] for x in list(set(df_importances.iloc[:5]['Features'])-set([option1])))
+            (x.split('__')[1] for x in list(set(df_importances['Features'])-set([option1])))
         )
     with col2:
         adjust2 = st.slider('Percentual (2)', -1.00, 1.00, 0.05)
@@ -149,7 +155,10 @@ with tab_simulacao:
         },
         _model=train_model._run_xgboost
     )
-    st.write(res['predictions'])
+    st.plotly_chart(
+        generate_graphs._plot_predictions(res['predictions']),
+        use_container_width=True
+    )
     st.markdown(f"A modificação das variáveis conforme selecionado, modificou em {res['mpe']} o valor do Petróleo, em média")
 
 
