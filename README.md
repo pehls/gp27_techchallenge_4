@@ -1,7 +1,7 @@
-gp27-tech challenge 2
+gp27-tech challenge 4
 ==============================
 
-Tech Challenge 2 para a Pós em ds da FIAP
+Tech Challenge 4 para a Pós em ds da FIAP
 
 Project Organization
 ------------
@@ -54,10 +54,13 @@ Project Organization
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+# Challenge
+See description in [tech-challenge.md](tech-challenge.md)
 
 # Venv
 to activate, in a windows terminal, inside `gp27_techchallenge_4` folder, put `.venv\Scripts\activate`
 
 # Streamlit run
 to run streamlit locally, paste `Streamlit run "reports/Análise.py"`
+
+<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
