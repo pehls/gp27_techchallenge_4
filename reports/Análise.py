@@ -29,8 +29,7 @@ with tab_grafico_historico:
 
 with tab_seasonal:
     st.markdown("""
-        Utilizando a função `seasonal_decompose` não foi identificado nenhum padrão sazonal.
-        Foi utilizado o valor 5 no parâmetro _period_ por ser esse o ciclo de dias da bolsa
+        Utilizando a função `seasonal_decompose` sem parâmetros, não foi identificado nenhum padrão sazonal.
     """)
     st.plotly_chart(
         generate_graphs._seasonal_decompose(get_data._series_for_seasonal()),
@@ -55,9 +54,15 @@ with tab_seasonal:
     
     st.markdown("""
         Seria um sinal de que temos um comportamento cíclico anual, e uma tendência bem mais definida?
-                Nota-se que o gráfico de tendência está muito mais constante e conciso, com uma alta evidente até out/2022!
+        Nota-se que o gráfico de tendência está muito mais constante e conciso.
     """)
 with tab_adf:
+
+    st.markdown(f"""
+    Este é um teste estatístico utilizado na análise de séries temporais para determinar 
+    se uma determinada série temporal é estacionária ou não.
+    """)
+    
     grafico_adf, series_adf = generate_graphs._adf(df_petroleo)
     res_adf = get_data._adfuller(series_adf)
     st.plotly_chart(
