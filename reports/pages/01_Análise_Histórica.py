@@ -24,7 +24,7 @@ with tab_volatilidade:
         Para tal, alguns conceitos devem ser apresentados:
         
                     
-        - **Correlação de Pearson**: talbém chamada de correlação produto-momento, mede o grau de correlação entre duas variáveis de escala métrica, no instante x, ou seja, de forma direta no mesmo ponto do tempo. Quão mais próxima de 1, seja negativo ou positivo, mais forte é, de acordo com o seu sentido. Caso muito próxima de 0, nota-se uma correlação fraca.
+        - **Correlação de Pearson**: também chamada de correlação produto-momento, mede o grau de correlação entre duas variáveis de escala métrica, no instante x, ou seja, de forma direta no mesmo ponto do tempo. Quão mais próxima de 1, seja negativo ou positivo, mais forte é, de acordo com o seu sentido. Caso muito próxima de 0, nota-se uma correlação fraca.
                     
         E, ainda, um teste de causalidade:
                     
@@ -39,7 +39,7 @@ with tab_conflitos_armados:
     with subtab_conflitos_paises:
         st.markdown("""
         Os dados foram obtidos no portal [Armed Conflict Location & Event Data Project](https://acleddata.com/data-export-tool/), um portal que coleta, analista e mapeia crises globais, 
-        salvando informacoes diversas sobre tais conflitos em diferentes locais.
+        salvando informações diversas sobre tais conflitos em diferentes locais.
                     
         Para começar, analisemos os países com mais fatalidades nos anos analisados:
         """)
@@ -49,12 +49,12 @@ with tab_conflitos_armados:
             use_container_width=True,
         )
         st.markdown("""
-        Será que são os mesmos países com maior exportação de petróleo no períiodo? Será que existe alguma correlação entre as fatalidades e o preço do Petróleo?
+        Será que são os mesmos países com maior exportação de petróleo no período? Será que existe alguma correlação entre as fatalidades e o preço do Petróleo?
                     
         Para respoder tais perguntas, precisamos entender os tipos de eventos que a plataforma entrega:
-                    - Batalhas: Basicamente, são confrontos armados, com atores estatais ou não, sejam governos ou grupos armados apenas;
-                    - Violência contra civis: são ataques, desaparecimentos forçados e sequestros e violências sexuais;
-                    - Explosões / Violência Remoda: aqui estão incluídos ataques aéreos, com mísseis e artilharias, explosões remotas, ataques com drones ou por via aérea (aviões, por exemplo), granadas e bombas suicidas.
+        - **Batalhas**: Basicamente, são confrontos armados, com atores estatais ou não, sejam governos ou grupos armados apenas;
+        - **Violência contra civís**: são ataques, desaparecimentos forçados, sequestros e violências sexuais;
+        - **Explosões / Violência Remoda**: aqui estão incluídos ataques aéreos, com mísseis e artilharias, explosões remotas, ataques com drones ou por via aérea (aviões, por exemplo), granadas e bombas suicidas.
         
         Notamos, por essas descrições, que são eventos precisamente violentos, muitos derivados de confrontos geopolíticos, e até mesmo derivados de protestos com maior incidência de violência, como o que vemos atualmente na Ucrânia. 
                     Por tal evento ter um cunho territorial específico entre a Ucrânia e Rússia, com o anexo da Criméia, uma região que produz petróleo e gás, por exemplo, ela entra na categoria de Batalhas, e poderia ter uma forte relação com o aumento do petróleo na região e no mundo, a depender da força da produção do mesmo; Sabemos que existem outros motivos que poderiam determinar tal confronto, mas vamos focar nos impactos no preço do petróleo e sua produção mundial;
@@ -67,7 +67,7 @@ with tab_conflitos_armados:
             use_container_width=True,
         )
         st.markdown("""
-        De forma geral, notamos que a quantidade de fatalidades costuma ser maior com explosões e eventos relacionados, seguido por batalhas. Em poucos meses, e em menor quantidade de fatalidades, temos os casos de violência contra civis. Vamos analisar a quantidade de eventos e fatalidades vs Preço do Petróleo Brunt:
+        De forma geral, notamos que a quantidade de fatalidades costuma ser maior com explosões e eventos relacionados, seguido por batalhas. Em poucos meses, e em menor quantidade de fatalidades, temos os casos de violência contra civís. Vamos analisar a quantidade de eventos e fatalidades vs Preço do Petróleo Brent:
         """)
         st.plotly_chart(
             generate_graphs._plot_conflitos_tipo_e_petroleo(df_conflitos_preco_normalizados), use_container_width=True
@@ -90,7 +90,7 @@ with tab_conflitos_armados:
                 ), use_container_width=True
         )
         st.markdown("""
-        Analisando a correlação das variáveis com o Preço do Petróleo, vemos que todas elas estão com uma correlação abaixo de 0.4, sendo classificadas como fraca, ou quase inexistente.
+        Analisando a correlação das variáveis com o Preço do Petróleo, vemos que todas elas estão com uma correlação abaixo de 0.4, isso indica uma correlação fraca, ou quase inexistente.
         """)
         # ref https://www.questionpro.com/blog/pt-br/correlacao-de-pearson/
         # ref https://community.revelo.com.br/primeiros-passos-no-dtw/
