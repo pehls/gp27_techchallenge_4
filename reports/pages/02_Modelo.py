@@ -173,3 +173,14 @@ with tab_deploy_producao:
     image_arq = Image.open('reports/figures/arq.png')
     st.image(image_arq, caption='Arquitetura - modelo conceitual',)
 
+    st.markdown("""
+    Passos executados na ingestão, processamento, análise e predição
+                
+    - O ETL é acionado através do agendador Airflow
+    - Os dados são capturados e persistidos (incremental) em banco de dados 
+    - Pipeline com limpeza, normalização, geração e persistência das features é executado através do Airflow
+    - O treinamento é realizado sempre que há mudanças nas variáveis/features ou desempenho. O modelo gerado é persistido num catálogo.
+    - API gera predição com base no modelo salvo
+    - Dashboard (e/ou outros clientes) consomem a predição gerada pela API
+    """)
+
