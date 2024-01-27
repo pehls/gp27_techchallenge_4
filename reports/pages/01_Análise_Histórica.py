@@ -28,7 +28,8 @@ with tab_volatilidade:
                     
         E, ainda, um teste de causalidade:
                     
-        - **Teste de Causalidade de Granger**: É um teste estatístico que visa superar as limitações do uso de simples correlações entre variáveis, analisando o sentido causal entre elas, demonstrando que uma variável X "Granger Causa" Y caso os valores do passado de X ajudam a prever o valor presente de Y. Tipicamente, aplica-se um teste F sobre os erros da predição de Y pelo seu passado, e da predição de Y pelo seu passado e pela variável X, visando testar a hipótese de que Y é predito apenas por seus valores passados (H0) e se o passado de X ajuda a prever Y (H1);
+        - **Teste de Causalidade de Granger**: É um teste estatístico que visa superar as limitações do uso de simples correlações entre variáveis, analisando o sentido causal entre elas, demonstrando que uma variável X "Granger Causa" Y caso os valores do passado de X ajudam a prever o valor presente de Y.
+        Tipicamente, aplica-se um teste F sobre os erros da predição de Y pelo seu passado, e da predição de Y pelo seu passado e pela variável X, visando testar a hipótese de que Y é predito apenas por seus valores passados (H0) e se o passado de X ajuda a prever Y (H1); Um ponto importante, é a necessidade de dados históricos para treinamento dos modelos que trazem a análise de causalidade de granger!
 
                 
     """)
@@ -40,6 +41,8 @@ with tab_conflitos_armados:
         st.markdown("""
         Os dados foram obtidos no portal [Armed Conflict Location & Event Data Project](https://acleddata.com/data-export-tool/), um portal que coleta, analista e mapeia crises globais, 
         salvando informações diversas sobre tais conflitos em diferentes locais.
+                    
+        Embora traga análises interessantes, não iremos conseguir gerar a análise de causalidade de granger, devido a pouca disponibilidade de histórico dessas bases.
                     
         Para começar, analisemos os países com mais fatalidades nos anos analisados:
         """)
@@ -219,6 +222,47 @@ with tab_exportacao:
         Tais países possuem mais de 67% de sua economia vinculada a combustíveis fósseis. sendo que o top 5 está muito próximo ou acima de 90% de sua economia vinculada ao Petróleo.
         """)
     
+    with subtab_correlacao:
+        df_fuel_exp_corr = get_data._df_fuel_exp_corr()
+        st.markdown("""
+       
+                    
+        """)
+        faixa_corr_fuel_exp = st.slider(' Threshold ', 0.0, 1.0, 0.93)
+        df_corr_fuel_exp = get_data._events_correlations(df_fuel_exp_corr)
+        st.plotly_chart(
+            generate_graphs._plot_correlation_matrix(
+                df_corr_fuel_exp.loc[(abs(df_corr_fuel_exp[['Preco']]) >= faixa_corr)['Preco']][df_corr_fuel_exp.loc[(abs(df_corr_fuel_exp[['Preco']]) >= faixa_corr)['Preco']].index]
+                ), use_container_width=True
+        )
+        faixas_correlacao_fuel_exp = get_data._get_faixas_correlation(df_corr_fuel_exp)
+        st.markdown(f"""
+        Destacamos aqui, alguns países com uma correlação perfeita negativa (como Guiné-Bissau, Ilhas Cayman e Antigua e Barbuda), países que tem uma dependência econômica muito forte com o Petróleo, e positiva extremamente alta, como Canada, República da Corea, India, Afeganistão, Itália, Suécia e Tuvalu.
+                    
+        Como temos muitos paises, resumidamente, temos, comparando a série de Preços:
+        """)
+        for x in faixas_correlacao_fuel_exp:
+            st.markdown('- '+str(faixas_correlacao_fuel_exp[x]) + x) 
+            
+    with subtab_causalidade:
+        st.markdown("""
+        Para a análise de Causalidade, vamos preencher os nulos com a média, e testar com a Causalidade de Granger, de modo a filtrar apenas as variáveis que tiverem uma significância abaixo do limite escolhido abaixo, com o padrão em 5%:
+        """)
+
+        faixa_causalidade_exp = st.slider(' Threshold  ', 0.01, 1.00, 0.05)
+        colunas_causa = [x for x in list(set(df_fuel_exp_corr.dropna(axis=0, thresh=0.7).dropna(axis=1).columns)-set(['Preco','Year'])) if x.startswith('minmax')]
+        df_causality = train_model.check_causality(
+              df_fuel_exp_corr.dropna(axis=0, thresh=0.7).dropna(axis=1)
+            , list_of_best_features=colunas_causa
+            , y_col='Preco'
+            , threshold=faixa_causalidade_exp
+            )
+        
+        st.markdown('Para o nível de significância escolhido, as seguintes variáveis tem um efeito de causalidade de granger no Preço do Petróleo:')
+        
+        for _tuple in df_causality.itertuples():
+            st.markdown(f'- {_tuple.Variable}')
+            
 
 with tab_indices_eua:
 

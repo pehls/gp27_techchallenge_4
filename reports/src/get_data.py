@@ -273,7 +273,7 @@ def _get_faixas_correlation(df_correlacoes):
     }
 
 @st.cache_data
-def _df_fuel_exports():
+def _df_fuel_exports(full=False):
     df = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
     df_preco = _df_petroleo()
     #  selecionar colunas numericas e nome
@@ -284,6 +284,8 @@ def _df_fuel_exports():
 
     # dropar na
     df_fuel_exp = df_fuel_exp.dropna(axis=1, thresh=0.95)
+    if full:
+        return df_fuel_exp
     cols_to_plot = [x for x in list(set(df_fuel_exp.columns)-set(['Country Name','Region']))]
     cols_to_plot.sort(reverse=True)
     cols_to_plot = cols_to_plot[:5]
@@ -297,6 +299,47 @@ def _df_fuel_exports():
         .head(10)\
         .reset_index()
     return df_fuel_exp[['Country Name','Region','Mean Fuel Exp. 11-15']]
+
+@st.cache_data
+def _df_fuel_exp_corr():
+    df = pd.read_html('http://www.ipeadata.gov.br/ExibeSerie.aspx?module=m&serid=1650971490&oper=view', decimal=',', thousands='.', parse_dates=True)[2][1:]
+    df.columns=['Date','Preco']
+    df.Date = pd.to_datetime(df.Date, dayfirst=True)
+    df_petroleo = df.sort_values('Date')
+
+    # ajustar df de petroleo
+    df_petroleo['Year'] = [str(x.year) for x in df_petroleo['Date']]
+    df_petroleo['Preco'] = df_petroleo['Preco'].astype(float) 
+    df_petroleo_year = df_petroleo.groupby('Year').agg({'Preco':'mean'}).reset_index()
+    df_petroleo_year['Country Name'] = 'Price'
+
+    # exportacao de comb
+    cols = [str(x) for x in ['Country Name','Region'] + list(range(1960, 2023))]
+    df_fuel_exp = pd.read_csv('data/raw/fuel_exports/API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')
+    df_country_region = pd.read_csv('data/raw/fuel_exports/Metadata_Country_API_TX.VAL.FUEL.ZS.UN_DS2_en_csv_v2_6302702.csv')[['Country Code', 'Region']].dropna()
+    df_fuel_exp = df_fuel_exp.merge(df_country_region, how='inner', on='Country Code').drop(columns={'Country Code'})[cols]
+
+    # dropar na
+    df_fuel_exp = df_fuel_exp.dropna(axis=1, thresh=0.95).drop(columns={'Region'})
+    df_fuel_exp = df_fuel_exp\
+        .melt(id_vars=['Country Name'])\
+        .rename(columns={'variable':'Year', 'value':'Fuel Exports'})\
+        .pivot(index='Year', columns='Country Name')\
+        .reset_index()
+    df_fuel_exp.columns = ['_'.join(col) for col in df_fuel_exp.columns.values]
+    df_fuel_exp = df_fuel_exp.rename(columns={'Year_':'Year'})
+
+    df_fuel_exp = df_petroleo_year[['Year','Preco']]\
+        .merge(df_fuel_exp, on='Year', how='inner')\
+        .replace(0.0, np.nan)\
+        .dropna(axis=0, thresh=0.5)\
+        .dropna(axis=1, thresh=0.5)
+    
+    cols_to_reescale = list(set(df_fuel_exp.columns) - set(['Year']))
+    scaler = MinMaxScaler()
+    df_fuel_exp[["minmax_"+x for x in cols_to_reescale]] = scaler.fit_transform(df_fuel_exp[cols_to_reescale])
+
+    return df_fuel_exp
 
 @st.cache_data
 def _df_tree_modelling():

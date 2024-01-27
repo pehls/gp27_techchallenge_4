@@ -144,7 +144,7 @@ def check_causality(data : pd.DataFrame, list_of_best_features : list, y_col : s
     g_matrix.columns = g_matrix.iloc[0]
     g_matrix = g_matrix[1:].reset_index(drop=True)
     g_matrix = g_matrix.loc[g_matrix[f'{y_col}_y'] < threshold]
-    g_matrix.variable = [x.replace('_x','') for x in g_matrix.variable]
+    g_matrix.variable = [x.replace('_x','').replace('minmax_', '') for x in g_matrix.variable]
     g_matrix.columns = ['Variable','Sign.']
     g_matrix = g_matrix.sort_values(f'Sign.', ascending=True)
     # g_matrix.index = g_matrix['Variable']
