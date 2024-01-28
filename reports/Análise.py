@@ -28,34 +28,40 @@ with tab_grafico_historico:
     )
 
 with tab_seasonal:
-    st.markdown("""
-        Utilizando a função `seasonal_decompose` sem parâmetros, não foi identificado nenhum padrão sazonal.
-    """)
-    st.plotly_chart(
-        generate_graphs._seasonal_decompose(get_data._series_for_seasonal()),
-        use_container_width=True,
-    )
+    subtab_dec_basica, subtab_180, subtab_365 = st.tabs(['Decomposição Básica', '180 dias','365 dias'])
 
-    st.markdown("""
-        Ao tratarmos o periodo como 180, porém, notamos um comportamento sazonal mais evidente:
-    """)
-    st.plotly_chart(
-        generate_graphs._seasonal_decompose(get_data._series_for_seasonal(), 180),
-        use_container_width=True,
-    )
+    with subtab_dec_basica:
+        st.markdown("""
+            Utilizando a função `seasonal_decompose` sem parâmetros, não foi identificado nenhum padrão sazonal.
+        """)
+        st.plotly_chart(
+            generate_graphs._seasonal_decompose(get_data._series_for_seasonal()),
+            use_container_width=True,
+        )
 
-    st.markdown("""
-        Ainda, ao tratarmos o periodo como 365, porém, notamos um comportamento sazonal mais evidente:
-    """)
-    st.plotly_chart(
-        generate_graphs._seasonal_decompose(get_data._series_for_seasonal(), 365),
-        use_container_width=True,
-    )
-    
-    st.markdown("""
-        Seria um sinal de que temos um comportamento cíclico anual, e uma tendência bem mais definida?
-        Nota-se que o gráfico de tendência está muito mais constante e conciso.
-    """)
+    with subtab_180:
+        st.markdown("""
+            Ao tratarmos o periodo como 180, porém, notamos um comportamento sazonal mais evidente:
+        """)
+        st.plotly_chart(
+            generate_graphs._seasonal_decompose(get_data._series_for_seasonal(), 180),
+            use_container_width=True,
+        )
+
+    with subtab_365:
+        st.markdown("""
+            Ainda, ao tratarmos o periodo como 365, porém, notamos um comportamento sazonal mais evidente:
+        """)
+        st.plotly_chart(
+            generate_graphs._seasonal_decompose(get_data._series_for_seasonal(), 365),
+            use_container_width=True,
+        )
+        
+        st.markdown("""
+            Seria um sinal de que temos um comportamento cíclico anual, e uma tendência bem mais definida?
+            Nota-se que o gráfico de tendência está muito mais constante e conciso.
+        """)
+
 with tab_adf:
 
     st.markdown(f"""
@@ -114,4 +120,10 @@ with tab_acf:
         plot_pacf(df_petroleo['Preco'].values, lags=30),
         use_container_width=True,
     )
+    st.markdown("""
+    Para a autocorrelação Parcial, vemos um comportamento de auto regressão com um termo de ordem 5 - dada a proximidade do limiar da insignificância no termo de ordem 6. Poderíamos utilizar, portanto, modelos auto-regressivos e com presença de médias móveis, como o ARMA/ARIMA, ou modelos especializados em séries temporais, especificamente, com resultados satisfatórios.
+
+    Iniciaremos, portanto, uma análise de componentes históricos que possam influenciar no valor do petróleo, passando para uma modelagem de séries temporais, e alguns testes de importância de variáveis para confirmar as hipóteses e análises demonstradas, em sequência. 
+    """)
+
 
