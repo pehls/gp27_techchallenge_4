@@ -144,7 +144,7 @@ with tab_simulacao:
 
     st.divider()
 
-    st.markdown('Para efeitos de simulação, vamos recuperar os valores dos últimos 3 anos de dados, e modificar conforme o solicitado, gerando as previsões a seguir:')
+    st.markdown('Para efeitos de simulação, vamos modificar conforme o solicitado, gerando as previsões a seguir:')
    
     # df_final = pd.DataFrame(imp.fit_transform(df_final), columns=df_final.columns).iloc[-10:]
     res = train_model.adjust_predict_data(
