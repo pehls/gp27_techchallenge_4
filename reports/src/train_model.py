@@ -31,7 +31,7 @@ def _train_simple_prophet(_df):
     forecast_ = _model.predict(X_train)
     pred = _model.predict(X_test)
     _df = pd.concat([_df, _model.predict(_df)])
-    return _model, X_test, pred, X_train, forecast_
+    return _model, X_test, pred, X_train, forecast_, _df
 
 @st.cache_resource
 def _run_xgboost(df_final, path='models/xgb_model.pkl', predict=False):

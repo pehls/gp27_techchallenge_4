@@ -1,7 +1,6 @@
 import streamlit as st
 import config
 from src import get_data, train_model, generate_graphs
-from prophet.plot import plot_plotly, plot_components_plotly
 from sklearn.metrics import (mean_absolute_error, 
                              mean_squared_error, 
                              mean_absolute_percentage_error,
@@ -25,18 +24,18 @@ with tab_modelagem_inicial:
 
         `y(t)=g(t)+s(t)+h(t)+εt`, onde εt é o termo de erro, basicamente.
         
-        Iniciaremos com um modelo simples, para verificar seu desempenho, e partiremos para conceitos mais elaborados, 
-        chegando a um modelo hiperparametrizado, e com um desempenho superior para a aplicação.
+        Iniciaremos com um modelo realizando previsões no nível diário, e traremos um exemplo de análise de importância de variáveis em seguida, para fundamentar a Análise Histórica apresentada.
                 
     """)
 
-    _model, X_test, pred, X_train, forecast_ = train_model._train_simple_prophet(df_petroleo)
+    _model, X_test, pred, X_train, forecast_, _df = train_model._train_simple_prophet(df_petroleo)
     baseline_mape = round(mean_absolute_percentage_error(X_test['y'].values, pred['yhat'].values)*100, 3)
     baseline_r2 = round(r2_score(X_train['y'].values, forecast_['yhat'].values), 4)
+    
 
 with tab_resultados_iniciais:
     st.plotly_chart(
-        plot_plotly(_model, forecast_.dropna()),
+        generate_graphs._plot_prophet(_model, _df),
         use_container_width=True,
     )
 

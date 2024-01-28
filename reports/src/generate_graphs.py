@@ -9,9 +9,22 @@ import plotly.express as px
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 from plotly.subplots import make_subplots
+from prophet.plot import plot_plotly, plot_components_plotly
+from dateutil.relativedelta import relativedelta
 
 import src.get_data as get_data 
 
+def _plot_prophet(_model, _df):
+    fig = plot_plotly(_model, _df, trend=True)
+    fig.update(layout_xaxis_range=[min(_df.ds), max(_df.ds) + relativedelta(months=1)])
+    fig.update_layout(
+        showlegend=True,
+        hovermode='x unified',
+        )
+    for trace in fig['data']: 
+        if (not trace['name'] in ['Trend','Predicted','Actual']):
+            trace['showlegend'] = False
+    return fig
 
 def _grafico_historico(df):
     fig = go.Figure()
